@@ -296,6 +296,58 @@ public class PreProcessor {
 	}
 	
 	/** 
+	 * 对String类型的Resume进行分词，用于对String型的文件进行处理
+	 * @param input Resume的String型文件路径
+	 * @param outputPath 输出文件路径
+	 * @throws IOException 找不到String文件
+	 */
+	public static void dealWithString(String input, String outputPath) throws IOException
+	{
+		FileOutputStream t1 = new FileOutputStream(new File(outputPath));
+		OutputStreamWriter t2 = new OutputStreamWriter(t1, encodingOutput);
+		BufferedWriter t3 = new BufferedWriter(t2);
+//		t3.write(input.getPosition());
+//		t3.newLine();
+		String [] tokens = stopWordExceptCPP(input.trim());
+
+		Pattern p;
+		for(int i = 0; i < tokens.length; i ++)
+		{
+			//如果不包含大写字母返回原值，否则返回小写形式
+			tokens[i] = lowerCase(tokens[i].trim());
+				
+			//去除c以外的其他单个字母
+			p = Pattern.compile("[a-b]|[d-z]");
+			if(tokens[i].length() == 1
+					&& p.matcher(tokens[i]).find())
+				continue;
+			
+			//去除完全是数字的词
+			if(tokens[i].matches("[0-9]+"))
+				continue;
+			
+			tokens[i] = tokens[i].replaceAll("\r", "");
+			tokens[i] = tokens[i].replaceAll("\n", "");
+			tokens[i] = tokens[i].replaceAll("\t", "");
+			//去除停用词和网址等特殊词
+			if(isStopWords(tokens[i]) || tokens[i].length() == 0
+//						|| tokens[i].contains("\n")
+//						|| tokens[i].contains("\r")
+					|| tokens[i].contains("-")
+					|| tokens[i].contains("@")
+					|| tokens[i].contains("COM")
+					|| tokens[i].contains("com")
+					|| tokens[i].contains("CN")
+					|| tokens[i].contains("cn")
+					|| tokens[i].contains("WWW")
+					|| tokens[i].contains("www"))
+				continue;
+			t3.write(tokens[i] + " ");
+		}
+		t3.close();		
+	}
+	
+	/** 
 	 * 批处理，只用于智联招聘
 	 * @param srcDir 源文件路径
 	 * @param newDir 目标写入文件路径
