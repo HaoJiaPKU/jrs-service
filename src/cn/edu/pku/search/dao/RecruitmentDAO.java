@@ -74,4 +74,12 @@ public interface RecruitmentDAO {
 	 */
 	public List<RecruitmentBBS> listRecruitmentBBS(int offset,int size);
 	
+	/**
+	 * 列出某一部分招聘信息
+	 * @param offset 偏移量
+	 * @param size 返回的结果条数
+	 * @return
+	 */
+	public List<Recruitment> listRecruitment(int offset, int size);
+	
 }

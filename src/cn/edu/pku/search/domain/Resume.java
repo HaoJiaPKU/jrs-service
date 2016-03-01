@@ -221,6 +221,13 @@ public class Resume extends AbstractResume implements Serializable {
 	public void setModifyIp(String modifyIp) {
 		this.modifyIp = modifyIp;
 	}
+
+	@Override
+	public String toString() {
+		return jobIntension + " " + speciality + " " + rewardAndPunishment
+				+ " " + otherInfo;
+	}
+
 	
 	
 }

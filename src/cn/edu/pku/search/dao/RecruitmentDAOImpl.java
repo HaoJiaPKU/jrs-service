@@ -87,4 +87,12 @@ public class RecruitmentDAOImpl extends HibernateDaoSupport implements
 		return query.list();
 	}
 
+	@Override
+	public List<Recruitment> listRecruitment(int offset, int size) {
+		Query query = this.getSession().createQuery("from Recruitment");
+		query.setFirstResult(offset);
+		query.setMaxResults(size);
+		return query.list();
+	}
+
 }

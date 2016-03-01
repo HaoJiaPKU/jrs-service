@@ -18,18 +18,22 @@ public class Relevance implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
+	int source;
 	long employeeId;
 	long recruitmentId;
 	double relevance;
 	
 	public Relevance(){}
 
-	public Relevance(long employeeId, long recruitmentId, double relevance) {
+	public Relevance(int source, long employeeId, long recruitmentId,
+			double relevance) {
 		super();
+		this.source = source;
 		this.employeeId = employeeId;
 		this.recruitmentId = recruitmentId;
 		this.relevance = relevance;
 	}
+
 	@Id
 	public long getEmployeeId() {
 		return employeeId;
@@ -50,6 +54,12 @@ public class Relevance implements Serializable{
 	public void setRelevance(double relevance) {
 		this.relevance = relevance;
 	}
+	public int getSource() {
+		return source;
+	}
+	public void setSource(int source) {
+		this.source = source;
+	}
 
 	@Override
 	public int hashCode() {
@@ -58,6 +68,7 @@ public class Relevance implements Serializable{
 		result = prime * result + (int) (employeeId ^ (employeeId >>> 32));
 		result = prime * result
 				+ (int) (recruitmentId ^ (recruitmentId >>> 32));
+		result = prime * result + source;
 		return result;
 	}
 
@@ -74,8 +85,12 @@ public class Relevance implements Serializable{
 			return false;
 		if (recruitmentId != other.recruitmentId)
 			return false;
+		if (source != other.source)
+			return false;
 		return true;
 	}
+	
+
 	
 	
 }

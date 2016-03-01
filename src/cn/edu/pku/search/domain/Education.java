@@ -122,6 +122,13 @@ public class Education implements Serializable {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
+	@Override
+	public String toString() {
+		return degree + " " + academy + " " + major + " " + school + " "
+				+ description;
+	}
+	
 	
 	
 }

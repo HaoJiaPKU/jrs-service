@@ -204,7 +204,7 @@ public class SearchServiceImpl implements SearchService {
 				if(recruitmentList == null || recruitmentList.size() == 0)
 					break;
 				for (RecruitmentBBS recruitment : recruitmentList) {
-					PreProcessor.dealWithRecruitment(recruitment, FilePath.nlpPath+ "tmp/recruitment.txt");
+					PreProcessor.dealWithString(recruitment.toString(), FilePath.nlpPath+ "tmp/recruitment.txt");
 	
 					logger.info("简历文件分析中间结果*************************");
 					ResumeInfo resumeInfo = new ResumeInfo();
@@ -225,7 +225,41 @@ public class SearchServiceImpl implements SearchService {
 					Comparer comparer = new Comparer();
 	
 					double rel = comparer.compare(positionInfo, resumeInfo);
-					Relevance relevance = new Relevance(employeeId,
+					Relevance relevance = new Relevance(2, employeeId,
+							recruitment.getId(), rel);
+					relevanceDao.update(relevance);
+					logger.info(rel);
+	
+				}
+			}
+			
+			for(int i = 0;;i++) {
+				List<Recruitment> recruitmentList = recruitmentDao.listRecruitment(i*100, 100);
+				if(recruitmentList == null || recruitmentList.size() == 0)
+					break;
+				for (Recruitment recruitment : recruitmentList) {
+					PreProcessor.dealWithString(recruitment.toString(), FilePath.nlpPath+ "tmp/recruitment.txt");
+	
+					logger.info("简历文件分析中间结果*************************");
+					ResumeInfo resumeInfo = new ResumeInfo();
+					resumeInfo.process(FilePath.nlpPath + "tmp/recruitment.txt");
+					for (int j = 0; j < resumeInfo.skillVector.length; j++) {
+						if (resumeInfo.skillVector[j] > 0) {		
+							logger.info(KnowledgeBase.skillList[j] + " "
+									+ resumeInfo.skillVector[j] + "\n");
+						}
+					}
+					distribution = classifier.getDistri(resumeInfo.skillVector);
+					for (int j = 0; j < distribution.length; j++) {
+						logger.info(KnowledgeBase.positionList[j] + "	"
+								+ distribution[j]);
+					}
+	
+					logger.info("职位与简历匹配度计算*************************");
+					Comparer comparer = new Comparer();
+	
+					double rel = comparer.compare(positionInfo, resumeInfo);
+					Relevance relevance = new Relevance(1, employeeId,
 							recruitment.getId(), rel);
 					relevanceDao.update(relevance);
 					logger.info(rel);
@@ -305,7 +339,7 @@ public class SearchServiceImpl implements SearchService {
 					Comparer comparer = new Comparer();
 	
 					double rel = comparer.compare(positionInfo, resumeInfo);
-					Relevance relevance = new Relevance(resume.getEmployeeId(),
+					Relevance relevance = new Relevance(1, resume.getEmployeeId(),
 							recruitmentId, rel);
 					relevanceDao.update(relevance);
 					logger.info(rel);
@@ -317,12 +351,25 @@ public class SearchServiceImpl implements SearchService {
 		
 	}
 
+	@Transactional
 	@Override
 	public Pager<MatchRecruitment> listMatchRecruitment(long employeeId,
 			int offset) {
-		List<MatchRecruitment> list = relevanceDao.listMatchRecruitment(employeeId, offset);
+		List<Relevance> list = relevanceDao.listRelevance(employeeId, offset);
+		List<MatchRecruitment> matchList = new ArrayList<>();
+		for(Relevance rel : list) {
+			if(rel.getSource() == 1) {
+				Recruitment rec = recruitmentDao.loadRecruitment(rel.getRecruitmentId());
+				MatchRecruitment match = new MatchRecruitment(employeeId, rel.getRelevance(), rec);
+				matchList.add(match);
+			} else if(rel.getSource() == 2) {
+				RecruitmentBBS rec = recruitmentDao.loadRecruitmentBbs(rel.getRecruitmentId());
+				MatchRecruitment match = new MatchRecruitment(employeeId, rel.getRelevance(), rec);
+				matchList.add(match);
+			}
+		}
 		Pager<MatchRecruitment> relevancePager = new Pager<>();
-		relevancePager.setDatas(list);
+		relevancePager.setDatas(matchList);
 		relevancePager.setOffset(offset);
 		relevancePager.setSize(SystemContext.getSize());
 		relevancePager.setTotal(relevanceDao.getRecruitmentNumber(employeeId));
@@ -365,7 +412,7 @@ public class SearchServiceImpl implements SearchService {
 				list.add(recruitment);
 			} else {
 				RecruitmentBBS recruitment = recruitmentDao.loadRecruitmentBbs(id);
-				recruitment.setContent(recruitment.getContent().substring(0, 100)+"...");
+				recruitment.setContent(recruitment.getContent().substring(0, 100)+"...");//为了前台只显示两三行内容
 				list.add(recruitment);
 			}
 		}

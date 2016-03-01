@@ -38,9 +38,21 @@ public class RelevanceDAOImpl extends HibernateDaoSupport implements
 	@Override
 	public List<MatchRecruitment> listMatchRecruitment(long employeeId,
 			int offset) {
-		Query query = this.getSession().createQuery(
+		
+		Query query = this
+				.getSession()
+				.createQuery(
 						"select new cn.edu.pku.search.domain.MatchRecruitment (rel.employeeId,rel.relevance,rec) "
-								+ "from Relevance rel, RecruitmentBBS rec where employeeId=? and rel.recruitmentId = rec.id order by relevance desc");
+								+ "from Relevance rel, Recruitment rec, RecruitmentBBS bbs where employeeId=? and (rel.recruitmentId = rec.id) order by relevance desc");
+		query.setParameter(0, employeeId);
+		query.setFirstResult(offset);
+		query.setMaxResults(SystemContext.getSize());
+		return query.list();
+	}
+
+	@Override
+	public List<Relevance> listRelevance(long employeeId, int offset) {
+		Query query = this.getSession().createQuery("from Relevance where employeeId=? order by relevance desc");
 		query.setParameter(0, employeeId);
 		query.setFirstResult(offset);
 		query.setMaxResults(SystemContext.getSize());
