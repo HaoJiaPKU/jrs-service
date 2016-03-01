@@ -360,10 +360,12 @@ public class SearchServiceImpl implements SearchService {
 		for(Relevance rel : list) {
 			if(rel.getSource() == 1) {
 				Recruitment rec = recruitmentDao.loadRecruitment(rel.getRecruitmentId());
+				rec.setDescription(rec.getDescription().substring(0, 100)+"...");//为了前台只显示两三行内容
 				MatchRecruitment match = new MatchRecruitment(employeeId, rel.getRelevance(), rec);
 				matchList.add(match);
 			} else if(rel.getSource() == 2) {
 				RecruitmentBBS rec = recruitmentDao.loadRecruitmentBbs(rel.getRecruitmentId());
+				rec.setContent(rec.getContent().substring(0, 100)+"...");//为了前台只显示两三行内容
 				MatchRecruitment match = new MatchRecruitment(employeeId, rel.getRelevance(), rec);
 				matchList.add(match);
 			}

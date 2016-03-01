@@ -79,7 +79,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<c:forEach items="${listRecruitment }" var="recruit" varStatus="index">
 						<tr>
 							<td>
-								<a href="recruitment/checkRecruitment?id=${recruit.id }">${recruit.position }</a>
+								<a href="recruitment/checkRecruitment?id=${recruit.id }" target="_blank">${recruit.position }</a>
 							</td>
 							<td>
 								${recruit.uploadTime}

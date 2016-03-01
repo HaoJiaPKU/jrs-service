@@ -119,7 +119,7 @@ body {
 					<%=recruitment.getTime()%>
 					&nbsp &nbsp &nbsp &nbsp &nbsp
 					<%=recruitment.getSource()%>
-					&nbsp &nbsp &nbsp &nbsp &nbsp <a href="<%=recruitment.getSnapshotUrl()%>">快照</a>
+					&nbsp &nbsp &nbsp &nbsp &nbsp <a href="<%=recruitment.getSnapshotUrl()%>" target="_blank">快照</a>
 				</p>
 				<p><%=recruitment.getContent()%></p>
 

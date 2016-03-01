@@ -1,6 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix='fmt' uri="http://java.sun.com/jsp/jstl/fmt" %>  
 <%@ page import="cn.edu.pku.search.domain.*"%>
 <%
 String path = request.getContextPath();
@@ -16,7 +15,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">    
+	<meta http-equiv="expires" content="0">
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
 	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -78,13 +77,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</nav>
 	
 	<div class="container">
-
 		<div class="row">
-			<div class="col-md-8 col-md-offset-2">
-				<table class="table">
-					<tr>
-						<th>标题</th><th>来源</th><th>发布时间</th><th>相关度</th>
-					</tr>
+			<div class="col-md-7">
 					<%
 					Pager<MatchRecruitment> pager = (Pager<MatchRecruitment>) session
 							.getAttribute("relevancePager");
@@ -99,6 +93,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<%=recruitment.getUploadTime()%>
 						&nbsp &nbsp &nbsp &nbsp &nbsp
 						<%=recruitment.getCompany()%>
+						&nbsp &nbsp &nbsp &nbsp &nbsp
+						<font color="#11cccc">相关度:<%=(int)(match.getRelevance()*100) %>%</font>
 					</p>
 					<p><%=recruitment.getDescription()%></p>
 					
@@ -106,24 +102,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						} else {
 							RecruitmentBBS recruitment = (RecruitmentBBS) match.getRecruitment();
 					%>
-					<tr>
-						<td>
-							<a href="<%=recruitment.getUrl()%>"><%=recruitment.getTitle() %></a>
-						</td>
-						<td><%=recruitment.getSource() %></td>
-						<td><%=recruitment.getTime() %></td>
-						<td>
-							 <fmt:formatNumber type="percent" value="<%=match.getRelevance() %>" maxFractionDigits="2"/>
-						</td>
-					</tr>
+					<h3>
+						<a href="<%=recruitment.getUrl()%>" target="_blank"><%=recruitment.getTitle()%></a>
+					</h3>
+					<p>
+						<%=recruitment.getTime()%>
+						&nbsp &nbsp &nbsp &nbsp &nbsp
+						<%=recruitment.getSource()%>
+						&nbsp &nbsp &nbsp &nbsp &nbsp 
+						<a href="<%=recruitment.getSnapshotUrl()%>" target="_blank">快照</a>
+						&nbsp &nbsp &nbsp &nbsp &nbsp
+						<font color="#11cccc">相关度:<%=(int)(match.getRelevance()*100) %>%</font>
+					</p>
+					<p><%=recruitment.getContent()%></p>
 		
 					<%
 						}
 						}
 					%>
 					
-					
-				</table>
 			</div>
 		</div>
 	
