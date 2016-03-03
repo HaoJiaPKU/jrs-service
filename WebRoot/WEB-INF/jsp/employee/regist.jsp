@@ -25,29 +25,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</head>
 	
 	<body>
-		<nav class="navbar navbar-inverse navbar-fixed-top">
-			<div class="container">
-				<div class="navbar-header">
-					<a class="navbar-brand" href="employee.jsp">找工作</a>
-					<a class="navbar-brand" href="employer.jsp">找简历</a>
-				</div>
-				<div class="navbar-collapse collapse">
-					<form action="/employee/login" method="post" class="navbar-form navbar-right">
-						<div class="form-group">
-							<input name="username" type="text" placeholder="Email"
-								class="form-control">
-						</div>
-						<div class="form-group">
-							<input name="password" type="password" placeholder="Password"
-								class="form-control">
-						</div>
-						<button type="submit" class="btn btn-primary">登录</button>
-						<button type="button" class="btn btn-primary" onclick="javascript:window.location.href='/employee/regist'">求职者注册</button>
-					</form>
-				</div>
-				<!--/.navbar-collapse -->
-			</div>
-		</nav>
+		<!-- 导航条 -->
+    	<jsp:include page="navigation.jsp"/>
 	
 	
 		<div class="container">
@@ -64,7 +43,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						placeholder="密码" required>
 				</div>
 				<div class="form-group">
-					<button class="btn btn-success btn-block" type="submit">注册</button>
+					<button class="btn btn-primary btn-block" type="submit">注册</button>
 				</div>
 			</form>
 			</div>
