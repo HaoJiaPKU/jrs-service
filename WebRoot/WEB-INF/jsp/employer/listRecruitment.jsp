@@ -74,7 +74,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<div class="col-md-8 col-md-offset-2">
 				<table class="table">
 					<tr>
-						<th>标题</th><th>发布时间</th><th></th>
+						<th>标题</th><th>发布时间</th><th></th><th></th><th></th>
 					</tr>
 					<c:forEach items="${listRecruitment }" var="recruit" varStatus="index">
 						<tr>
@@ -83,6 +83,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							</td>
 							<td>
 								${recruit.uploadTime}
+							</td>
+							<td>
+								<a href="search/updateRelevanceForEmployer?recruitmentId=${recruit.id }">更新匹配度</a>
+							</td>
+							<td>
+								<a href="search/listMatchResume?recruitmentId=${recruit.id }&offset=0">查看匹配简历</a>
 							</td>
 							<td>
 								<a href="recruitment/deleteRecruitment?id=${recruit.id }">删除</a>

@@ -13,11 +13,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import cn.edu.pku.search.domain.AbstractRecruitment;
 import cn.edu.pku.search.domain.AbstractResume;
+import cn.edu.pku.search.domain.MatchResume;
 import cn.edu.pku.search.domain.Pager;
 import cn.edu.pku.search.domain.MatchRecruitment;
 import cn.edu.pku.search.service.RecruitmentService;
 import cn.edu.pku.search.service.SearchService;
 import cn.edu.pku.user.domain.Employee;
+import cn.edu.pku.user.domain.Employer;
 
 /**
  * 与搜索和匹配相关的控制器
@@ -118,6 +120,19 @@ public class SearchController {
 	}
 	
 	/**
+	 * 为企业更新简历与招聘信息的匹配相关度
+	 * @param req
+	 * @param res
+	 * @return
+	 */
+	@RequestMapping("updateRelevanceForEmployer")
+	public String updateRelevanceForEmployer(HttpServletRequest req, HttpServletResponse res) {
+		long recruitmentId = Long.parseLong(req.getParameter("recruitmentId"));
+		new Thread(new updateRelevanceForEmployer(recruitmentId)).start();
+		return "../employer.jsp";
+	}
+	
+	/**
 	 * 列出匹配的招聘信息
 	 * @param req
 	 * @param res
@@ -131,13 +146,25 @@ public class SearchController {
 		long employeeId = employee.getId();
 		int offset = Integer.parseInt(req.getParameter("offset"));
 		Pager<MatchRecruitment> relevancePager = searchService.listMatchRecruitment(employeeId, offset);
+		session.removeAttribute("relevancePager");
 		session.setAttribute("relevancePager", relevancePager);
 		return "../WEB-INF/jsp/employee/listMatchRecruitment.jsp";
+	}
+	
+	@RequestMapping("listMatchResume")
+	public String listMatchResume(HttpServletRequest req, HttpServletResponse res) {
+		long recruitmentId = Long.parseLong(req.getParameter("recruitmentId"));
+		int offset = Integer.parseInt(req.getParameter("offset"));
+		Pager<MatchResume> relevancePager = searchService.listMatchResume(recruitmentId, offset);
+		HttpSession session = req.getSession();
+		session.removeAttribute("relevancePager");
+		session.setAttribute("relevancePager", relevancePager);
+		return "../WEB-INF/jsp/employer/listMatchResume.jsp";
 	}
 
 	/**
 	 * 更新相关度的线程
-	 * @author Thinkpad
+	 * @author Sun Xiaowei
 	 *
 	 */
 	private class updateRelevanceForEmployee implements Runnable {
@@ -151,6 +178,20 @@ public class SearchController {
 		@Override
 		public void run() {
 			searchService.updateRelevanceForEmployee(employeeId);
+		}
+	}
+	
+	private class updateRelevanceForEmployer implements Runnable {
+		
+		long recruitmentId;
+		
+		public updateRelevanceForEmployer(long recruitmentId) {
+			this.recruitmentId = recruitmentId;
+		}
+
+		@Override
+		public void run() {
+			searchService.updateRelevanceForEmployer(recruitmentId);
 		}
 	}
 	

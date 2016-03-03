@@ -3,6 +3,7 @@ package cn.edu.pku.search.service;
 import cn.edu.pku.search.domain.AbstractRecruitment;
 import cn.edu.pku.search.domain.AbstractResume;
 import cn.edu.pku.search.domain.MatchRecruitment;
+import cn.edu.pku.search.domain.MatchResume;
 import cn.edu.pku.search.domain.Pager;
 
 public interface SearchService {
@@ -44,5 +45,13 @@ public interface SearchService {
 	 * @return
 	 */
 	public Pager<MatchRecruitment> listMatchRecruitment(long employeeId, int offset);
+	
+	/**
+	 * 为企业列出匹配的简历信息
+	 * @param employerId
+	 * @param offset
+	 * @return
+	 */
+	public Pager<MatchResume> listMatchResume(long recruitmentId, int offset);
 	
 }

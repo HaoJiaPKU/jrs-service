@@ -37,6 +37,7 @@ import cn.edu.pku.search.domain.AbstractRecruitment;
 import cn.edu.pku.search.domain.AbstractResume;
 import cn.edu.pku.search.domain.Education;
 import cn.edu.pku.search.domain.MatchRecruitment;
+import cn.edu.pku.search.domain.MatchResume;
 import cn.edu.pku.search.domain.Pager;
 import cn.edu.pku.search.domain.Recruitment;
 import cn.edu.pku.search.domain.RecruitmentBBS;
@@ -275,13 +276,13 @@ public class SearchServiceImpl implements SearchService {
 	@Transactional
 	@Override
 	public void updateRelevanceForEmployer(long recruitmentId) {
-		RecruitmentBBS recruitment = recruitmentDao.loadRecruitmentBbs(recruitmentId);
+		Recruitment recruitment = recruitmentDao.loadRecruitment(recruitmentId);
 		
 		try {
 
 			PreProcessor.loadSegmenter();
 			PreProcessor.loadStopWords(null);
-			PreProcessor.dealWithRecruitment(recruitment, FilePath.nlpPath+ "tmp/recruitment.txt");
+			PreProcessor.dealWithString(recruitment.toString(), FilePath.nlpPath+ "tmp/recruitment.txt");
 			
 			KnowledgeBase.setPositionFile(100, FilePath.nlpPath+ "positionList top100.txt");
 			KnowledgeBase.setSkillFile(100, FilePath.nlpPath+ "skillList top100.txt");
@@ -355,7 +356,7 @@ public class SearchServiceImpl implements SearchService {
 	@Override
 	public Pager<MatchRecruitment> listMatchRecruitment(long employeeId,
 			int offset) {
-		List<Relevance> list = relevanceDao.listRelevance(employeeId, offset);
+		List<Relevance> list = relevanceDao.listRelevanceForEmployee(employeeId, offset);
 		List<MatchRecruitment> matchList = new ArrayList<>();
 		for(Relevance rel : list) {
 			if(rel.getSource() == 1) {
@@ -375,6 +376,17 @@ public class SearchServiceImpl implements SearchService {
 		relevancePager.setOffset(offset);
 		relevancePager.setSize(SystemContext.getSize());
 		relevancePager.setTotal(relevanceDao.getRecruitmentNumber(employeeId));
+		return relevancePager;
+	}
+	
+	@Override
+	public Pager<MatchResume> listMatchResume(long recruitmentId, int offset) {
+		List<MatchResume> list = relevanceDao.listMatchResume(recruitmentId, offset);
+		Pager<MatchResume> relevancePager = new Pager<>();
+		relevancePager.setDatas(list);
+		relevancePager.setOffset(offset);
+		relevancePager.setSize(SystemContext.getSize());
+		relevancePager.setTotal(relevanceDao.getResumeNumber(recruitmentId));
 		return relevancePager;
 	}
 	
@@ -469,4 +481,6 @@ public class SearchServiceImpl implements SearchService {
 		res.setSize(hitsPerPage);
 		return res;
 	}
+
+	
 }

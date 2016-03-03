@@ -115,8 +115,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							</div>
 							<br>
 							<p>${edu.description }</p>
-							<div class="text-right"><a href="resume/updateEducation?eduId=${edu.id }" >编辑</a>
-							<a href="resume/deleteEducation?eduId=${edu.id }&employeeId=${edu.employeeId}">删除</a></div>
 						</div>
 					</c:forEach>
 				</div>
@@ -141,8 +139,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							</div>
 							<br>
 							<p>${work.description }</p>
-							<div class="text-right"><a href="resume/updateWorkExperience?workId=${work.id }" >编辑</a>
-							<a href="resume/deleteWork?workId=${work.id }&employeeId=${work.employeeId}">删除</a></div>
 						</div>
 						
 					</c:forEach>

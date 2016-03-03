@@ -98,7 +98,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<h3>
 					<a href="<%=resume.getPath()%>" target="_blank"><%=resume.getPath()%></a>
 				</h3>
-				<iframe width="100%" height="100%" border="1" src="<%=resume.getPath()%>" style="zoom:0.5;"></iframe>
+				<iframe width="110%" height="30%" border="1" src="<%=resume.getPath()%>" style="zoom:0.5;"></iframe>
 				
 
 				<%

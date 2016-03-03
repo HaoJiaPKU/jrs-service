@@ -3,6 +3,7 @@ package cn.edu.pku.search.dao;
 import java.util.List;
 
 import cn.edu.pku.search.domain.MatchRecruitment;
+import cn.edu.pku.search.domain.MatchResume;
 import cn.edu.pku.search.domain.Relevance;
 
 public interface RelevanceDAO {
@@ -19,7 +20,7 @@ public interface RelevanceDAO {
 	 * @param offset 偏移量
 	 * @return
 	 */
-	public List<MatchRecruitment> listMatchRecruitment(long employeeId, int offset);
+	public List<MatchResume> listMatchResume(long recruitmentId, int offset);
 	
 	/**
 	 * 列出匹配某求职者的一部分相关度信息
@@ -27,7 +28,7 @@ public interface RelevanceDAO {
 	 * @param offset 偏移量
 	 * @return
 	 */
-	public List<Relevance> listRelevance(long employeeId, int offset);
+	public List<Relevance> listRelevanceForEmployee(long employeeId, int offset);
 	
 	/**
 	 * 得到招聘信息的总条数
@@ -35,4 +36,11 @@ public interface RelevanceDAO {
 	 * @return
 	 */
 	public long getRecruitmentNumber(long employeeId);
+	
+	/**
+	 * 得到简历信息的总条数
+	 * @param recruitmentId
+	 * @return
+	 */
+	public long getResumeNumber(long recruitmentId);
 }
