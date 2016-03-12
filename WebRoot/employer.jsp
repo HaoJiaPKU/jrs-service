@@ -31,7 +31,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div class="container">
 			<div class="navbar-header">
 				<a class="navbar-brand" href="employee.jsp">找工作</a>
-				<a class="navbar-brand" href="javascript:void(0)"><font color="orange">找简历</font></a>
+				<a class="navbar-brand" href="javascript:void(0)"><span style="color:orange">找简历</span></a>
 			</div>
 			<div id="navbar" class="navbar-collapse collapse">
 				<c:if test="${empty employer }">
