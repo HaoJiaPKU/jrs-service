@@ -58,10 +58,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<%			Resume51Job resume = (Resume51Job)abs;  %>
 				
 				<h3>
-					<a href="<%=resume.getPath()%>" target="_blank"><%=resume.getPath()%></a>
+					<a href="<%=resume.getPath()%>" target="_blank">查看完整简历</a>
 				</h3>
 				<iframe width="110%" height="30%" border="1" src="<%=resume.getPath()%>" style="zoom:0.5;"></iframe>
-				
+				<br>
 
 				<%
 					}
@@ -74,15 +74,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<!-- 分页 -->
 			  	<ul class="pagination">
 			  		<c:if test="${searchResult.offset > 0 }">
-			  			<li><a href="search?key=${key }&city=${city }&offset=${searchResult.offset-searchResult.size}">&laquo;</a></li>
+			  			<li><a href="search/searchResume?key=${key }&city=${city }&offset=${searchResult.offset-searchResult.size}">&laquo;</a></li>
 			  		</c:if>
 			  		<c:forEach var="id" begin="0" end="9">
 			  			<c:if test="${id * searchResult.size < searchResult.total }">
-			  				<li><a href="search?key=${key }&offset=${id*searchResult.size}">${id+1}</a></li>
+			  				<li><a href="search/searchResume?key=${key }&offset=${id*searchResult.size}">${id+1}</a></li>
 			  			</c:if>
 			  		</c:forEach>
 			  		<c:if test="${searchResult.offset+searchResult.size<searchResult.total }">
-			  			<li><a href="search?key=${key}&offset=${searchResult.offset+searchResult.size}">&raquo;</a></li>
+			  			<li><a href="search/searchResume?key=${key}&offset=${searchResult.offset+searchResult.size}">&raquo;</a></li>
 			  		</c:if>
 			  	</ul>
 	  		</div>

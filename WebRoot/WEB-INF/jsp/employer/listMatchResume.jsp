@@ -10,7 +10,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>My JSP 'listMatchResume.jsp' starting page</title>
+    <title>查看匹配简历</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -34,14 +34,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div class="container">
 		<div class="row">
 			<div class="col-md-7">
-				<c:forEach items="${relevancePager.datas }" var="resume" varStatus="index">
-					<h3>
-						<a href="recruitment/checkResume?employeeId=${resume.resume.employeeId }"
-							target="_blank">${resume.resume.name }-${resume.resume.educationBackground }</a>
-					</h3>
-					匹配度：${resume.relevance }
-				</c:forEach>	
-					
+				<table class="table table-striped">
+				<thead><tr><th>学历</th><th>性别</th><th>年龄</th><th>简历更新时间</th><th>匹配度</th><th></th></tr></thead>
+					<tbody>	
+						<c:forEach items="${relevancePager.datas }" var="resume" varStatus="index">
+							<tr>
+								<td>${resume.resume.educationBackground }</td>
+								<td>${resume.resume.gender }</td>
+								<td>${resume.resume.age }</td>
+								<td>${resume.resume.modifyTime }</td>
+								<td>${resume.relevance }</td>
+								<td><a href="recruitment/checkResume?employeeId=${resume.resume.employeeId }"
+									target="_blank">查看</a></td>
+							</tr>
+						</c:forEach>
+					</tbody>	
+				</table>
 			</div>
 		</div>
 	

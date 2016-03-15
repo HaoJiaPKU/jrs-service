@@ -41,7 +41,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</div>
 					<div class="panel-body">
 						<div class="col-md-4">
-							<img src="${resume.photo }" class="img-responsive" alt="如果未正常显示，请刷新页面">
+							<img src="${resume.photo }" class="img-responsive" alt="未上传头像">
 						</div>
 						<div class="col-md-8">
 							<h2 style="margin-top:10px">
