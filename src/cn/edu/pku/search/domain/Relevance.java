@@ -2,7 +2,9 @@ package cn.edu.pku.search.domain;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -18,30 +20,45 @@ public class Relevance implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
-	int source;
+	long id;
 	long employeeId;
+	long resumeId;
+	int recruitmentSource;
 	long recruitmentId;
 	double relevance;
 	
 	public Relevance(){}
 
-	public Relevance(int source, long employeeId, long recruitmentId,
-			double relevance) {
+
+	public Relevance(long employeeId, long resumeId, int recruitmentSource,
+			long recruitmentId, double relevance) {
 		super();
-		this.source = source;
 		this.employeeId = employeeId;
+		this.resumeId = resumeId;
+		this.recruitmentSource = recruitmentSource;
 		this.recruitmentId = recruitmentId;
 		this.relevance = relevance;
 	}
 
+
+	@GeneratedValue
 	@Id
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	@Column(name="employee_id")
 	public long getEmployeeId() {
 		return employeeId;
 	}
 	public void setEmployeeId(long employeeId) {
 		this.employeeId = employeeId;
 	}
-	@Id
+	@Column(name="recruitment_id")
 	public long getRecruitmentId() {
 		return recruitmentId;
 	}
@@ -54,43 +71,22 @@ public class Relevance implements Serializable{
 	public void setRelevance(double relevance) {
 		this.relevance = relevance;
 	}
-	public int getSource() {
-		return source;
-	}
-	public void setSource(int source) {
-		this.source = source;
+	@Column(name="resume_id")
+	public long getResumeId() {
+		return resumeId;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + (int) (employeeId ^ (employeeId >>> 32));
-		result = prime * result
-				+ (int) (recruitmentId ^ (recruitmentId >>> 32));
-		result = prime * result + source;
-		return result;
+	public void setResumeId(long resumeId) {
+		this.resumeId = resumeId;
+	}
+	@Column(name="recruitment_source")
+	public int getRecruitmentSource() {
+		return recruitmentSource;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Relevance other = (Relevance) obj;
-		if (employeeId != other.employeeId)
-			return false;
-		if (recruitmentId != other.recruitmentId)
-			return false;
-		if (source != other.source)
-			return false;
-		return true;
+	public void setRecruitmentSource(int recruitmentSource) {
+		this.recruitmentSource = recruitmentSource;
 	}
-	
 
-	
-	
+
 }

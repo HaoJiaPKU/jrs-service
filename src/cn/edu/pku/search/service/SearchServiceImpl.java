@@ -100,7 +100,7 @@ public class SearchServiceImpl implements SearchService {
 //		for(String str : queryStringList) {
 //			System.out.println(str);
 //		}
-		String index = "index";
+		String index = FilePath.recruitmentIndex;
 
 		Pager<AbstractRecruitment> res = null; 
 		
@@ -132,7 +132,7 @@ public class SearchServiceImpl implements SearchService {
 	@Override
 	public Pager<AbstractResume> searchResume(String field, String queryString,
 			int offset) {
-		String index = "ResumeIndex";
+		String index = FilePath.resumeIndex;
 
 		Pager<AbstractResume> res = null; 
 		
@@ -226,8 +226,7 @@ public class SearchServiceImpl implements SearchService {
 					Comparer comparer = new Comparer();
 	
 					double rel = comparer.compare(positionInfo, resumeInfo);
-					Relevance relevance = new Relevance(2, employeeId,
-							recruitment.getId(), rel);
+					Relevance relevance = new Relevance(employeeId, 0, 2, recruitment.getId(), rel);
 					relevanceDao.update(relevance);
 					logger.info(rel);
 	
@@ -260,8 +259,7 @@ public class SearchServiceImpl implements SearchService {
 					Comparer comparer = new Comparer();
 	
 					double rel = comparer.compare(positionInfo, resumeInfo);
-					Relevance relevance = new Relevance(1, employeeId,
-							recruitment.getId(), rel);
+					Relevance relevance = new Relevance(employeeId, 0, 1, recruitment.getId(), rel);
 					relevanceDao.update(relevance);
 					logger.info(rel);
 	
@@ -340,12 +338,14 @@ public class SearchServiceImpl implements SearchService {
 					Comparer comparer = new Comparer();
 	
 					double rel = comparer.compare(positionInfo, resumeInfo);
-					Relevance relevance = new Relevance(1, resume.getEmployeeId(),
+					Relevance relevance = new Relevance(resume.getEmployeeId(),0,1,
 							recruitmentId, rel);
 					relevanceDao.update(relevance);
 					logger.info(rel);
 				}
 			}
+			
+			
 		} catch (IOException e) {
 			logger.error(e.getMessage(), e);
 		}
@@ -359,12 +359,12 @@ public class SearchServiceImpl implements SearchService {
 		List<Relevance> list = relevanceDao.listRelevanceForEmployee(employeeId, offset);
 		List<MatchRecruitment> matchList = new ArrayList<>();
 		for(Relevance rel : list) {
-			if(rel.getSource() == 1) {
+			if(rel.getRecruitmentSource() == 1) {
 				Recruitment rec = recruitmentDao.loadRecruitment(rel.getRecruitmentId());
 				rec.setDescription(rec.getDescription().substring(0, 100)+"...");//为了前台只显示两三行内容
 				MatchRecruitment match = new MatchRecruitment(employeeId, rel.getRelevance(), rec);
 				matchList.add(match);
-			} else if(rel.getSource() == 2) {
+			} else if(rel.getRecruitmentSource() == 2) {
 				RecruitmentBBS rec = recruitmentDao.loadRecruitmentBbs(rel.getRecruitmentId());
 				rec.setContent(rec.getContent().substring(0, 100)+"...");//为了前台只显示两三行内容
 				MatchRecruitment match = new MatchRecruitment(employeeId, rel.getRelevance(), rec);

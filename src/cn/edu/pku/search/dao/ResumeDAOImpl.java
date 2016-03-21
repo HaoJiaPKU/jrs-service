@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import cn.edu.pku.search.domain.Education;
 import cn.edu.pku.search.domain.Resume;
+import cn.edu.pku.search.domain.Resume51Job;
 import cn.edu.pku.search.domain.WorkExperience;
 
 @Repository
@@ -101,6 +102,14 @@ public class ResumeDAOImpl extends HibernateDaoSupport implements ResumeDAO {
 	@Override
 	public List<Resume> listResume(int offset,int size) {
 		Query query = this.getSession().createQuery("from Resume");
+		query.setFirstResult(offset);
+		query.setMaxResults(size);
+		return query.list();
+	}
+	
+	@Override
+	public List<Resume51Job> listResume51Job(int offset, int size) {
+		Query query = this.getSession().createQuery("from Resume51Job");
 		query.setFirstResult(offset);
 		query.setMaxResults(size);
 		return query.list();

@@ -4,6 +4,7 @@ import java.util.List;
 
 import cn.edu.pku.search.domain.Education;
 import cn.edu.pku.search.domain.Resume;
+import cn.edu.pku.search.domain.Resume51Job;
 import cn.edu.pku.search.domain.WorkExperience;
 
 public interface ResumeDAO {
@@ -95,6 +96,14 @@ public interface ResumeDAO {
 	 * @return
 	 */
 	public List<Resume> listResume(int offset,int size);
+	
+	/**
+	 * 列出一部分51job的简历
+	 * @param offset 偏移量
+	 * @param size 信息条数
+	 * @return
+	 */
+	public List<Resume51Job> listResume51Job(int offset, int size);
 	
 	/**
 	 * 添加简历

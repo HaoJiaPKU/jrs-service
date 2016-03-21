@@ -51,7 +51,7 @@ public class RelevanceDAOImpl extends HibernateDaoSupport implements
 				.getSession()
 				.createQuery(
 						"select new cn.edu.pku.search.domain.MatchResume (rel.recruitmentId,rel.relevance,res) "
-								+ "from Relevance rel, Resume res where recruitmentId=? and (rel.employeeId = res.employeeId) order by relevance desc");
+								+ "from Relevance rel, Resume res where rel.recruitmentId=? and (rel.employeeId = res.employeeId) order by relevance desc");
 		query.setParameter(0, recruitmentId);
 		query.setFirstResult(offset);
 		query.setMaxResults(SystemContext.getSize());

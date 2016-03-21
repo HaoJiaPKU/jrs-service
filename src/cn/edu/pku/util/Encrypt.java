@@ -5,6 +5,11 @@ import java.security.NoSuchAlgorithmException;
 
 import org.apache.log4j.Logger;
 
+/**
+ * 密码加密算法
+ * @author Shawn Sun
+ *
+ */
 public class Encrypt {
 
 	public static final Logger logger = Logger.getLogger(Encrypt.class);

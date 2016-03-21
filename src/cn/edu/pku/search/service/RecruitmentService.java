@@ -4,7 +4,6 @@ import java.util.List;
 
 import cn.edu.pku.search.domain.Attachment;
 import cn.edu.pku.search.domain.Recruitment;
-import cn.edu.pku.search.domain.RecruitmentBBS;
 
 public interface RecruitmentService {
 

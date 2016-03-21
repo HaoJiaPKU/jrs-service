@@ -23,7 +23,6 @@ import com.chenlb.mmseg4j.analysis.SimpleAnalyzer;
 import cn.edu.pku.search.dao.RecruitmentDAO;
 import cn.edu.pku.search.domain.Attachment;
 import cn.edu.pku.search.domain.Recruitment;
-import cn.edu.pku.search.domain.RecruitmentBBS;
 
 @Service
 public class RecruitmentServiceImpl implements RecruitmentService {
