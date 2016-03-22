@@ -125,6 +125,13 @@ public interface ResumeDAO {
 	public Resume getResume(long employeeId);
 	
 	/**
+	 * 得到51job中的简历
+	 * @param id 简历ID
+	 * @return
+	 */
+	public Resume51Job getResume51Job(long id);
+	
+	/**
 	 * 得到工作经历
 	 * @param id 工作经历ID
 	 * @return

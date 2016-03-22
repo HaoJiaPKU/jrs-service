@@ -2,8 +2,6 @@ package cn.edu.pku.search.dao;
 
 import java.util.List;
 
-import cn.edu.pku.search.domain.MatchRecruitment;
-import cn.edu.pku.search.domain.MatchResume;
 import cn.edu.pku.search.domain.Relevance;
 
 public interface RelevanceDAO {
@@ -20,7 +18,7 @@ public interface RelevanceDAO {
 	 * @param offset 偏移量
 	 * @return
 	 */
-	public List<MatchResume> listMatchResume(long recruitmentId, int offset);
+	public List<Relevance> listRelevanceForEmployer(long recruitmentId, int offset);
 	
 	/**
 	 * 列出匹配某求职者的一部分相关度信息

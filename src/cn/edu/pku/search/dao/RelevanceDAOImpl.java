@@ -9,8 +9,6 @@ import org.hibernate.SessionFactory;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import org.springframework.stereotype.Repository;
 
-import cn.edu.pku.search.domain.MatchRecruitment;
-import cn.edu.pku.search.domain.MatchResume;
 import cn.edu.pku.search.domain.Relevance;
 import cn.edu.pku.util.SystemContext;
 
@@ -45,13 +43,10 @@ public class RelevanceDAOImpl extends HibernateDaoSupport implements
 	}
 
 	@Override
-	public List<MatchResume> listMatchResume(long recruitmentId, int offset) {
-
-		Query query = this
-				.getSession()
-				.createQuery(
-						"select new cn.edu.pku.search.domain.MatchResume (rel.recruitmentId,rel.relevance,res) "
-								+ "from Relevance rel, Resume res where rel.recruitmentId=? and (rel.employeeId = res.employeeId) order by relevance desc");
+	public List<Relevance> listRelevanceForEmployer(long recruitmentId,
+			int offset) {
+		Query query = this.getSession().createQuery(
+				"from Relevance where recruitmentId=? order by relevance desc");
 		query.setParameter(0, recruitmentId);
 		query.setFirstResult(offset);
 		query.setMaxResults(SystemContext.getSize());

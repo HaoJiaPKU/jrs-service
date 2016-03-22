@@ -345,6 +345,38 @@ public class SearchServiceImpl implements SearchService {
 				}
 			}
 			
+			for(int i = 0;;i++) {
+				List<Resume51Job> resumeList = resumeDao.listResume51Job(i*100, 100);
+				if(resumeList == null || resumeList.size() == 0)
+					break;
+				for (Resume51Job resume : resumeList) {
+					PreProcessor.dealWithText("../webapps/"+resume.getPath(),FilePath.nlpPath + "tmp/resume.txt");
+
+					logger.info("职位文件分析中间结果*************************");
+					PositionInfo positionInfo = new PositionInfo();
+					positionInfo.process(FilePath.nlpPath + "tmp/resume.txt");
+					for (int j = 0; j < positionInfo.skillVector.length - 1; j++) {
+						if (positionInfo.skillVector[j] > 0) {
+							logger.info(KnowledgeBase.skillList[j] + " "
+									+ positionInfo.skillVector[j] + "\n");
+						}
+					}
+					distribution = classifier.getDistri(positionInfo.skillVector);
+					for (int j = 0; j < distribution.length; j++) {
+						logger.info(KnowledgeBase.positionList[j] + "	"
+								+ distribution[j]);
+					}
+	
+					logger.info("职位与简历匹配度计算*************************");
+					Comparer comparer = new Comparer();
+	
+					double rel = comparer.compare(positionInfo, resumeInfo);
+					Relevance relevance = new Relevance(0,resume.getId(),1,
+							recruitmentId, rel);
+					relevanceDao.update(relevance);
+					logger.info(rel);
+				}
+			}
 			
 		} catch (IOException e) {
 			logger.error(e.getMessage(), e);
@@ -379,11 +411,24 @@ public class SearchServiceImpl implements SearchService {
 		return relevancePager;
 	}
 	
+	@Transactional
 	@Override
 	public Pager<MatchResume> listMatchResume(long recruitmentId, int offset) {
-		List<MatchResume> list = relevanceDao.listMatchResume(recruitmentId, offset);
+		List<Relevance> list = relevanceDao.listRelevanceForEmployer(recruitmentId, offset);
+		List<MatchResume> matchList = new ArrayList<>();
+		for(Relevance rel : list) {
+			if(rel.getEmployeeId() == 0) {
+				Resume51Job resume = resumeDao.getResume51Job(rel.getResumeId());
+				MatchResume match = new MatchResume(recruitmentId, rel.getRelevance(), resume);
+				matchList.add(match);
+			} else {
+				Resume resume = resumeDao.getResume(rel.getEmployeeId());
+				MatchResume match = new MatchResume(recruitmentId, rel.getRelevance(), resume);
+				matchList.add(match);
+			}
+		}
 		Pager<MatchResume> relevancePager = new Pager<>();
-		relevancePager.setDatas(list);
+		relevancePager.setDatas(matchList);
 		relevancePager.setOffset(offset);
 		relevancePager.setSize(SystemContext.getSize());
 		relevancePager.setTotal(relevanceDao.getResumeNumber(recruitmentId));

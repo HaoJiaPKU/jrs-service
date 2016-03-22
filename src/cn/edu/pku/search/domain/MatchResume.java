@@ -13,9 +13,9 @@ public class MatchResume implements Serializable{
 	
 	private long recruitmentId;
 	private double relevance;
-	private Resume resume;
+	private AbstractResume resume;
 	
-	public MatchResume(long recruitmentId, double relevance, Resume resume) {
+	public MatchResume(long recruitmentId, double relevance, AbstractResume resume) {
 		super();
 		this.recruitmentId = recruitmentId;
 		this.relevance = relevance;
@@ -33,11 +33,12 @@ public class MatchResume implements Serializable{
 	public void setRelevance(double relevance) {
 		this.relevance = relevance;
 	}
-	public Resume getResume() {
+	public AbstractResume getResume() {
 		return resume;
 	}
-	public void setResume(Resume resume) {
+	public void setResume(AbstractResume resume) {
 		this.resume = resume;
 	}
+	
 
 }

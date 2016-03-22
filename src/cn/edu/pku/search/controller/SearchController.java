@@ -159,7 +159,7 @@ public class SearchController {
 		HttpSession session = req.getSession();
 		session.removeAttribute("relevancePager");
 		session.setAttribute("relevancePager", relevancePager);
-		return "../WEB-INF/jsp/employer/listMatchResume.jsp";
+		return "../WEB-INF/jsp/employer/listMatchResume.jsp?recruitmentId="+recruitmentId;
 	}
 
 	/**

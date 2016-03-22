@@ -141,4 +141,9 @@ public class ResumeDAOImpl extends HibernateDaoSupport implements ResumeDAO {
 		return this.getHibernateTemplate().load(Education.class, id);
 	}
 
+	@Override
+	public Resume51Job getResume51Job(long id) {
+		return this.getHibernateTemplate().load(Resume51Job.class, id);
+	}
+
 }
