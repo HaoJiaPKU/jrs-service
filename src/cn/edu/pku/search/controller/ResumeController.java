@@ -98,7 +98,7 @@ public class ResumeController {
 		String filename = employeeId + "-" + format.format(new Date()) + "."
 				+ file.getContentType().split("/")[1];
 		try {
-			file.transferTo(new File(FilePath.photoPath, filename));
+			file.transferTo(new File("../webapps/" + FilePath.photoPath, filename));
 			String filepath = FilePath.photoPath + filename;
 			String name = new String(req.getParameter("name").getBytes(
 					"iso-8859-1"), "utf-8");
