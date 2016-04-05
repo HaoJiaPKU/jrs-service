@@ -8,6 +8,11 @@ import cn.edu.pku.recruitment.knowledgeBase.KnowledgeBase;
 import cn.edu.pku.recruitment.positionProcessor.PositionInfo;
 import cn.edu.pku.recruitment.resumeProcessor.ResumeInfo;
 
+/**
+ * 示例
+ * @author Lan Zheng
+ * @version 1.0
+ * */
 public class Test {
 
 	public static void main(String args[]) throws IOException

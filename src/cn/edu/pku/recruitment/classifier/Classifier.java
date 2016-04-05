@@ -9,7 +9,7 @@ import cn.edu.pku.util.FilePath;
 
 /**
  * 分类器
- * @author lzh@pku
+ * @author Lan Zheng
  * @version 1.0
  * */
 public class Classifier {

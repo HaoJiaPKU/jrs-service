@@ -10,7 +10,7 @@ import cn.edu.pku.recruitment.resumeProcessor.ResumeInfo;
 
 /**
  * 职位与简历比较器
- * @author lzh@pku
+ * @author Lan Zheng
  * @version 1.0
  * */
 public class Comparer {

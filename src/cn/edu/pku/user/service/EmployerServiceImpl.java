@@ -1,12 +1,14 @@
 package cn.edu.pku.user.service;
 
 import javax.annotation.Resource;
+import javax.mail.MessagingException;
 
 import org.apache.log4j.Logger;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -73,13 +75,17 @@ public class EmployerServiceImpl implements EmployerService{
 		this.taskExecutor = taskExecutor;
 	}
 
-
+	@Transactional
 	@Override
 	public Employer login(String email, String password) {
 		password = Encrypt.encrypt(password);
 		Employer employer = employerDao.loadByUsername(email);
-		if(employer != null && password.equals(employer.getPassword()) && employer.getActive() == 1)
+		if(employer != null && password.equals(employer.getPassword()) && employer.getActive() == 1) {
+			employer.setLogins(employer.getLogins() + 1);
+			System.out.println(employer.getLogins());
+			employerDao.update(employer);
 			return employer;
+		}
 		return null;
 	}
 
@@ -109,6 +115,15 @@ public class EmployerServiceImpl implements EmployerService{
 		simpleMailMessage.setSubject("jobPKU账号激活");
 		simpleMailMessage.setTo(employer.getEmail());
 		simpleMailMessage.setText(content);
+		
+		try {
+			javaMailSender.send(simpleMailMessage);
+			logger.warn(content);
+		}
+		catch (Exception e) {
+			logger.error(e.getMessage());
+		}
+		
 		taskExecutor.execute(new Runnable() {
 			public void run() {
 				javaMailSender.send(simpleMailMessage);

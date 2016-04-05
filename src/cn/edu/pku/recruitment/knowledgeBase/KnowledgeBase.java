@@ -9,7 +9,7 @@ import cn.edu.pku.util.FilePath;
 
 /**
  * 基本数据文件
- * @author lzh@pku
+ * @author Lan Zheng
  * @version 1.0
  * */
 public class KnowledgeBase {

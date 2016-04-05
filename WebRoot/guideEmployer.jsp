@@ -18,6 +18,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
 	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link href="bootstrap/css/style.css" rel="stylesheet">
+	
 	<style>
 		body {
 			padding-top: 80px;		
@@ -31,13 +33,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div class="container">
 			<div class="navbar-header">
 				<a class="navbar-brand" href="employee.jsp">找工作</a>
-				<a class="navbar-brand" href="javascript:void(0)"><span style="color:orange">找简历</span></a>
+				<a class="navbar-brand" href="employer.jsp"><span style="color:orange">找简历</span></a>
 			</div>
 			<div id="navbar" class="navbar-collapse collapse">
 				<c:if test="${empty employer }">
 					<form action="/employer/login" method="post" class="navbar-form navbar-right">
 						<div class="form-group">
-							<input name="email" type="text" placeholder="Email"
+							<input name="email" type="text" placeholder="email"
 								class="form-control">
 						</div>
 						<div class="form-group">
@@ -69,19 +71,37 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 	</nav>
 
-	<!-- 搜索栏 -->
+		<!-- 搜索栏 -->
 	<div class="container">
 		<div class="row">
-			<div class="col-md-4 col-md-offset-4">
-				<br><br><br><br><br><br>
-				<img src="bootstrap/img/jobpopo.jpg" class="img-responsive" alt="Responsive image"><br>
+			<div class="col-md-12">
+				<div id="single" class="carousel slide" data-ride="carousel" data-shift="1">
+					<div class="carousel-inner">
+						<ul class="row item active">
+							<li class="col-xs-12 one">
+					  			<img src="bootstrap/img/guideEmployee/guideEmployee1.jpg" class="img-responsive">
+					  			<!-- 1080px * 500px(style.css) => 1216px * 564px -->
+							</li>
+				  		</ul>
+					  	<ul class="row item">
+						  	<li class="col-xs-12 two">
+							  	<img src="bootstrap/img/guideEmployee/guideEmployee2.jpg" class="img-responsive">
+							</li>
+							<li class="col-xs-12 three">
+							  	<img src="bootstrap/img/guideEmployee/guideEmployee3.jpg" class="img-responsive">
+							</li>
+							<li class="col-xs-12 four">
+							  	<img src="bootstrap/img/guideEmployee/guideEmployee4.jpg" class="img-responsive">
+							</li>
+					  	</ul>
+					</div>
+					<a class="carousel-control left" href="#single" data-slide="prev">Previous</a>
+					<a class="carousel-control right" href="#single" data-slide="next">Next</a>
+				</div>
 			</div>
 			<div class="col-md-8 col-md-offset-2">
-				<br><br>
-				<form action="search/searchResume" method="post" class="form-inline">
-					<input style="width:80%" type="text" name="key" id="key" class="form-control input-lg" placeholder="简历关键词">
-					<input type="hidden" name="offset" value="0">
-					<button style="width:15%" type="submit" class="btn btn-lg btn-primary">找简历</button>
+				<form action="employer.jsp" method="post" class="form-inline" style="text-align:center;">
+					<button style="width:15%" type="submit" class="btn btn-lg btn-primary">跳过教程</button>
 				</form>
 			</div>
 		</div>
@@ -90,5 +110,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<!-- js在最后加载 -->
 	<script src="bootstrap/js/jquery-1.11.3.min.js"></script>
 	<script src="bootstrap/js/bootstrap.min.js"></script>
+	<script src="bootstrap/js/index.js"></script>
+	
   </body>
 </html>

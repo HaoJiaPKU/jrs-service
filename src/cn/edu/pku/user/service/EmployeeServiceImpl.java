@@ -61,12 +61,16 @@ public class EmployeeServiceImpl implements EmployeeService {
 		this.taskExecutor = taskExecutor;
 	}
 
+	@Transactional
 	@Override
 	public Employee login(String email, String password) {
 		password = Encrypt.encrypt(password);
 		Employee employee = employeeDao.load(email);
-		if (employee != null && password.equals(employee.getPassword()) && employee.getActive() == 1)
+		if (employee != null && password.equals(employee.getPassword()) && employee.getActive() == 1) {
+			employee.setLogins(employee.getLogins() + 1);
+			employeeDao.update(employee);
 			return employee;
+		}
 		return null;
 	}
 

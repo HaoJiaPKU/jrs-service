@@ -12,7 +12,7 @@ import cn.edu.pku.recruitment.knowledgeBase.KnowledgeBase;
 
 /**
  * 简历信息
- * @author lzh@pku
+ * @author Lan Zheng
  * @version 1.0
  * */
 public class ResumeInfo {

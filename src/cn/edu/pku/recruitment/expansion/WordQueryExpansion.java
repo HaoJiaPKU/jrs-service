@@ -8,7 +8,7 @@ import java.util.*;
 
 
 /**
- * @author lzh@pku
+ * @author Lan Zheng
  * @version 1.0
  * */
 public class WordQueryExpansion implements QueryExpansion{

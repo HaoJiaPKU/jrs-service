@@ -52,6 +52,8 @@ public class EmployerController {
 		if(employer != null) {
 			session.setAttribute("employer", employer);
 			session.setMaxInactiveInterval(3600*24);
+			if(employer.getLogins() == 1)
+				return "../guideEmployer.jsp";
 			return "../employer.jsp";
 		}
 		session.setAttribute("message", "用户名或密码错误");

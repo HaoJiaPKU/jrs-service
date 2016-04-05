@@ -3,7 +3,7 @@ package cn.edu.pku.recruitment.expansion;
 import java.util.ArrayList;
 
 /**
- * @author lzh@pku
+ * @author Lan Zheng
  * @version 1.0
  * */
 

@@ -27,7 +27,7 @@ import cn.edu.pku.search.domain.WorkExperience;
 import cn.edu.pku.util.FilePath;
 /**
  * 文本预处理
- * @author lzh@pku
+ * @author Lan Zheng
  * @version 1.0
  * */
 public class PreProcessor {

@@ -20,7 +20,7 @@ import java.util.regex.Pattern;
 import cn.edu.pku.util.FilePath;
 
 /**
- * @author lzh@pku
+ * @author Lan Zheng
  * @version 1.0
  * */
 

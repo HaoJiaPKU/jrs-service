@@ -13,6 +13,7 @@ public class Employer {
 	String email;
 	String password;
 	int active;
+	int logins;
 	
 	public Employer() {}
 	
@@ -21,6 +22,7 @@ public class Employer {
 		this.email = email;
 		this.password = password;
 		this.active = active;
+		this.logins = 0;
 	}
 
 	@GeneratedValue
@@ -48,6 +50,14 @@ public class Employer {
 	}
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public int getLogins() {
+		return logins;
+	}
+
+	public void setLogins(int logins) {
+		this.logins = logins;
 	}
 	
 	

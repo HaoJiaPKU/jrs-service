@@ -15,7 +15,8 @@ public class Employee {
 	String password;
 	int active;
 	int hasResume;
-	
+	int logins;
+
 	public Employee() {	}
 	
 	public Employee(String email, String password, int active, int hasResume) {
@@ -24,6 +25,7 @@ public class Employee {
 		this.password = password;
 		this.active = active;
 		this.hasResume = hasResume;
+		this.logins = 0;
 	}
 	@GeneratedValue
 	@Id
@@ -59,5 +61,12 @@ public class Employee {
 		this.hasResume = hasResume;
 	}
 	
+	public int getLogins() {
+		return logins;
+	}
+
+	public void setLogins(int logins) {
+		this.logins = logins;
+	}
 	
 }

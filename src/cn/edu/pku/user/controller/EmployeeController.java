@@ -50,6 +50,8 @@ public class EmployeeController {
 		if(employee != null) {
 			session.setAttribute("employee", employee);
 			session.setMaxInactiveInterval(3600*24);
+			if(employee.getLogins() == 1)
+				return "../guideEmployee.jsp";
 			return "../employee.jsp";
 		}
 		session.setAttribute("message", "用户名或密码错误");
