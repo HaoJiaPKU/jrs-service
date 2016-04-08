@@ -16,6 +16,9 @@ public class Employee {
 	int active;
 	int hasResume;
 	int logins;
+	
+	int subscriptionNum;
+	int recFreq;
 
 	public Employee() {	}
 	
@@ -69,4 +72,21 @@ public class Employee {
 		this.logins = logins;
 	}
 	
+	@Column(name="subscription_num")
+	public int getSubscriptionNum() {
+		return subscriptionNum;
+	}
+
+	public void setSubscriptionNum(int subscriptionNum) {
+		this.subscriptionNum = subscriptionNum;
+	}
+
+	@Column(name="rec_freq")
+	public int getRecFreq() {
+		return recFreq;
+	}
+
+	public void setRecFreq(int recFreq) {
+		this.recFreq = recFreq;
+	}
 }

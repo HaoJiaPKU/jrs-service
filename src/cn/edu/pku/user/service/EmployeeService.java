@@ -11,4 +11,5 @@ public interface EmployeeService {
 	public void sendVerificationAgain(long id);
 	public Employee activate(long id, String password);
 	public Employee uploadResume(long id);
+	public Employee updateSubscription(long id, int subscriptionNum, int recFreq);
 }

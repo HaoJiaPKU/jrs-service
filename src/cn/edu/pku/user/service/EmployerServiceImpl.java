@@ -112,7 +112,7 @@ public class EmployerServiceImpl implements EmployerService{
 		String content = "激活地址： http://" + Config.domainName
 				+ "employer/verification?id=" + employer.getId() + "&password="
 				+ employer.getPassword();
-		simpleMailMessage.setSubject("jobPKU账号激活");
+		simpleMailMessage.setSubject("jobpopo账号激活");
 		simpleMailMessage.setTo(employer.getEmail());
 		simpleMailMessage.setText(content);
 		

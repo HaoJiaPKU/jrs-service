@@ -51,6 +51,29 @@
 		<servlet-name>springMvcDispatcher</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
+	
+	<!-- quartz -->
+	<context-param>
+	    <param-name>quartz:config-file</param-name>
+	    <param-value>quartz.properties</param-value>
+	</context-param>
+	<context-param>
+	    <param-name>quartz:shutdown-on-unload</param-name>
+	    <param-value>true</param-value>
+	</context-param>
+	<context-param>
+	    <param-name>quartz:wait-on-shutdown</param-name>
+	    <param-value>false</param-value>
+	</context-param>
+	<context-param>
+	    <param-name>quartz:start-scheduler-on-load</param-name>
+	    <param-value>true</param-value>
+	</context-param>
+	<listener>
+	    <listener-class>
+	        org.quartz.ee.servlet.QuartzInitializerListener
+	    </listener-class>
+	</listener>
 
 	<!-- system config -->
 	<filter>

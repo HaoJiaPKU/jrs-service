@@ -29,6 +29,13 @@ public interface RelevanceDAO {
 	public List<Relevance> listRelevanceForEmployee(long employeeId, int offset);
 	
 	/**
+	 * 列出匹配某求职者的全部相关度信息
+	 * @param employeeId 求职者ID
+	 * @return
+	 */
+	public List<Relevance> listRelevanceForEmployee(long employeeId);
+	
+	/**
 	 * 得到招聘信息的总条数
 	 * @param employeeId
 	 * @return

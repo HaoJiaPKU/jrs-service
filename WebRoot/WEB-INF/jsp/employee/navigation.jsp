@@ -38,6 +38,7 @@
 								<li><a href="resume/checkResume?employeeId=${employee.id }">查看简历</a></li>
 								<li><a href="search/updateRelevanceForEmployee">更新匹配度</a></li>
 								<li><a href="search/listMatchRecruitment?offset=0">查看匹配职位</a></li>
+								<li><a href="employee/check?employeeId=${employee.id }">订阅推送</a></li>
 							</c:if>
 							<li role="separator" class="divider"></li>
 							<li><a href="employee/logout">退出</a></li>

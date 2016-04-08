@@ -54,9 +54,8 @@
         <property name="corePoolSize" value="5" />
         <property name="maxPoolSize" value="10" />
         <property name="queueCapacity" value="25" />
-    </bean>
-    
-    
+    </bean>  	
+  	
     <!-- 事务管理 -->
 	<tx:annotation-driven transaction-manager="transactionManager"/>
 	<tx:advice id="transactionAdvice" transaction-manager="transactionManager">

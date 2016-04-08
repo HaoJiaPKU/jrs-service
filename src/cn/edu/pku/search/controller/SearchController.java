@@ -19,7 +19,6 @@ import cn.edu.pku.search.domain.MatchRecruitment;
 import cn.edu.pku.search.service.RecruitmentService;
 import cn.edu.pku.search.service.SearchService;
 import cn.edu.pku.user.domain.Employee;
-import cn.edu.pku.user.domain.Employer;
 
 /**
  * 与搜索和匹配相关的控制器

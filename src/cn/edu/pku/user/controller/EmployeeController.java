@@ -15,7 +15,7 @@ import cn.edu.pku.user.service.EmployeeService;
 
 /**
  * 与求职者相关的控制器
- * @author Sun Xiaowei
+ * @author Sun Xiaowei, Lan Zheng
  *
  */
 @Controller
@@ -135,5 +135,38 @@ public class EmployeeController {
 		}
 		session.setAttribute("message", "验证失败");
 		return "../message.jsp";
+	}
+
+	/**
+	 * 显示邮件订阅信息
+	 * @param req
+	 * @param res
+	 * @return
+	 */
+	@RequestMapping("check")
+	public String check(HttpServletRequest req, HttpServletResponse res) {
+		HttpSession session = req.getSession();
+		Employee employee = (Employee) session.getAttribute("employee");
+		session.setAttribute("subscriptionNum", employee.getSubscriptionNum());
+		session.setAttribute("recFreq", employee.getRecFreq());
+		return "../WEB-INF/jsp/employee/subscription.jsp";
+	}
+
+	/**
+	 * 更新邮件订阅信息
+	 * @param req
+	 * @param res
+	 * @return
+	 */
+	@RequestMapping("update")
+	public String update(HttpServletRequest req, HttpServletResponse res) {
+		int subscriptionNum = Integer.parseInt(req.getParameter("subscriptionNum"));
+		int recFreq = Integer.parseInt(req.getParameter("recFreq"));
+		long id = Long.parseLong(req.getParameter("employeeId"));
+		Employee employee = employeeService.updateSubscription(id, subscriptionNum, recFreq);
+		HttpSession session = req.getSession();
+		session.setAttribute("subscriptionNum", employee.getSubscriptionNum());
+		session.setAttribute("recFreq", employee.getRecFreq());
+		return "../WEB-INF/jsp/employee/subscription.jsp";
 	}
 }

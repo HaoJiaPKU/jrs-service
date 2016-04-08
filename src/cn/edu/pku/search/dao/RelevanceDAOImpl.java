@@ -63,4 +63,12 @@ public class RelevanceDAOImpl extends HibernateDaoSupport implements
 		return query.list();
 	}
 
+	@Override
+	public List<Relevance> listRelevanceForEmployee(long employeeId) {
+		Query query = this.getSession().createQuery(
+				"from Relevance where employeeId=? order by relevance desc");
+		query.setParameter(0, employeeId);
+		query.setFirstResult(0);
+		return query.list();
+	}
 }

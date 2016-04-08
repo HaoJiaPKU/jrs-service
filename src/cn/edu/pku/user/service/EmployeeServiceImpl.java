@@ -1,8 +1,19 @@
 package cn.edu.pku.user.service;
 
+import static org.quartz.JobBuilder.newJob;
+import static org.quartz.TriggerBuilder.newTrigger;
+
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
+import org.quartz.JobDetail;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
+import org.quartz.Trigger;
+import org.quartz.TriggerKey;
+import org.quartz.impl.StdSchedulerFactory;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -10,6 +21,14 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import cn.edu.pku.quartz.factory.ScheduleFactory;
+import cn.edu.pku.quartz.job.EmployeeSubscription;
+import cn.edu.pku.search.dao.RecruitmentDAO;
+import cn.edu.pku.search.dao.RelevanceDAO;
+import cn.edu.pku.search.domain.Recruitment;
+import cn.edu.pku.search.domain.RecruitmentBBS;
+import cn.edu.pku.search.domain.Relevance;
+import cn.edu.pku.search.service.SearchService;
 import cn.edu.pku.user.dao.EmployeeDAO;
 import cn.edu.pku.user.domain.Employee;
 import cn.edu.pku.util.Config;
@@ -24,6 +43,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 	private JavaMailSenderImpl javaMailSender;
 	private SimpleMailMessage simpleMailMessage;
 	private TaskExecutor taskExecutor;
+	
+	private SearchService searchService;
+	private RecruitmentDAO recruitmentDao;
+	private RelevanceDAO relevanceDao;
 
 	public EmployeeDAO getEmployeeDao() {
 		return employeeDao;
@@ -92,7 +115,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		String content = "激活地址： http://" + Config.domainName
 				+ "employee/verification?id=" + employee.getId() + "&password="
 				+ employee.getPassword();
-		simpleMailMessage.setSubject("jobPKU账号激活");
+		simpleMailMessage.setSubject("jobpopo账号激活");
 		simpleMailMessage.setTo(employee.getEmail());
 		simpleMailMessage.setText(content);
 		taskExecutor.execute(new Runnable() {
@@ -129,6 +152,112 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return employee;
 	}
 	
+	@Transactional
+	@Override
+	public Employee updateSubscription(long id, int subscriptionNum, int recFreq) {
+		Employee employee = employeeDao.load(id);
+		employee.setSubscriptionNum(subscriptionNum);
+		employee.setRecFreq(recFreq);
+		employeeDao.update(employee);
+		
+		updateSubscriptionService(id, employee.getEmail(), subscriptionNum, recFreq);
+		
+		return employee;
+	}
 	
+	@SuppressWarnings("unchecked")
+	public void updateSubscriptionService(long id, String email, int subscriptionNum, int recFreq) {
+		try {
+			Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
+			TriggerKey triggerKey = TriggerKey.triggerKey(
+				     "employee" + String.valueOf(id), "employee");
+			Trigger trigger = scheduler.getTrigger(triggerKey);
+			
+			recFreq = 7 * 24 * 3600 / recFreq;
+			
+			if(trigger == null) {	
+				JobDetail jobDetail = newJob(EmployeeSubscription.class)
+						.withIdentity("employee" + String.valueOf(id), "employee")
+						.usingJobData("email", email)
+						.build();
+				jobDetail.getJobDataMap().put("javaMailSender", javaMailSender);
+				jobDetail.getJobDataMap().put("simpleMailMessage", simpleMailMessage);
+				jobDetail.getJobDataMap().put("taskExecutor", taskExecutor);
+				
+				String content = getSubscriptionContent(id, subscriptionNum);
+				jobDetail.getJobDataMap().put("content", content);
+				
+				trigger = newTrigger()
+						.withIdentity("employee" + String.valueOf(id), "employee")
+						.startNow()
+						.withSchedule(ScheduleFactory.getSimpleSchedule(recFreq))
+						.build();
+				
+				scheduler.scheduleJob(jobDetail, trigger);
+				//scheduler.triggerJob(jobDetail.getKey());
+			}
+			else {
+				trigger = trigger.getTriggerBuilder()
+						.withIdentity(triggerKey)
+						.startNow()
+						.withSchedule(ScheduleFactory.getSimpleSchedule(recFreq))
+						.build();
+				scheduler.rescheduleJob(triggerKey, trigger);
+			}			
+		} catch (SchedulerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public String getSubscriptionContent(long id, int subscriptionNum) {
+		String content = new String();
+		List<Relevance> list = relevanceDao.listRelevanceForEmployee(id);
+		for(int i = 0; i < list.size() && i < subscriptionNum; i ++) {
+			if(list.get(i).getRecruitmentSource() == 1) {
+				Recruitment rec = recruitmentDao.loadRecruitment(list.get(i).getRecruitmentId());
+				rec.setDescription(rec.getDescription().substring(0, 100)+"...");//为了前台只显示两三行内容
+				content += "\n\n"
+						+ rec.getCompany()
+						+ "相关度：" + String.valueOf(list.get(i).getRelevance()) + "\n"
+						+ "链接：" + rec.getModifyIp();
+			} else if(list.get(i).getRecruitmentSource() == 2) {
+				RecruitmentBBS rec = recruitmentDao.loadRecruitmentBbs(list.get(i).getRecruitmentId());
+				rec.setContent(rec.getContent().substring(0, 100)+"...");//为了前台只显示两三行内容
+				content += "\n\n"
+						+ rec.getTitle()
+						+ "相关度：" + String.valueOf(list.get(i).getRelevance()) + "\n"
+						+ "链接：" + rec.getUrl();
+			}
+		}
+		return content;
+	}
+	
+	public SearchService getSearchService() {
+		return searchService;
+	}
+
+	@Resource
+	public void setSearchService(SearchService searchService) {
+		this.searchService = searchService;
+	}
+
+	public RecruitmentDAO getRecruitmentDao() {
+		return recruitmentDao;
+	}
+
+	@Resource
+	public void setRecruitmentDao(RecruitmentDAO recruitmentDao) {
+		this.recruitmentDao = recruitmentDao;
+	}
+
+	public RelevanceDAO getRelevanceDao() {
+		return relevanceDao;
+	}
+
+	@Resource
+	public void setRelevanceDao(RelevanceDAO relevanceDao) {
+		this.relevanceDao = relevanceDao;
+	}
 
 }
