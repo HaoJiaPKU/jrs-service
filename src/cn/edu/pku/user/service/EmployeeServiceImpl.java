@@ -173,6 +173,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 				     "employee" + String.valueOf(id), "employee");
 			Trigger trigger = scheduler.getTrigger(triggerKey);
 			
+			//每周推荐频率
 			recFreq = 7 * 24 * 3600 / recFreq;
 			
 			if(trigger == null) {	
