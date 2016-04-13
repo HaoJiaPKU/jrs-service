@@ -118,9 +118,17 @@ public class EmployeeServiceImpl implements EmployeeService {
 		simpleMailMessage.setSubject("jobpopo账号激活");
 		simpleMailMessage.setTo(employee.getEmail());
 		simpleMailMessage.setText(content);
+		
+		logger.warn("\n\n" + content);
+		
 		taskExecutor.execute(new Runnable() {
 			public void run() {
-				javaMailSender.send(simpleMailMessage);
+				try {
+					javaMailSender.send(simpleMailMessage);
+				}
+				catch (Exception e) {
+					logger.error("\n\n" + e.getMessage());
+				}
 			}
 		});
 	}
@@ -187,6 +195,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 				
 				String content = getSubscriptionContent(id, subscriptionNum);
 				jobDetail.getJobDataMap().put("content", content);
+				
+				logger.warn("\n\n" + content);
 				
 				trigger = newTrigger()
 						.withIdentity("employee" + String.valueOf(id), "employee")

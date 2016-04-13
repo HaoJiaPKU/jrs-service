@@ -116,17 +116,16 @@ public class EmployerServiceImpl implements EmployerService{
 		simpleMailMessage.setTo(employer.getEmail());
 		simpleMailMessage.setText(content);
 		
-		try {
-			javaMailSender.send(simpleMailMessage);
-			logger.warn(content);
-		}
-		catch (Exception e) {
-			logger.error(e.getMessage());
-		}
+		logger.warn("\n\n" + content);
 		
 		taskExecutor.execute(new Runnable() {
 			public void run() {
-				javaMailSender.send(simpleMailMessage);
+				try {
+					javaMailSender.send(simpleMailMessage);
+				}
+				catch (Exception e) {
+					logger.error("\n\n" + e.getMessage());
+				}
 			}
 		});
 	}

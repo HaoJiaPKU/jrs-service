@@ -50,8 +50,30 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							</div>
 							<div class="form-group">
 								<label for="rec-freq" class="col-sm-3 control-label">每周推荐次数</label>
-								<div class="col-sm-6"><input name="recFreq" type="text" id="recFreq" value="${recFreq }"
-											class="form-control" required></div>
+								<div class="col-sm-6">
+								<select name="recFreq" id="recFreq" class="form-control">
+									<option value="${recFreq }">${recFreq }</option>
+									<option value="0">0</option>
+									<option value="1">1</option>
+									<option value="2">2</option>
+									<option value="3">3</option>
+									<option value="4">4</option>
+									<option value="5">5</option>
+									<option value="6">6</option>
+									<option value="7">7</option>
+									<option value="8">8</option>
+									<option value="9">9</option>
+									<option value="10">10</option>
+									<option value="11">11</option>
+									<option value="12">12</option>
+									<option value="13">13</option>
+									<option value="14">14</option>
+								</select>
+								<!--  
+								<input name="recFreq" type="text" id="recFreq" value="${recFreq }"
+											class="form-control" required>
+								-->
+							</div>
 							</div>
 							<div class="form-group">
 								<div class="col-md-2 col-md-offset-3">

@@ -32,14 +32,13 @@ import static org.quartz.SimpleScheduleBuilder.*;
                   .withIdentity("trigger1", "group1")
                   .startNow()
                         .withSchedule(simpleSchedule()
-                          .withIntervalInSeconds(1)
+                          .withIntervalInSeconds(10)
                           .repeatForever())            
                   .build();
 
               // Tell quartz to schedule the job using our trigger
               scheduler.scheduleJob(job, trigger);
               
-              scheduler.triggerJob(job.getKey());
               
               //scheduler.shutdown();
 
