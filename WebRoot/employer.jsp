@@ -30,6 +30,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <nav class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
 			<div class="navbar-header">
+				<a class="navbar-brand" href="index.jsp">Jobpopo</a>
 				<a class="navbar-brand" href="employee.jsp">找工作</a>
 				<a class="navbar-brand" href="javascript:void(0)"><span style="color:orange">找简历</span></a>
 			</div>

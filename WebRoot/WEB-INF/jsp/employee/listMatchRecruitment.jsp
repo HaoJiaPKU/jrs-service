@@ -33,7 +33,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 	<div class="container">
 		<div class="row">
-			<div class="col-md-7">
+			<div class="col-md-8">
 					<%
 					Pager<MatchRecruitment> pager = (Pager<MatchRecruitment>) session
 							.getAttribute("relevancePager");
@@ -77,6 +77,31 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					%>
 					
 			</div>
+			
+			<div class="col-md-4 blog-sidebar">
+				<div class="row sidebar-module">
+					<ul class="col-md-offset-4 col-md-8 list-group">
+						<li class="list-group-item list-group-item-danger">
+						<strong>
+							<span class="glyphicon glyphicon-heart"></span>
+							<span>&nbsp;玩转Jobpopo</span>
+						</strong>
+						</li>
+						<li class="list-group-item">
+							<a style="white-space: normal; width:100%;" class="btn btn-lg btn-primary" href="resume/addResume">创建我的简历</a>
+						</li>
+						<li class="list-group-item">
+							<a style="white-space: normal; width:100%;" class="btn btn-lg btn-primary" href="resume/checkResume?employeeId=${employee.id }">查看我的简历</a>
+						</li>
+						<li class="list-group-item">
+							<a style="white-space: normal; width:100%;" class="btn btn-lg btn-primary" href="search/updateRelevanceForEmployee">更新适合我的职位</a>
+						</li>
+						<li class="list-group-item">
+							<a style="white-space: normal; width:100%;" class="btn btn-lg btn-primary" href="employee/check?employeeId=${employee.id }">订阅职位推送</a>
+						</li>
+					</ul>
+				</div>
+			</div>
 		</div>
 	
 		<!-- 分页 -->
@@ -107,7 +132,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</ul>
 			</div>
 		</div>
-
 
 	</div>
 	<!-- js在最后加载 -->

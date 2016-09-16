@@ -115,7 +115,7 @@ public class SearchController {
 		Employee employee = (Employee) session.getAttribute("employee");
 		long employeeId = employee.getId();
 		new Thread(new updateRelevanceForEmployee(employeeId)).start();
-		return "../employee.jsp";
+		return "../WEB-INF/jsp/employee/listMatchRecruitment.jsp";
 	}
 	
 	/**

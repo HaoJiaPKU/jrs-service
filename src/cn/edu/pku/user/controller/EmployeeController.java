@@ -52,7 +52,7 @@ public class EmployeeController {
 			session.setMaxInactiveInterval(3600*24);
 			if(employee.getLogins() == 1)
 				return "../guideEmployee.jsp";
-			return "../employee.jsp";
+			return "../loginWelcome.jsp";
 		}
 		session.setAttribute("message", "用户名或密码错误");
 		return "../message.jsp";

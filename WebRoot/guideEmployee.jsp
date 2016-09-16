@@ -32,6 +32,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <nav class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
 			<div class="navbar-header">
+				<a class="navbar-brand" href="index.jsp">Jobpopo</a>
 				<a class="navbar-brand" href="employee.jsp"><span style="color:orange">找工作</span></a>
 				<a class="navbar-brand" href="employer.jsp">找简历</a>
 			</div>
@@ -106,7 +107,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</div>
 			</div>
 			<div class="col-md-8 col-md-offset-2">
-				<form action="employee.jsp" method="post" class="form-inline" style="text-align:center;">
+				<form action="search/listMatchRecruitment?offset=0" method="post" class="form-inline" style="text-align:center;">
 					<button style="width:15%" type="submit" class="btn btn-lg btn-primary">跳过教程</button>
 				</form>
 			</div>
