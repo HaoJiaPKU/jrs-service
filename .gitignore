@@ -2,12 +2,17 @@
 *.jar
 *.iml
 
-.classpath
-.project
-.settings/
-.idea/
+/.classpath
+/.project
+/.settings/
+/.idea/
+
+/.myhibernatedata
+/.myumldata
+/.springBeans
+
 
 .DS_Store
 
-target/
-bin/
+/target/
+/bin/
