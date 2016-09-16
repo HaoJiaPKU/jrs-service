@@ -1,3 +1,4 @@
+
 *.class
 *.jar
 *.iml
@@ -9,5 +10,5 @@
 
 .DS_Store
 
-target/
-bin/
+/target/
+/bin/
