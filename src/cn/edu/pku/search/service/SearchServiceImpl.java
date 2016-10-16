@@ -45,6 +45,10 @@ import cn.edu.pku.search.domain.Relevance;
 import cn.edu.pku.search.domain.Resume;
 import cn.edu.pku.search.domain.Resume51Job;
 import cn.edu.pku.search.domain.WorkExperience;
+import cn.edu.pku.user.dao.EmployeeDAO;
+import cn.edu.pku.user.dao.EmployeeTagDao;
+import cn.edu.pku.user.domain.Employee;
+import cn.edu.pku.user.domain.EmployeeTag;
 import cn.edu.pku.util.FilePath;
 import cn.edu.pku.util.SystemContext;
 
@@ -56,7 +60,8 @@ public class SearchServiceImpl implements SearchService {
 	ResumeDAO resumeDao;
 	RecruitmentDAO recruitmentDao;
 	RelevanceDAO relevanceDao;
-
+	EmployeeDAO employeeDAO;
+	EmployeeTagDao employeeTagDAO;
 
 	public ResumeDAO getResumeDao() {
 		return resumeDao;
@@ -83,6 +88,24 @@ public class SearchServiceImpl implements SearchService {
 	@Resource
 	public void setRelevanceDao(RelevanceDAO relevanceDao) {
 		this.relevanceDao = relevanceDao;
+	}
+
+	public EmployeeDAO getEmployeeDAO() {
+		return employeeDAO;
+	}
+
+	@Resource
+	public void setEmployeeDAO(EmployeeDAO employeeDAO) {
+		this.employeeDAO = employeeDAO;
+	}
+
+	public EmployeeTagDao getEmployeeTagDAO() {
+		return employeeTagDAO;
+	}
+
+	@Resource
+	public void setEmployeeTagDAO(EmployeeTagDao employeeTagDAO) {
+		this.employeeTagDAO = employeeTagDAO;
 	}
 
 	public Pager<AbstractRecruitment> searchRecruitment(String field, String queryString,
@@ -200,6 +223,19 @@ public class SearchServiceImpl implements SearchService {
 				logger.info(KnowledgeBase.positionList[i] + "	"
 						+ distribution[i]);
 			}
+			
+			// TODO hasTag is supposed to be boolean
+			Employee employee = employeeDAO.load(employeeId);
+			if (employee.getHasTag() == 0) {
+				for (int i = 0; i < distribution.length; i ++) {
+					EmployeeTag employeeTag = new EmployeeTag(
+							employeeId, KnowledgeBase.positionList[i], distribution[i]);
+					employeeTagDAO.add(employeeTag);
+				}
+				employee.setHasTag(1);
+				employeeDAO.update(employee);
+			}
+			
 			for(int i = 0;;i++) {
 				List<RecruitmentBBS> recruitmentList = recruitmentDao.listRecruitmentBBS(i*100, 100);
 				if(recruitmentList == null || recruitmentList.size() == 0)

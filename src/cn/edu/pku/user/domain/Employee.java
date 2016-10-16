@@ -19,6 +19,7 @@ public class Employee {
 	
 	int subscriptionNum;
 	int recFreq;
+	int hasTag;
 
 	public Employee() {	}
 	
@@ -89,4 +90,15 @@ public class Employee {
 	public void setRecFreq(int recFreq) {
 		this.recFreq = recFreq;
 	}
+
+	@Column(name="has_tag")
+	public int getHasTag() {
+		return hasTag;
+	}
+
+	public void setHasTag(int hasTag) {
+		this.hasTag = hasTag;
+	}
+	
+	
 }
