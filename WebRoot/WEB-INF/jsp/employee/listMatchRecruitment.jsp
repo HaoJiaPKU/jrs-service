@@ -1,6 +1,8 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="cn.edu.pku.search.domain.*"%>
+<%@ page import="cn.edu.pku.user.domain.*"%>
+<%@ page import="java.lang.Math"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -19,6 +21,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
 	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	
+	<link href="bootstrap/rewritecss/radar.css" rel="stylesheet">
 	<style>
 		body {
 			padding-top: 80px;
@@ -82,10 +86,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="row sidebar-module">
 					<ul class="col-md-offset-4 col-md-8 list-group">
 						<li class="list-group-item list-group-item-danger">
-						<strong>
-							<span class="glyphicon glyphicon-heart"></span>
-							<span>&nbsp;玩转Jobpopo</span>
-						</strong>
+							<strong>
+								<span class="glyphicon glyphicon-heart"></span>
+								<span>&nbsp;玩转Jobpopo</span>
+							</strong>
 						</li>
 						<li class="list-group-item">
 							<a style="white-space: normal; width:100%;" class="btn btn-lg btn-primary" href="resume/addResume">创建我的简历</a>
@@ -98,6 +102,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						</li>
 						<li class="list-group-item">
 							<a style="white-space: normal; width:100%;" class="btn btn-lg btn-primary" href="employee/check?employeeId=${employee.id }">订阅职位推送</a>
+						</li>
+						<li class="list-group-item radar-li">
+							<a style="white-space: normal; width:100%;" class="btn btn-lg btn-primary radar-a">这里有一个彩蛋</a>
+							<div id="tag-chart" class="radar"></div>
 						</li>
 					</ul>
 				</div>
@@ -139,4 +147,59 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
 	
   </body>
+
+<script src="bootstrap/js/dist/echarts-all.js"></script>
+<script type="text/javascript">
+var myChart = echarts.init(document.getElementById('tag-chart'));
+var option = {
+	    title : {
+	        text: '职位雷达图'
+	    },
+	    calculable : true,
+	    polar : [
+	        {
+	            indicator : [
+					<%
+						List<EmployeeTag> employeeTag = (List<EmployeeTag>)
+						session.getAttribute("employeeTag");
+						for (int i = 0; i < employeeTag.size(); i ++) {
+					%>
+					{text : '<%= employeeTag.get(i).getTagName() %>', max : 32},
+					<%
+						}
+					%>
+	            ],
+	            radius : 100
+	        }
+	    ],
+	    series : [
+	        {
+	            name: '职位雷达图',
+	            type: 'radar',
+	            itemStyle: {
+	                normal: {
+	                    areaStyle: {
+	                        type: 'default'
+	                    }
+	                }
+	            },
+	            data : [
+	                {
+	                	value : [
+	                	<%
+							for (int i = 0; i < employeeTag.size(); i ++) {
+						%>
+						<%= Math.sqrt(Math.sqrt(employeeTag.get(i).getTagValue()) * 10) * 10 %>
+						,
+						<%
+							}
+	                	%>
+	                    ],
+	                }
+	            ]
+	        }
+	    ]
+	};
+    myChart.setOption(option);
+</script>
 </html>

@@ -1,5 +1,7 @@
 package cn.edu.pku.user.controller;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import cn.edu.pku.user.domain.Employee;
+import cn.edu.pku.user.domain.EmployeeTag;
 import cn.edu.pku.user.service.EmployeeService;
 
 /**
@@ -46,9 +49,11 @@ public class EmployeeController {
 		String username = req.getParameter("username");
 		String password = req.getParameter("password");
 		Employee employee = employeeService.login(username, password);
+		List<EmployeeTag> employeeTag = employeeService.listEmployeeTag(employee.getId());
 		HttpSession session = req.getSession();
 		if(employee != null) {
 			session.setAttribute("employee", employee);
+			session.setAttribute("employeeTag", employeeTag);
 			session.setMaxInactiveInterval(3600*24);
 			if(employee.getLogins() == 1)
 				return "../guideEmployee.jsp";

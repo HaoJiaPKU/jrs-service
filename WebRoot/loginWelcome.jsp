@@ -91,6 +91,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 	</div><!-- /.container -->
 	
+	<!-- \\ TODO 页面响应时间超过三秒 -->
 	<script type="text/javascript"> 
 		var t = 2;//设定跳转的时间 
 		document.getElementById('show').innerHTML="登录成功，3秒后跳转到您的页面";//显示倒计时 

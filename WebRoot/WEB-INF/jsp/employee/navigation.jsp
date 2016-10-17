@@ -27,10 +27,11 @@
 			</c:if>
 			<c:if test="${not empty employee }">
 				<ul class="nav navbar-nav navbar-right">
-					<li class="dropdown"><a href="#" class="dropdown-toggle"
-						data-toggle="dropdown" role="button" aria-haspopup="true"
-						aria-expanded="true"> ${employee.email } <span class="caret"></span>
-					</a>
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle"
+							data-toggle="dropdown" role="button" aria-haspopup="true"
+							aria-expanded="true"> ${employee.email } <span class="caret"></span>
+						</a>
 						<ul class="dropdown-menu" role="menu">
 							<c:if test="${employee.hasResume == 0 }">
 								<li><a href="resume/addResume">添加简历</a></li>
@@ -43,7 +44,8 @@
 							</c:if>
 							<li role="separator" class="divider"></li>
 							<li><a href="employee/logout">退出</a></li>
-						</ul></li>
+						</ul>
+					</li>
 				</ul>
 			</c:if>
 		</div>

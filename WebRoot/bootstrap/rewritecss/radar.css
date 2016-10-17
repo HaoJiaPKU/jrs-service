@@ -1,0 +1,35 @@
+.radar-li {
+	transition:all 3s;
+}
+
+.radar-li .radar-a {
+	display:block;
+	transition:all 3s;
+	opacity:1;
+	visibility:visible;
+}
+
+.radar-li:hover .radar-a {
+	display:none;
+	transition:all 3s;
+	opacity:0;
+	visibility:hidden;
+}
+
+.radar-li .radar {
+	float:right;
+	width:300px;
+	height:300px;
+	
+	display:none;
+	transition:all 3s;
+	opacity:0;
+	visibility:hidden;
+}
+
+.radar-li:hover .radar {
+	display:block;
+	transition:all 3s;
+	opacity:1;
+	visibility:visible;
+}

@@ -30,7 +30,9 @@ import cn.edu.pku.search.domain.RecruitmentBBS;
 import cn.edu.pku.search.domain.Relevance;
 import cn.edu.pku.search.service.SearchService;
 import cn.edu.pku.user.dao.EmployeeDAO;
+import cn.edu.pku.user.dao.EmployeeTagDao;
 import cn.edu.pku.user.domain.Employee;
+import cn.edu.pku.user.domain.EmployeeTag;
 import cn.edu.pku.util.Config;
 import cn.edu.pku.util.Encrypt;
 
@@ -40,13 +42,15 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public static final Logger logger = Logger.getLogger(EmployeeServiceImpl.class);
 	
 	private EmployeeDAO employeeDao;
+	private RecruitmentDAO recruitmentDao;
+	private RelevanceDAO relevanceDao;
+	private EmployeeTagDao employeeTagDao;
+	
 	private JavaMailSenderImpl javaMailSender;
 	private SimpleMailMessage simpleMailMessage;
 	private TaskExecutor taskExecutor;
 	
 	private SearchService searchService;
-	private RecruitmentDAO recruitmentDao;
-	private RelevanceDAO relevanceDao;
 
 	public EmployeeDAO getEmployeeDao() {
 		return employeeDao;
@@ -221,6 +225,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 		}
 	}
 	
+	public List<EmployeeTag> listEmployeeTag(long employeeId) {
+		return employeeTagDao.listEmployeeTag(employeeId);
+	}
+	
 	public String getSubscriptionContent(long id, int subscriptionNum) {
 		String content = new String();
 		List<Relevance> list = relevanceDao.listRelevanceForEmployee(id);
@@ -271,4 +279,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 		this.relevanceDao = relevanceDao;
 	}
 
+	public EmployeeTagDao getEmployeeTagDAO() {
+		return employeeTagDao;
+	}
+
+	@Resource
+	public void setEmployeeTagDAO(EmployeeTagDao employeeTagDao) {
+		this.employeeTagDao = employeeTagDao;
+	}
+	
 }

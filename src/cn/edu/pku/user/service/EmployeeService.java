@@ -1,6 +1,9 @@
 package cn.edu.pku.user.service;
 
+import java.util.List;
+
 import cn.edu.pku.user.domain.Employee;
+import cn.edu.pku.user.domain.EmployeeTag;
 
 public interface EmployeeService {
 
@@ -12,4 +15,5 @@ public interface EmployeeService {
 	public Employee activate(long id, String password);
 	public Employee uploadResume(long id);
 	public Employee updateSubscription(long id, int subscriptionNum, int recFreq);
+	public List<EmployeeTag> listEmployeeTag(long employeeId);
 }
