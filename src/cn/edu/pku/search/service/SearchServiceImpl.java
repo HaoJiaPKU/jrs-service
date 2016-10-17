@@ -186,6 +186,7 @@ public class SearchServiceImpl implements SearchService {
 
 	@Transactional
 	@Override
+	// TODO 简历和职位的处理函数反了，维度不对
 	public void updateRelevanceForEmployee(long employeeId) {
 		Resume resume = resumeDao.getResume(employeeId);
 		List<Education> eduList = resumeDao.listEducation(employeeId);
@@ -225,6 +226,7 @@ public class SearchServiceImpl implements SearchService {
 			}
 			
 			// TODO hasTag is supposed to be boolean
+			// TODO 标签的更新不应该放在这个位置，考虑保存简历时
 			Employee employee = employeeDAO.load(employeeId);
 			if (employee.getHasTag() == 0) {
 				for (int i = 0; i < distribution.length; i ++) {
@@ -309,6 +311,7 @@ public class SearchServiceImpl implements SearchService {
 	
 	@Transactional
 	@Override
+	// TODO 简历和职位的处理函数反了，维度不对
 	public void updateRelevanceForEmployer(long recruitmentId) {
 		Recruitment recruitment = recruitmentDao.loadRecruitment(recruitmentId);
 		
