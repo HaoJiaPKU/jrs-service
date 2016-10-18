@@ -37,7 +37,7 @@
 
 .radar-div {
 	height:20px;
-	transition:all 3s;
+	transition:all 1s;
 }
 
 .radar-div:hover {

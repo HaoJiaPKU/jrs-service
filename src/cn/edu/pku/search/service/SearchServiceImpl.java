@@ -244,7 +244,12 @@ public class SearchServiceImpl implements SearchService {
 				for (int i = 0; i < distribution.length; i ++) {
 					EmployeeTag employeeTag = new EmployeeTag(
 							employeeId, KnowledgeBase.positionList[i], distribution[i]);
-					employeeTagDAO.add(employeeTag);
+					System.out.println(KnowledgeBase.positionList[i] + " " +  distribution[i]);
+					if (employee.getHasTag() == 1) {
+						employeeTagDAO.update(employeeTag);
+					} else {
+						employeeTagDAO.add(employeeTag);
+					}
 				}
 				employee.setHasTag(1);
 				employeeDAO.update(employee);
@@ -278,7 +283,11 @@ public class SearchServiceImpl implements SearchService {
 						for (int j = 0; j < distribution.length; j ++) {
 							RecruitmentTag recruitmentTag = new RecruitmentTag(
 									recruitmentBBS.getId(), KnowledgeBase.positionList[j], distribution[j]);
-							recruitmentTagDAO.add(recruitmentTag);
+							if (recruitmentBBS.getHasTag() == 1) {
+								recruitmentTagDAO.update(recruitmentTag);
+							} else {
+								recruitmentTagDAO.add(recruitmentTag);
+							}
 						}
 						recruitmentBBS.setHasTag(1);
 						recruitmentDAO.updateBBS(recruitmentBBS);
