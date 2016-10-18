@@ -244,7 +244,6 @@ public class SearchServiceImpl implements SearchService {
 				for (int i = 0; i < distribution.length; i ++) {
 					EmployeeTag employeeTag = new EmployeeTag(
 							employeeId, KnowledgeBase.positionList[i], distribution[i]);
-					System.out.println(KnowledgeBase.positionList[i] + " " +  distribution[i]);
 					if (employee.getHasTag() == 1) {
 						employeeTagDAO.update(employeeTag);
 					} else {

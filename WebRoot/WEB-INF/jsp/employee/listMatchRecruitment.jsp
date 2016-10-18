@@ -46,22 +46,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					if (match.getRecruitment() instanceof Recruitment) {
 						Recruitment recruitment = (Recruitment) match.getRecruitment();
 				%>
-				<div>
+				<div class="col-md-12">
 					<h3>
 						<a href="resume/checkRecruitment?recruitId=<%=recruitment.getId()%>" target="_blank"><%=recruitment.getTitle()%></a>
 					</h3>
 				</div>
-				<div>
-					<p>
+				<div class="col-md-12">
+					<div class="col-md-8">
 						<%=recruitment.getUploadTime()%>
 						&nbsp &nbsp &nbsp &nbsp &nbsp
 						<%=recruitment.getCompany()%>
 						&nbsp &nbsp &nbsp &nbsp &nbsp
 						<font color="#11cccc">相关度:<%=(int)(match.getRelevance()*100) %>%</font>
-					</p>
+					</div>
 				</div>
-				<div>
-					<p><%=recruitment.getDescription()%></p>
+				<div class="col-md-12 description">
+					<div class="col-md-12"><%=recruitment.getDescription()%></div>
 				</div>
 				<%
 					} else {
