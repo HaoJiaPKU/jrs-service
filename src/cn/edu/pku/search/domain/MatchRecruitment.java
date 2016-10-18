@@ -1,6 +1,7 @@
 package cn.edu.pku.search.domain;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 匹配的招聘信息
@@ -14,13 +15,15 @@ public class MatchRecruitment implements Serializable{
 	private long employeeId;
 	private double relevance;
 	private AbstractRecruitment recruitment;
+	private List<RecruitmentTag> recruitmentTagList;
 	
 	public MatchRecruitment(long employeeId, double relevance,
-			AbstractRecruitment recruitment) {
+			AbstractRecruitment recruitment, List<RecruitmentTag> recruitmentTagList) {
 		super();
 		this.employeeId = employeeId;
 		this.relevance = relevance;
 		this.recruitment = recruitment;
+		this.recruitmentTagList = recruitmentTagList;
 	}
 	public long getEmployeeId() {
 		return employeeId;
@@ -39,6 +42,12 @@ public class MatchRecruitment implements Serializable{
 	}
 	public void setRecruitment(AbstractRecruitment recruitment) {
 		this.recruitment = recruitment;
+	}
+	public List<RecruitmentTag> getRecruitmentTagList() {
+		return recruitmentTagList;
+	}
+	public void setRecruitmentTagList(List<RecruitmentTag> recruitmentTagList) {
+		this.recruitmentTagList = recruitmentTagList;
 	}
 	
 	

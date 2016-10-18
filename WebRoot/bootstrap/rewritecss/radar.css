@@ -32,4 +32,43 @@
 	transition:all 3s;
 	opacity:1;
 	visibility:visible;
+	top:20px;
+}
+
+.radar-div {
+	height:20px;
+	transition:all 3s;
+}
+
+.radar-div:hover {
+	top:-4px;
+	height:300px;
+}
+
+.radar-div .radar-img {
+	height:20px;
+	transition:all 3s;
+	display:block;
+}
+
+.radar-div:hover .radar-img {
+	transition:all 3s;
+	display:none;
+}
+
+.radar-div .radar {
+	height:300px;
+	width:300px;
+	z-index:10;
+	transition:all 3s;
+	display:none;
+}
+
+.radar-div:hover .radar {
+	transition:all 3s;
+	display:block;
+}
+
+.description {
+	padding-top:8px;
 }

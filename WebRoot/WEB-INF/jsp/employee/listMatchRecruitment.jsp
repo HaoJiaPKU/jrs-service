@@ -23,6 +23,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
 	
 	<link href="bootstrap/rewritecss/radar.css" rel="stylesheet">
+	
 	<style>
 		body {
 			padding-top: 80px;
@@ -38,16 +39,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div class="container">
 		<div class="row">
 			<div class="col-md-8">
-					<%
-					Pager<MatchRecruitment> pager = (Pager<MatchRecruitment>) session
-							.getAttribute("relevancePager");
-					for (MatchRecruitment match : pager.getDatas()) {
-						if (match.getRecruitment() instanceof Recruitment) {
-							Recruitment recruitment = (Recruitment) match.getRecruitment();
-					%>
+				<%
+				Pager<MatchRecruitment> pager = (Pager<MatchRecruitment>) session
+						.getAttribute("relevancePager");
+				for (MatchRecruitment match : pager.getDatas()) {
+					if (match.getRecruitment() instanceof Recruitment) {
+						Recruitment recruitment = (Recruitment) match.getRecruitment();
+				%>
+				<div>
 					<h3>
 						<a href="resume/checkRecruitment?recruitId=<%=recruitment.getId()%>" target="_blank"><%=recruitment.getTitle()%></a>
 					</h3>
+				</div>
+				<div>
 					<p>
 						<%=recruitment.getUploadTime()%>
 						&nbsp &nbsp &nbsp &nbsp &nbsp
@@ -55,30 +59,41 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						&nbsp &nbsp &nbsp &nbsp &nbsp
 						<font color="#11cccc">相关度:<%=(int)(match.getRelevance()*100) %>%</font>
 					</p>
+				</div>
+				<div>
 					<p><%=recruitment.getDescription()%></p>
-					
-					<%
-						} else {
-							RecruitmentBBS recruitment = (RecruitmentBBS) match.getRecruitment();
-					%>
+				</div>
+				<%
+					} else {
+						RecruitmentBBS recruitment = (RecruitmentBBS) match.getRecruitment();
+				%>
+				<div class="col-md-12">
 					<h3>
 						<a href="<%=recruitment.getUrl()%>" target="_blank"><%=recruitment.getTitle()%></a>
 					</h3>
-					<p>
-						<%=recruitment.getTime()%>
-						&nbsp &nbsp &nbsp &nbsp &nbsp
-						<%=recruitment.getSource()%>
-						&nbsp &nbsp &nbsp &nbsp &nbsp 
-						<a href="<%=recruitment.getSnapshotUrl()%>" target="_blank">快照</a>
-						&nbsp &nbsp &nbsp &nbsp &nbsp
-						<font color="#11cccc">相关度:<%=(int)(match.getRelevance()*100) %>%</font>
-					</p>
-					<p><%=recruitment.getContent()%></p>
-		
-					<%
-						}
-						}
-					%>
+				</div>
+				<div class="col-md-12">
+					<div class="col-md-8">
+							<%=recruitment.getTime()%>
+							&nbsp &nbsp &nbsp &nbsp &nbsp
+							<%=recruitment.getSource()%>
+							&nbsp &nbsp &nbsp &nbsp &nbsp 
+							<a href="<%=recruitment.getSnapshotUrl()%>" target="_blank">快照</a>
+							&nbsp &nbsp &nbsp &nbsp &nbsp
+							<font color="#11cccc">相关度:<%=(int)(match.getRelevance()*100) %>%</font>	
+					</div>
+					<div class="col-md-4 radar-div">
+						<div class="radar-img"><img src="bootstrap/img/radar-thumb.jpg" /></div>
+						<div id="recruitment-tag-chart-<%=recruitment.getId()%>" class="radar"></div>
+					</div>
+				</div>
+				<div class="col-md-12 description">
+					<div class="col-md-12"><%=recruitment.getContent()%></div>
+				</div>
+				<%
+					}
+				}
+				%>
 					
 			</div>
 			
@@ -104,8 +119,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<a style="white-space: normal; width:100%;" class="btn btn-lg btn-primary" href="employee/check?employeeId=${employee.id }">订阅职位推送</a>
 						</li>
 						<li class="list-group-item radar-li">
-							<a style="white-space: normal; width:100%;" class="btn btn-lg btn-primary radar-a">这里有一个彩蛋</a>
-							<div id="tag-chart" class="radar"></div>
+							<a style="white-space: normal; width:100%;" class="btn btn-lg btn-primary radar-a">我的职位雷达图</a>
+							<div id="employee-tag-chart" class="radar"></div>
 						</li>
 					</ul>
 				</div>
@@ -150,7 +165,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <script src="bootstrap/js/dist/echarts-all.js"></script>
 <script type="text/javascript">
-var myChart = echarts.init(document.getElementById('tag-chart'));
+var myChart = echarts.init(document.getElementById('employee-tag-chart'));
 var option = {
 	    title : {
 	        text: '职位雷达图'
@@ -160,11 +175,11 @@ var option = {
 	        {
 	            indicator : [
 					<%
-						List<EmployeeTag> employeeTag = (List<EmployeeTag>)
-						session.getAttribute("employeeTag");
-						for (int i = 0; i < employeeTag.size(); i ++) {
+						List<EmployeeTag> employeeTagList = (List<EmployeeTag>)
+						session.getAttribute("employeeTagList");
+						for (int i = 0; i < employeeTagList.size(); i ++) {
 					%>
-					{text : '<%= employeeTag.get(i).getTagName() %>', max : 32},
+					{text : '<%= employeeTagList.get(i).getTagName() %>', max : 32},
 					<%
 						}
 					%>
@@ -187,9 +202,9 @@ var option = {
 	                {
 	                	value : [
 	                	<%
-							for (int i = 0; i < employeeTag.size(); i ++) {
+							for (int i = 0; i < employeeTagList.size(); i ++) {
 						%>
-						<%= Math.sqrt(Math.sqrt(employeeTag.get(i).getTagValue()) * 10) * 10 %>
+						<%= Math.sqrt(Math.sqrt(employeeTagList.get(i).getTagValue()) * 10) * 10 %>
 						,
 						<%
 							}
@@ -201,5 +216,67 @@ var option = {
 	    ]
 	};
 myChart.setOption(option);
+
+<%
+for (MatchRecruitment match : pager.getDatas()) {
+	if (match.getRecruitment() instanceof Recruitment) {
+		Recruitment recruitment = (Recruitment) match.getRecruitment();
+	} else {
+		RecruitmentBBS recruitment = (RecruitmentBBS) match.getRecruitment();
+%>
+myChart = echarts.init(document.getElementById('recruitment-tag-chart-<%=recruitment.getId()%>'));
+option = {
+	    title : {
+	        text: '职位雷达图'
+	    },
+	    calculable : true,
+	    polar : [
+	        {
+	            indicator : [
+					<%
+						List<RecruitmentTag> recruitmentTagList = match.getRecruitmentTagList();
+						for (int i = 0; i < recruitmentTagList.size(); i ++) {
+					%>
+					{text : '<%= recruitmentTagList.get(i).getTagName() %>', max : 32},
+					<%
+						}
+					%>
+	            ],
+	            radius : 100
+	        }
+	    ],
+	    series : [
+	        {
+	            name: '职位雷达图',
+	            type: 'radar',
+	            itemStyle: {
+	                normal: {
+	                    areaStyle: {
+	                        type: 'default'
+	                    }
+	                }
+	            },
+	            data : [
+	                {
+	                	value : [
+	                	<%
+							for (int i = 0; i < recruitmentTagList.size(); i ++) {
+						%>
+						<%= Math.sqrt(Math.sqrt(recruitmentTagList.get(i).getTagValue()) * 10) * 10 %>
+						,
+						<%
+							}
+	                	%>
+	                    ],
+	                }
+	            ]
+	        }
+	    ]
+	};
+myChart.setOption(option);
+<%
+	}
+}
+%>
 </script>
 </html>

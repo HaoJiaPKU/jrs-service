@@ -43,7 +43,6 @@ public class RecuitmentTagDAOImpl extends HibernateDaoSupport implements Recruit
 		Query query = this.getSession().createQuery(
 				"from RecruitmentTag where recruitmentId=? order by tagName desc");
 		query.setParameter(0, recruitmentId);
-		query.setMaxResults(SystemContext.getSize());
 		return query.list();
 	}
 

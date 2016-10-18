@@ -254,8 +254,8 @@ public class SearchServiceImpl implements SearchService {
 				List<RecruitmentBBS> recruitmentList = recruitmentDAO.listRecruitmentBBS(i*100, 100);
 				if(recruitmentList == null || recruitmentList.size() == 0)
 					break;
-				for (RecruitmentBBS recruitment : recruitmentList) {
-					PreProcessor.dealWithString(recruitment.toString(), FilePath.nlpPath+ "tmp/recruitment.txt");
+				for (RecruitmentBBS recruitmentBBS : recruitmentList) {
+					PreProcessor.dealWithString(recruitmentBBS.toString(), FilePath.nlpPath+ "tmp/recruitment.txt");
 	
 					logger.info("简历文件分析中间结果*************************");
 					ResumeInfo resumeInfo = new ResumeInfo();
@@ -274,21 +274,21 @@ public class SearchServiceImpl implements SearchService {
 					
 					// TODO hasTag is supposed to be boolean
 					// TODO 标签的更新不应该放在这个位置，考虑保存招聘信息时
-					if (recruitment.getHasTag() != -1) {
+					if (recruitmentBBS.getHasTag() != -1) {
 						for (int j = 0; j < distribution.length; j ++) {
 							RecruitmentTag recruitmentTag = new RecruitmentTag(
-									recruitment.getId(), KnowledgeBase.positionList[j], distribution[j]);
+									recruitmentBBS.getId(), KnowledgeBase.positionList[j], distribution[j]);
 							recruitmentTagDAO.add(recruitmentTag);
 						}
-						recruitment.setHasTag(1);
-						recruitmentDAO.updateBBS(recruitment);
+						recruitmentBBS.setHasTag(1);
+						recruitmentDAO.updateBBS(recruitmentBBS);
 					}
 	
 					logger.info("职位与简历匹配度计算*************************");
 					Comparer comparer = new Comparer();
 	
 					double rel = comparer.compare(positionInfo, resumeInfo);
-					Relevance relevance = new Relevance(employeeId, 0, 2, recruitment.getId(), rel);
+					Relevance relevance = new Relevance(employeeId, 0, 2, recruitmentBBS.getId(), rel);
 					relevanceDAO.update(relevance);
 					logger.info(rel);
 	
@@ -455,14 +455,16 @@ public class SearchServiceImpl implements SearchService {
 		List<MatchRecruitment> matchList = new ArrayList<>();
 		for(Relevance rel : list) {
 			if(rel.getRecruitmentSource() == 1) {
-				Recruitment rec = recruitmentDAO.loadRecruitment(rel.getRecruitmentId());
-				rec.setDescription(rec.getDescription().substring(0, 100)+"...");//为了前台只显示两三行内容
-				MatchRecruitment match = new MatchRecruitment(employeeId, rel.getRelevance(), rec);
+				Recruitment recruitment = recruitmentDAO.loadRecruitment(rel.getRecruitmentId());
+				List<RecruitmentTag> recruitmentTagList = recruitmentTagDAO.listRecruitmentTag(rel.getRecruitmentId());
+				recruitment.setDescription(recruitment.getDescription().substring(0, 100)+"...");//为了前台只显示两三行内容
+				MatchRecruitment match = new MatchRecruitment(employeeId, rel.getRelevance(), recruitment, recruitmentTagList);
 				matchList.add(match);
 			} else if(rel.getRecruitmentSource() == 2) {
-				RecruitmentBBS rec = recruitmentDAO.loadRecruitmentBbs(rel.getRecruitmentId());
-				rec.setContent(rec.getContent().substring(0, 100)+"...");//为了前台只显示两三行内容
-				MatchRecruitment match = new MatchRecruitment(employeeId, rel.getRelevance(), rec);
+				RecruitmentBBS recruitmentBBS = recruitmentDAO.loadRecruitmentBbs(rel.getRecruitmentId());
+				List<RecruitmentTag> recruitmentTagList = recruitmentTagDAO.listRecruitmentTag(rel.getRecruitmentId());
+				recruitmentBBS.setContent(recruitmentBBS.getContent().substring(0, 100)+"...");//为了前台只显示两三行内容
+				MatchRecruitment match = new MatchRecruitment(employeeId, rel.getRelevance(), recruitmentBBS, recruitmentTagList);
 				matchList.add(match);
 			}
 		}

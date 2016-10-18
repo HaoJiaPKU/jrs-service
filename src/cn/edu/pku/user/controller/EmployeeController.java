@@ -49,11 +49,11 @@ public class EmployeeController {
 		String username = req.getParameter("username");
 		String password = req.getParameter("password");
 		Employee employee = employeeService.login(username, password);
-		List<EmployeeTag> employeeTag = employeeService.listEmployeeTag(employee.getId());
+		List<EmployeeTag> employeeTagList = employeeService.listEmployeeTag(employee.getId());
 		HttpSession session = req.getSession();
 		if(employee != null) {
 			session.setAttribute("employee", employee);
-			session.setAttribute("employeeTag", employeeTag);
+			session.setAttribute("employeeTagList", employeeTagList);
 			session.setMaxInactiveInterval(3600*24);
 			if(employee.getLogins() == 1)
 				return "../guideEmployee.jsp";
