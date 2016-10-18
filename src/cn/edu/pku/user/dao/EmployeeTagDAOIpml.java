@@ -13,7 +13,7 @@ import cn.edu.pku.user.domain.EmployeeTag;
 import cn.edu.pku.util.SystemContext;
 
 @Repository
-public class EmployeeTagDaoImpl extends HibernateDaoSupport implements EmployeeTagDao {
+public class EmployeeTagDAOIpml extends HibernateDaoSupport implements EmployeeTagDAO {
 
 	@Resource
 	public void setSuperSessionFactory(SessionFactory sessionFactory) {
@@ -35,7 +35,6 @@ public class EmployeeTagDaoImpl extends HibernateDaoSupport implements EmployeeT
 		Query query = this.getSession().createQuery(
 				"from EmployeeTag where employeeId=? order by tagName desc");
 		query.setParameter(0, employeeId);
-		query.setMaxResults(SystemContext.getSize());
 		return query.list();
 	}
 

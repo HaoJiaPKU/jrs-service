@@ -27,6 +27,7 @@ public class RecruitmentBBS extends AbstractRecruitment implements Serializable{
 	private String content;
 	private String custom;
 	private String snapshotUrl;
+	private int hasTag;
 	
 	public RecruitmentBBS() {}
 	
@@ -92,11 +93,9 @@ public class RecruitmentBBS extends AbstractRecruitment implements Serializable{
 		this.source = source;
 	}
 	
-
 	public String getCustom() {
 		return custom;
 	}
-
 
 	public void setCustom(String custom) {
 		this.custom = custom;
@@ -107,15 +106,22 @@ public class RecruitmentBBS extends AbstractRecruitment implements Serializable{
 		return snapshotUrl;
 	}
 
-	
 	public void setSnapshotUrl(String snapshotUrl) {
 		this.snapshotUrl = snapshotUrl;
+	}
+	
+	@Column(name = "has_tag")
+	public int getHasTag() {
+		return hasTag;
+	}
+
+	public void setHasTag(int hasTag) {
+		this.hasTag = hasTag;
 	}
 
 	@Override
 	public String toString() {
 		return title + "\n" + content;
 	}
-	
 	
 }

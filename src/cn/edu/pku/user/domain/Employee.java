@@ -10,16 +10,16 @@ import javax.persistence.Table;
 @Entity
 @Table(name="employee")
 public class Employee {
-	long id;
-	String email;
-	String password;
-	int active;
-	int hasResume;
-	int logins;
+	private long id;
+	private String email;
+	private String password;
+	private int active;
+	private int hasResume;
+	private int logins;
 	
-	int subscriptionNum;
-	int recFreq;
-	int hasTag;
+	private int subscriptionNum;
+	private int recFreq;
+	private int hasTag;
 
 	public Employee() {	}
 	

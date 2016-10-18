@@ -30,7 +30,7 @@ import cn.edu.pku.search.domain.RecruitmentBBS;
 import cn.edu.pku.search.domain.Relevance;
 import cn.edu.pku.search.service.SearchService;
 import cn.edu.pku.user.dao.EmployeeDAO;
-import cn.edu.pku.user.dao.EmployeeTagDao;
+import cn.edu.pku.user.dao.EmployeeTagDAO;
 import cn.edu.pku.user.domain.Employee;
 import cn.edu.pku.user.domain.EmployeeTag;
 import cn.edu.pku.util.Config;
@@ -41,10 +41,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	public static final Logger logger = Logger.getLogger(EmployeeServiceImpl.class);
 	
-	private EmployeeDAO employeeDao;
-	private RecruitmentDAO recruitmentDao;
-	private RelevanceDAO relevanceDao;
-	private EmployeeTagDao employeeTagDao;
+	private EmployeeDAO employeeDAO;
+	private RecruitmentDAO recruitmentDAO;
+	private RelevanceDAO relevanceDAO;
+	private EmployeeTagDAO employeeTagDAO;
 	
 	private JavaMailSenderImpl javaMailSender;
 	private SimpleMailMessage simpleMailMessage;
@@ -52,13 +52,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 	
 	private SearchService searchService;
 
-	public EmployeeDAO getEmployeeDao() {
-		return employeeDao;
+	public EmployeeDAO getEmployeeDAO() {
+		return employeeDAO;
 	}
 
 	@Resource
-	public void setEmployeeDao(EmployeeDAO employeeDao) {
-		this.employeeDao = employeeDao;
+	public void setEmployeeDAO(EmployeeDAO employeeDAO) {
+		this.employeeDAO = employeeDAO;
 	}
 	
 	public JavaMailSender getJavaMailSender() {
@@ -92,10 +92,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public Employee login(String email, String password) {
 		password = Encrypt.encrypt(password);
-		Employee employee = employeeDao.load(email);
+		Employee employee = employeeDAO.load(email);
 		if (employee != null && password.equals(employee.getPassword()) && employee.getActive() == 1) {
 			employee.setLogins(employee.getLogins() + 1);
-			employeeDao.update(employee);
+			employeeDAO.update(employee);
 			return employee;
 		}
 		return null;
@@ -105,12 +105,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public Employee regist(String email, String password) {
 		password = Encrypt.encrypt(password);
-		Employee employee = employeeDao.load(email);
+		Employee employee = employeeDAO.load(email);
 		if (employee != null) {
 			return null;
 		}
 		employee = new Employee(email, password, 0, 0);
-		employeeDao.add(employee);
+		employeeDAO.add(employee);
 		return employee;
 	}
 
@@ -139,17 +139,17 @@ public class EmployeeServiceImpl implements EmployeeService {
 	
 	@Override
 	public void sendVerificationAgain(long id) {
-		Employee employee = employeeDao.load(id);
+		Employee employee = employeeDAO.load(id);
 		this.sendVerificationEmail(employee);
 	}
 	
 	@Transactional
 	@Override
 	public Employee activate(long id, String password) {
-		Employee employee = employeeDao.load(id);
+		Employee employee = employeeDAO.load(id);
 		if(employee.getPassword().equals(password)) {
 			employee.setActive(1);
-			employeeDao.update(employee);
+			employeeDAO.update(employee);
 			return employee;
 		}
 		return null;
@@ -158,19 +158,19 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Transactional
 	@Override
 	public Employee uploadResume(long id) {
-		Employee employee = employeeDao.load(id);
+		Employee employee = employeeDAO.load(id);
 		employee.setHasResume(1);
-		employeeDao.update(employee);
+		employeeDAO.update(employee);
 		return employee;
 	}
 	
 	@Transactional
 	@Override
 	public Employee updateSubscription(long id, int subscriptionNum, int recFreq) {
-		Employee employee = employeeDao.load(id);
+		Employee employee = employeeDAO.load(id);
 		employee.setSubscriptionNum(subscriptionNum);
 		employee.setRecFreq(recFreq);
-		employeeDao.update(employee);
+		employeeDAO.update(employee);
 		
 		updateSubscriptionService(id, employee.getEmail(), subscriptionNum, recFreq);
 		
@@ -226,22 +226,22 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 	
 	public List<EmployeeTag> listEmployeeTag(long employeeId) {
-		return employeeTagDao.listEmployeeTag(employeeId);
+		return employeeTagDAO.listEmployeeTag(employeeId);
 	}
 	
 	public String getSubscriptionContent(long id, int subscriptionNum) {
 		String content = new String();
-		List<Relevance> list = relevanceDao.listRelevanceForEmployee(id);
+		List<Relevance> list = relevanceDAO.listRelevanceForEmployee(id);
 		for(int i = 0; i < list.size() && i < subscriptionNum; i ++) {
 			if(list.get(i).getRecruitmentSource() == 1) {
-				Recruitment rec = recruitmentDao.loadRecruitment(list.get(i).getRecruitmentId());
+				Recruitment rec = recruitmentDAO.loadRecruitment(list.get(i).getRecruitmentId());
 				rec.setDescription(rec.getDescription().substring(0, 100)+"...");//为了前台只显示两三行内容
 				content += "\n\n"
 						+ rec.getCompany()
 						+ "相关度：" + String.valueOf(list.get(i).getRelevance()) + "\n"
 						+ "链接：" + rec.getModifyIp();
 			} else if(list.get(i).getRecruitmentSource() == 2) {
-				RecruitmentBBS rec = recruitmentDao.loadRecruitmentBbs(list.get(i).getRecruitmentId());
+				RecruitmentBBS rec = recruitmentDAO.loadRecruitmentBbs(list.get(i).getRecruitmentId());
 				rec.setContent(rec.getContent().substring(0, 100)+"...");//为了前台只显示两三行内容
 				content += "\n\n"
 						+ rec.getTitle()
@@ -261,31 +261,31 @@ public class EmployeeServiceImpl implements EmployeeService {
 		this.searchService = searchService;
 	}
 
-	public RecruitmentDAO getRecruitmentDao() {
-		return recruitmentDao;
+	public RecruitmentDAO getRecruitmentDAO() {
+		return recruitmentDAO;
 	}
 
 	@Resource
-	public void setRecruitmentDao(RecruitmentDAO recruitmentDao) {
-		this.recruitmentDao = recruitmentDao;
+	public void setRecruitmentDAO(RecruitmentDAO recruitmentDAO) {
+		this.recruitmentDAO = recruitmentDAO;
 	}
 
-	public RelevanceDAO getRelevanceDao() {
-		return relevanceDao;
-	}
-
-	@Resource
-	public void setRelevanceDao(RelevanceDAO relevanceDao) {
-		this.relevanceDao = relevanceDao;
-	}
-
-	public EmployeeTagDao getEmployeeTagDAO() {
-		return employeeTagDao;
+	public RelevanceDAO getRelevanceDAO() {
+		return relevanceDAO;
 	}
 
 	@Resource
-	public void setEmployeeTagDAO(EmployeeTagDao employeeTagDao) {
-		this.employeeTagDao = employeeTagDao;
+	public void setRelevanceDAO(RelevanceDAO relevanceDAO) {
+		this.relevanceDAO = relevanceDAO;
+	}
+
+	public EmployeeTagDAO getEmployeeTagDAO() {
+		return employeeTagDAO;
+	}
+
+	@Resource
+	public void setEmployeeTagDAO(EmployeeTagDAO employeeTagDAO) {
+		this.employeeTagDAO = employeeTagDAO;
 	}
 	
 }

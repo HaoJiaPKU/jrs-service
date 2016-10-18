@@ -82,4 +82,17 @@ public interface RecruitmentDAO {
 	 */
 	public List<Recruitment> listRecruitment(int offset, int size);
 	
+	/**
+	 * 更新BBS招聘信息
+	 * @param recruitment 招聘信息
+	 * @return
+	 */
+	public void updateBBS(RecruitmentBBS recruitmentBBS);
+	
+	/**
+	 * 更新招聘信息
+	 * @param recruitment 招聘信息
+	 * @return
+	 */
+	public void update(Recruitment recruitment);
 }

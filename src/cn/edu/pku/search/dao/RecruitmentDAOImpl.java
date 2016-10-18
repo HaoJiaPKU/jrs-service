@@ -95,4 +95,16 @@ public class RecruitmentDAOImpl extends HibernateDaoSupport implements
 		return query.list();
 	}
 
+	
+	@Override
+	public void update(Recruitment recruitment) {
+		this.getHibernateTemplate().update(recruitment);
+	}
+	
+
+	@Override
+	public void updateBBS(RecruitmentBBS recruitmentBBS) {
+		this.getHibernateTemplate().update(recruitmentBBS);
+	}
+
 }

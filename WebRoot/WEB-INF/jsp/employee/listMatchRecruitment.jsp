@@ -200,6 +200,6 @@ var option = {
 	        }
 	    ]
 	};
-    myChart.setOption(option);
+myChart.setOption(option);
 </script>
 </html>

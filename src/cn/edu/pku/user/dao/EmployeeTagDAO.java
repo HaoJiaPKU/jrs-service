@@ -4,7 +4,7 @@ import java.util.List;
 
 import cn.edu.pku.user.domain.EmployeeTag;
 
-public interface EmployeeTagDao {
+public interface EmployeeTagDAO {
 
 	/**
 	 * 添加标签
