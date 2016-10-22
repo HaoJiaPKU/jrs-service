@@ -198,7 +198,7 @@ public class SearchServiceImpl implements SearchService {
 
 	@Transactional
 	@Override
-	// TODO 简历和职位的处理函数反了，维度不对
+	// TODO 简历和职位的处理函数反了，维度不对，检查一下这里是否影响整体的算法
 	public void updateRelevanceForEmployee(long employeeId) {
 		Resume resume = resumeDAO.getResume(employeeId);
 		List<Education> eduList = resumeDAO.listEducation(employeeId);
