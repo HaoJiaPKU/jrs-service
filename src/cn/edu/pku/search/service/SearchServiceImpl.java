@@ -198,7 +198,6 @@ public class SearchServiceImpl implements SearchService {
 
 	@Transactional
 	@Override
-	// TODO 简历和职位的处理函数反了，维度不对，检查一下这里是否影响整体的算法
 	public void updateRelevanceForEmployee(long employeeId) {
 		Resume resume = resumeDAO.getResume(employeeId);
 		List<Education> eduList = resumeDAO.listEducation(employeeId);
@@ -222,7 +221,7 @@ public class SearchServiceImpl implements SearchService {
 
 			double[] distribution;
 
-			logger.info("职位文件分析中间结果*************************");
+			logger.info("简历文件分析中间结果*************************");
 			ResumeInfo resumeInfo = new ResumeInfo();
 			resumeInfo.process(FilePath.nlpPath + "tmp/resume.txt");
 			for (int i = 0; i < resumeInfo.skillVector.length; i++) {
@@ -261,7 +260,7 @@ public class SearchServiceImpl implements SearchService {
 				for (RecruitmentBBS recruitmentBBS : recruitmentList) {
 					PreProcessor.dealWithString(recruitmentBBS.toString(), FilePath.nlpPath+ "tmp/recruitment.txt");
 	
-					logger.info("简历文件分析中间结果*************************");
+					logger.info("职位文件分析中间结果*************************");
 					PositionInfo positionInfo = new PositionInfo();
 					positionInfo.process(FilePath.nlpPath + "tmp/recruitment.txt");
 					for (int j = 0; j < positionInfo.skillVector.length; j++) {
@@ -310,7 +309,7 @@ public class SearchServiceImpl implements SearchService {
 				for (Recruitment recruitment : recruitmentList) {
 					PreProcessor.dealWithString(recruitment.toString(), FilePath.nlpPath+ "tmp/recruitment.txt");
 	
-					logger.info("简历文件分析中间结果*************************");
+					logger.info("职位文件分析中间结果*************************");
 					PositionInfo positionInfo = new PositionInfo();
 					positionInfo.process(FilePath.nlpPath + "tmp/recruitment.txt");
 					for (int j = 0; j < positionInfo.skillVector.length; j++) {
@@ -343,7 +342,6 @@ public class SearchServiceImpl implements SearchService {
 	
 	@Transactional
 	@Override
-	// TODO 简历和职位的处理函数反了，维度不对
 	public void updateRelevanceForEmployer(long recruitmentId) {
 		Recruitment recruitment = recruitmentDAO.loadRecruitment(recruitmentId);
 		
@@ -365,16 +363,16 @@ public class SearchServiceImpl implements SearchService {
 
 			double[] distribution;
 
-			logger.info("简历文件分析中间结果*************************");
-			ResumeInfo resumeInfo = new ResumeInfo();
-			resumeInfo.process(FilePath.nlpPath + "tmp/recruitment.txt");
-			for (int i = 0; i < resumeInfo.skillVector.length; i++) {
-				if (resumeInfo.skillVector[i] > 0) {		
+			logger.info("职位文件分析中间结果*************************");
+			PositionInfo positionInfo = new PositionInfo();
+			positionInfo.process(FilePath.nlpPath + "tmp/recruitment.txt");
+			for (int i = 0; i < positionInfo.skillVector.length; i++) {
+				if (positionInfo.skillVector[i] > 0) {		
 					logger.info(KnowledgeBase.skillList[i] + " "
-							+ resumeInfo.skillVector[i] + "\n");
+							+ positionInfo.skillVector[i] + "\n");
 				}
 			}
-			distribution = classifier.getDistri(resumeInfo.skillVector);
+			distribution = classifier.getDistri(positionInfo.skillVector);
 			for (int i = 0; i < distribution.length; i++) {
 				logger.info(KnowledgeBase.positionList[i] + "	"
 						+ distribution[i]);
@@ -390,16 +388,16 @@ public class SearchServiceImpl implements SearchService {
 					List<WorkExperience> workList = resumeDAO.listWorkExperience(resume.getEmployeeId());
 					PreProcessor.dealWithResume(resume, eduList, workList,FilePath.nlpPath + "tmp/resume.txt");
 
-					logger.info("职位文件分析中间结果*************************");
-					PositionInfo positionInfo = new PositionInfo();
-					positionInfo.process(FilePath.nlpPath + "tmp/resume.txt");
-					for (int j = 0; j < positionInfo.skillVector.length - 1; j++) {
-						if (positionInfo.skillVector[j] > 0) {
+					logger.info("简历文件分析中间结果*************************");
+					ResumeInfo resumeInfo = new ResumeInfo();
+					resumeInfo.process(FilePath.nlpPath + "tmp/resume.txt");
+					for (int j = 0; j < resumeInfo.skillVector.length; j++) {
+						if (resumeInfo.skillVector[j] > 0) {
 							logger.info(KnowledgeBase.skillList[j] + " "
-									+ positionInfo.skillVector[j] + "\n");
+									+ resumeInfo.skillVector[j] + "\n");
 						}
 					}
-					distribution = classifier.getDistri(positionInfo.skillVector);
+					distribution = classifier.getDistri(resumeInfo.skillVector);
 					for (int j = 0; j < distribution.length; j++) {
 						logger.info(KnowledgeBase.positionList[j] + "	"
 								+ distribution[j]);
@@ -423,16 +421,16 @@ public class SearchServiceImpl implements SearchService {
 				for (Resume51Job resume : resumeList) {
 					PreProcessor.dealWithText("../webapps/"+resume.getPath(),FilePath.nlpPath + "tmp/resume.txt");
 
-					logger.info("职位文件分析中间结果*************************");
-					PositionInfo positionInfo = new PositionInfo();
-					positionInfo.process(FilePath.nlpPath + "tmp/resume.txt");
-					for (int j = 0; j < positionInfo.skillVector.length - 1; j++) {
-						if (positionInfo.skillVector[j] > 0) {
+					logger.info("简历文件分析中间结果*************************");
+					ResumeInfo resumeInfo = new ResumeInfo();
+					resumeInfo.process(FilePath.nlpPath + "tmp/resume.txt");
+					for (int j = 0; j < resumeInfo.skillVector.length; j++) {
+						if (resumeInfo.skillVector[j] > 0) {
 							logger.info(KnowledgeBase.skillList[j] + " "
-									+ positionInfo.skillVector[j] + "\n");
+									+ resumeInfo.skillVector[j] + "\n");
 						}
 					}
-					distribution = classifier.getDistri(positionInfo.skillVector);
+					distribution = classifier.getDistri(resumeInfo.skillVector);
 					for (int j = 0; j < distribution.length; j++) {
 						logger.info(KnowledgeBase.positionList[j] + "	"
 								+ distribution[j]);
