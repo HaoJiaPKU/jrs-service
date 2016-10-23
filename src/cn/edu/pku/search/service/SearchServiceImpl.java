@@ -208,30 +208,30 @@ public class SearchServiceImpl implements SearchService {
 
 			PreProcessor.loadSegmenter();
 			PreProcessor.loadStopWords(null);
-			PreProcessor.dealWithResume(resume, eduList, workList,FilePath.nlpPath + "tmp/resume.txt");
+			PreProcessor.dealWithResume(resume, eduList, workList, FilePath.nlpPath + "tmp/resume.txt");
 			
-			KnowledgeBase.setPositionFile(100, FilePath.nlpPath+ "positionList top100.txt");
-			KnowledgeBase.setSkillFile(100, FilePath.nlpPath+ "skillList top100.txt");
-			KnowledgeBase.setProbFile(FilePath.nlpPath+ "contribution matrix.txt");
-			KnowledgeBase.setSimilFile(FilePath.nlpPath+ "similarity matrix.txt");
+			KnowledgeBase.setPositionFile(100, FilePath.nlpPath + "positionList top100.txt");
+			KnowledgeBase.setSkillFile(100, FilePath.nlpPath + "skillList top100.txt");
+			KnowledgeBase.setProbFile(FilePath.nlpPath + "contribution matrix.txt");
+			KnowledgeBase.setSimilFile(FilePath.nlpPath + "similarity matrix.txt");
 			KnowledgeBase.loadKnowledgeBase();
 
-			Classifier.setProbFile(15, 40, FilePath.nlpPath+ "classifier param.txt");
+			Classifier.setProbFile(15, 40, FilePath.nlpPath + "classifier param.txt");
 			Classifier.loadModel();
 			Classifier classifier = new Classifier();
 
 			double[] distribution;
 
 			logger.info("职位文件分析中间结果*************************");
-			PositionInfo positionInfo = new PositionInfo();
-			positionInfo.process(FilePath.nlpPath + "tmp/resume.txt");
-			for (int i = 0; i < positionInfo.skillVector.length - 1; i++) {
-				if (positionInfo.skillVector[i] > 0) {
+			ResumeInfo resumeInfo = new ResumeInfo();
+			resumeInfo.process(FilePath.nlpPath + "tmp/resume.txt");
+			for (int i = 0; i < resumeInfo.skillVector.length; i++) {
+				if (resumeInfo.skillVector[i] > 0) {
 					logger.info(KnowledgeBase.skillList[i] + " "
-							+ positionInfo.skillVector[i] + "\n");
+							+ resumeInfo.skillVector[i] + "\n");
 				}
 			}
-			distribution = classifier.getDistri(positionInfo.skillVector);
+			distribution = classifier.getDistri(resumeInfo.skillVector);
 			for (int i = 0; i < distribution.length; i++) {
 				logger.info(KnowledgeBase.positionList[i] + "	"
 						+ distribution[i]);
@@ -262,15 +262,15 @@ public class SearchServiceImpl implements SearchService {
 					PreProcessor.dealWithString(recruitmentBBS.toString(), FilePath.nlpPath+ "tmp/recruitment.txt");
 	
 					logger.info("简历文件分析中间结果*************************");
-					ResumeInfo resumeInfo = new ResumeInfo();
-					resumeInfo.process(FilePath.nlpPath + "tmp/recruitment.txt");
-					for (int j = 0; j < resumeInfo.skillVector.length; j++) {
-						if (resumeInfo.skillVector[j] > 0) {		
+					PositionInfo positionInfo = new PositionInfo();
+					positionInfo.process(FilePath.nlpPath + "tmp/recruitment.txt");
+					for (int j = 0; j < positionInfo.skillVector.length; j++) {
+						if (positionInfo.skillVector[j] > 0) {		
 							logger.info(KnowledgeBase.skillList[j] + " "
-									+ resumeInfo.skillVector[j] + "\n");
+									+ positionInfo.skillVector[j] + "\n");
 						}
 					}
-					distribution = classifier.getDistri(resumeInfo.skillVector);
+					distribution = classifier.getDistri(positionInfo.skillVector);
 					for (int j = 0; j < distribution.length; j++) {
 						logger.info(KnowledgeBase.positionList[j] + "	"
 								+ distribution[j]);
@@ -311,15 +311,15 @@ public class SearchServiceImpl implements SearchService {
 					PreProcessor.dealWithString(recruitment.toString(), FilePath.nlpPath+ "tmp/recruitment.txt");
 	
 					logger.info("简历文件分析中间结果*************************");
-					ResumeInfo resumeInfo = new ResumeInfo();
-					resumeInfo.process(FilePath.nlpPath + "tmp/recruitment.txt");
-					for (int j = 0; j < resumeInfo.skillVector.length; j++) {
-						if (resumeInfo.skillVector[j] > 0) {		
+					PositionInfo positionInfo = new PositionInfo();
+					positionInfo.process(FilePath.nlpPath + "tmp/recruitment.txt");
+					for (int j = 0; j < positionInfo.skillVector.length; j++) {
+						if (positionInfo.skillVector[j] > 0) {		
 							logger.info(KnowledgeBase.skillList[j] + " "
-									+ resumeInfo.skillVector[j] + "\n");
+									+ positionInfo.skillVector[j] + "\n");
 						}
 					}
-					distribution = classifier.getDistri(resumeInfo.skillVector);
+					distribution = classifier.getDistri(positionInfo.skillVector);
 					for (int j = 0; j < distribution.length; j++) {
 						logger.info(KnowledgeBase.positionList[j] + "	"
 								+ distribution[j]);
@@ -351,15 +351,15 @@ public class SearchServiceImpl implements SearchService {
 
 			PreProcessor.loadSegmenter();
 			PreProcessor.loadStopWords(null);
-			PreProcessor.dealWithString(recruitment.toString(), FilePath.nlpPath+ "tmp/recruitment.txt");
+			PreProcessor.dealWithString(recruitment.toString(), FilePath.nlpPath + "tmp/recruitment.txt");
 			
-			KnowledgeBase.setPositionFile(100, FilePath.nlpPath+ "positionList top100.txt");
-			KnowledgeBase.setSkillFile(100, FilePath.nlpPath+ "skillList top100.txt");
-			KnowledgeBase.setProbFile(FilePath.nlpPath+ "contribution matrix.txt");
-			KnowledgeBase.setSimilFile(FilePath.nlpPath+ "similarity matrix.txt");
+			KnowledgeBase.setPositionFile(100, FilePath.nlpPath + "positionList top100.txt");
+			KnowledgeBase.setSkillFile(100, FilePath.nlpPath + "skillList top100.txt");
+			KnowledgeBase.setProbFile(FilePath.nlpPath + "contribution matrix.txt");
+			KnowledgeBase.setSimilFile(FilePath.nlpPath + "similarity matrix.txt");
 			KnowledgeBase.loadKnowledgeBase();
 
-			Classifier.setProbFile(15, 40, FilePath.nlpPath+ "classifier param.txt");
+			Classifier.setProbFile(15, 40, FilePath.nlpPath + "classifier param.txt");
 			Classifier.loadModel();
 			Classifier classifier = new Classifier();
 

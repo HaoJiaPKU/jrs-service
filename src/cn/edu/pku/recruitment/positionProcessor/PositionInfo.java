@@ -82,12 +82,14 @@ public class PositionInfo {
 			}
 		}
 		int positionIndex = -1;
-		for(int i = 0; i < KnowledgeBase.positionNumberM; i ++)
-		{
-			if(KnowledgeBase.positionList[i].equals(KnowledgeBase.skillList[maxSkillNumberIndex]))
+		if(maxSkillNumberIndex != -1) {
+			for(int i = 0; i < KnowledgeBase.positionNumberM; i ++)
 			{
-				positionIndex = i;
-				break;
+				if(KnowledgeBase.positionList[i].equals(KnowledgeBase.skillList[maxSkillNumberIndex]))
+				{
+					positionIndex = i;
+					break;
+				}
 			}
 		}
 //		skillVector[skillVector.length - 1] = positionIndex;
