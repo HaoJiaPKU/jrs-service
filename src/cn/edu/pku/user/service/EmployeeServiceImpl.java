@@ -220,7 +220,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 				scheduler.rescheduleJob(triggerKey, trigger);
 			}			
 		} catch (SchedulerException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

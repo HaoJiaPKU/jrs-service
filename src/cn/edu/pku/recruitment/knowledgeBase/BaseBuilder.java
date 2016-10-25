@@ -157,7 +157,6 @@ public class BaseBuilder {
 				}
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		if(counter > counterMax)
@@ -188,7 +187,6 @@ public class BaseBuilder {
 					skillExtraction(files[i].getAbsolutePath());
 					System.out.println(files[i].getAbsolutePath() + " finished");
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -323,7 +321,6 @@ public class BaseBuilder {
 					vectorExtraction(files[i].getAbsolutePath());
 					System.out.println(files[i].getAbsolutePath() + " finished");
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}

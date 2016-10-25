@@ -70,7 +70,6 @@ public class Logistic {
 		return average;
 	}
 	private double classify(int[] x, int label) {
-		// TODO Auto-generated method stub
 		double logit = weights[label][0];
 		for (int i=1; i<weights[label].length; i++) {
 			logit += weights[label][i] * x[i-1];
