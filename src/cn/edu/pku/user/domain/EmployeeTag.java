@@ -60,11 +60,19 @@ public class EmployeeTag implements Serializable{
 		this.tagValue = tagValue;
 	}
 
+	
 	@Override
-	// TODO
 	public int hashCode() {
-		return 0;
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (int) (employeeId ^ (employeeId >>> 32));
+		result = prime * result + ((tagName == null) ? 0 : tagName.hashCode());
+		long temp;
+		temp = Double.doubleToLongBits(tagValue);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		return result;
 	}
+
 	
 	@Override
 	public boolean equals(Object obj) {
@@ -77,10 +85,15 @@ public class EmployeeTag implements Serializable{
 		EmployeeTag other = (EmployeeTag) obj;
 		if (employeeId != other.employeeId)
 			return false;
-		if (tagName != other.tagName)
+		if (tagName == null) {
+			if (other.tagName != null)
+				return false;
+		} else if (!tagName.equals(other.tagName))
 			return false;
-		if (tagValue != other.tagValue)
+		if (Double.doubleToLongBits(tagValue) != Double.doubleToLongBits(other.tagValue))
 			return false;
 		return true;
 	}
+
+	
 }
