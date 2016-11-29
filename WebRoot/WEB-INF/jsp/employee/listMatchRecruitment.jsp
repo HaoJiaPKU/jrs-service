@@ -99,6 +99,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			
 			<div class="col-md-4 blog-sidebar">
 				<div class="row sidebar-module">
+					<div>
+						<div id="employee-tag-chart" style="height:300px; width:300px; float:right;"></div>
+					</div>
 					<ul class="col-md-offset-4 col-md-8 list-group">
 						<li class="list-group-item list-group-item-danger">
 							<strong>
@@ -117,10 +120,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						</li>
 						<li class="list-group-item">
 							<a style="white-space: normal; width:100%;" class="btn btn-lg btn-primary" href="employee/check?employeeId=${employee.id }">订阅职位推送</a>
-						</li>
-						<li class="list-group-item radar-li">
-							<a style="white-space: normal; width:100%;" class="btn btn-lg btn-primary radar-a">我的职位雷达图</a>
-							<div id="employee-tag-chart" class="radar"></div>
 						</li>
 					</ul>
 				</div>
@@ -168,7 +167,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 var myChart = echarts.init(document.getElementById('employee-tag-chart'));
 var option = {
 	    title : {
-	        text: '职位雷达图'
+	        text: '我的职位雷达图'
 	    },
 	    calculable : true,
 	    polar : [
