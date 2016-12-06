@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import cn.edu.pku.search.domain.Attachment;
 import cn.edu.pku.search.domain.Recruitment;
-import cn.edu.pku.search.domain.RecruitmentBBS;
+import cn.edu.pku.search.domain.RecruitmentV1;
 
 @Repository
 public class RecruitmentDAOImpl extends HibernateDaoSupport implements
@@ -46,8 +46,8 @@ public class RecruitmentDAOImpl extends HibernateDaoSupport implements
 	}
 	
 	@Override
-	public RecruitmentBBS loadRecruitmentBbs(long id) {
-		return this.getHibernateTemplate().load(RecruitmentBBS.class, id);
+	public RecruitmentV1 loadRecruitmentBbs(long id) {
+		return this.getHibernateTemplate().load(RecruitmentV1.class, id);
 	}
 
 	@Override
@@ -80,8 +80,8 @@ public class RecruitmentDAOImpl extends HibernateDaoSupport implements
 	}
 
 	@Override
-	public List<RecruitmentBBS> listRecruitmentBBS(int offset, int size) {
-		Query query = this.getSession().createQuery("from RecruitmentBBS");
+	public List<RecruitmentV1> listRecruitmentBBS(int offset, int size) {
+		Query query = this.getSession().createQuery("from RecruitmentV1");
 		query.setFirstResult(offset);
 		query.setMaxResults(size);
 		return query.list();
@@ -103,7 +103,7 @@ public class RecruitmentDAOImpl extends HibernateDaoSupport implements
 	
 
 	@Override
-	public void updateBBS(RecruitmentBBS recruitmentBBS) {
+	public void updateBBS(RecruitmentV1 recruitmentBBS) {
 		this.getHibernateTemplate().update(recruitmentBBS);
 	}
 

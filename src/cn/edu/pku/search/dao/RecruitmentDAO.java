@@ -4,7 +4,7 @@ import java.util.List;
 
 import cn.edu.pku.search.domain.Attachment;
 import cn.edu.pku.search.domain.Recruitment;
-import cn.edu.pku.search.domain.RecruitmentBBS;
+import cn.edu.pku.search.domain.RecruitmentV1;
 
 public interface RecruitmentDAO {
 
@@ -39,7 +39,7 @@ public interface RecruitmentDAO {
 	 * @param id
 	 * @return
 	 */
-	public RecruitmentBBS loadRecruitmentBbs(long id);
+	public RecruitmentV1 loadRecruitmentBbs(long id);
 	
 	/**
 	 * 删除招聘信息
@@ -72,7 +72,7 @@ public interface RecruitmentDAO {
 	 * @param size 返回的结果条数
 	 * @return
 	 */
-	public List<RecruitmentBBS> listRecruitmentBBS(int offset,int size);
+	public List<RecruitmentV1> listRecruitmentBBS(int offset,int size);
 	
 	/**
 	 * 列出某一部分招聘信息
@@ -87,7 +87,7 @@ public interface RecruitmentDAO {
 	 * @param recruitment 招聘信息
 	 * @return
 	 */
-	public void updateBBS(RecruitmentBBS recruitmentBBS);
+	public void updateBBS(RecruitmentV1 recruitmentBBS);
 	
 	/**
 	 * 更新招聘信息

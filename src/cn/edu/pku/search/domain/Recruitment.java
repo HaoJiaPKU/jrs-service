@@ -39,6 +39,11 @@ public class Recruitment extends AbstractRecruitment implements Serializable {
 
 	public Recruitment() {
 	}
+	
+	public String textField() {
+		return this.title
+			+ " " + this.description;
+	}
 
 	public Recruitment(long employerId, String uploadTime, String modifyTime,
 			String uploadIp, String modifyIp, String title, String degree, String city,
@@ -205,11 +210,4 @@ public class Recruitment extends AbstractRecruitment implements Serializable {
 		this.description = description;
 	}
 
-	@Override
-	public String toString() {
-		return degree + "\n" + city + "\n" + company + "\n" + position + "\n"
-				+ business + "\n" + type + "\n" + description;
-	}
-	
-	
 }

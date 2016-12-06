@@ -26,7 +26,7 @@ import cn.edu.pku.quartz.job.EmployeeSubscription;
 import cn.edu.pku.search.dao.RecruitmentDAO;
 import cn.edu.pku.search.dao.RelevanceDAO;
 import cn.edu.pku.search.domain.Recruitment;
-import cn.edu.pku.search.domain.RecruitmentBBS;
+import cn.edu.pku.search.domain.RecruitmentV1;
 import cn.edu.pku.search.domain.Relevance;
 import cn.edu.pku.search.service.SearchService;
 import cn.edu.pku.user.dao.EmployeeDAO;
@@ -240,12 +240,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 						+ "相关度：" + String.valueOf(list.get(i).getRelevance()) + "\n"
 						+ "链接：" + rec.getModifyIp();
 			} else if(list.get(i).getRecruitmentSource() == 2) {
-				RecruitmentBBS rec = recruitmentDAO.loadRecruitmentBbs(list.get(i).getRecruitmentId());
-				rec.setContent(rec.getContent().substring(0, 100)+"...");//为了前台只显示两三行内容
+				RecruitmentV1 rec = recruitmentDAO.loadRecruitmentBbs(list.get(i).getRecruitmentId());
 				content += "\n\n"
-						+ rec.getTitle()
+						+ rec.getPosTitle()
 						+ "相关度：" + String.valueOf(list.get(i).getRelevance()) + "\n"
-						+ "链接：" + rec.getUrl();
+						+ "链接：" + rec.getPosUrl();
 			}
 		}
 		return content;

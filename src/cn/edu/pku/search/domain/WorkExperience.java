@@ -31,6 +31,13 @@ public class WorkExperience implements Serializable{
 	
 	public WorkExperience() {}
 	
+	public String textField() {
+		return jobTitle
+			+ " " + company
+			+ " " + city
+			+ " " + description;		
+	}
+	
 	public WorkExperience(long employeeId, String jobTitle, String company,
 			String city, int salary, String dateBegin, String dateEnd,
 			String description) {
@@ -120,12 +127,4 @@ public class WorkExperience implements Serializable{
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
-	@Override
-	public String toString() {
-		return jobTitle + " " + company + " " + city + " " + description;
-	}
-	
-	
-	
 }

@@ -65,16 +65,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</div>
 				<%
 					} else {
-						RecruitmentBBS recruitment = (RecruitmentBBS) match.getRecruitment();
+						RecruitmentV1 recruitment = (RecruitmentV1) match.getRecruitment();
 				%>
 				<div class="col-md-12">
 					<h3>
-						<a href="<%=recruitment.getUrl()%>" target="_blank"><%=recruitment.getTitle()%></a>
+						<a href="<%=recruitment.getPosUrl()%>" target="_blank"><%=recruitment.getPosTitle()%></a>
 					</h3>
 				</div>
 				<div class="col-md-12">
 					<div class="col-md-8">
-							<%=recruitment.getTime()%>
+							<%=recruitment.getPosPublishDate()%>
 							&nbsp &nbsp &nbsp &nbsp &nbsp
 							<%=recruitment.getSource()%>
 							&nbsp &nbsp &nbsp &nbsp &nbsp 
@@ -88,7 +88,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</div>
 				</div>
 				<div class="col-md-12 description">
-					<div class="col-md-12"><%=recruitment.getContent()%></div>
+					<div class="col-md-12"><%=recruitment.getDisplayContent()%></div>
 				</div>
 				<%
 					}
@@ -221,7 +221,7 @@ for (MatchRecruitment match : pager.getDatas()) {
 	if (match.getRecruitment() instanceof Recruitment) {
 		Recruitment recruitment = (Recruitment) match.getRecruitment();
 	} else {
-		RecruitmentBBS recruitment = (RecruitmentBBS) match.getRecruitment();
+		RecruitmentV1 recruitment = (RecruitmentV1) match.getRecruitment();
 %>
 myChart = echarts.init(document.getElementById('recruitment-tag-chart-<%=recruitment.getId()%>'));
 option = {

@@ -45,6 +45,13 @@ public class Resume extends AbstractResume implements Serializable {
 		
 	}
 	
+	public String textField() {
+		return jobIntension
+			+ " " + speciality
+			+ " " + rewardAndPunishment
+			+ " " + otherInfo;
+	}
+	
 	public Resume(long employeeId, String name, String gender, String politics,
 			String nativePlace, String birthday, int age, String email,
 			String phone, String educationBackground, String workingYears,
@@ -221,13 +228,5 @@ public class Resume extends AbstractResume implements Serializable {
 	public void setModifyIp(String modifyIp) {
 		this.modifyIp = modifyIp;
 	}
-
-	@Override
-	public String toString() {
-		return jobIntension + " " + speciality + " " + rewardAndPunishment
-				+ " " + otherInfo;
-	}
-
-	
 	
 }

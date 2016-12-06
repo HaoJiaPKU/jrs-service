@@ -32,6 +32,14 @@ public class Education implements Serializable {
 	
 	public Education() {}
 	
+	public String textField() {
+		return degree
+			+ " " + academy
+			+ " " + major
+			+ " " + school
+			+ " " + description;
+	}
+	
 	public Education(long employeeId, String degree, String academy,
 			String major, String school, String dateBegin, String dateEnd,
 			String description) {
@@ -122,13 +130,5 @@ public class Education implements Serializable {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
-	@Override
-	public String toString() {
-		return degree + " " + academy + " " + major + " " + school + " "
-				+ description;
-	}
-	
-	
 	
 }

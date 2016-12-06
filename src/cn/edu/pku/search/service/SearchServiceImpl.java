@@ -41,7 +41,7 @@ import cn.edu.pku.search.domain.MatchRecruitment;
 import cn.edu.pku.search.domain.MatchResume;
 import cn.edu.pku.search.domain.Pager;
 import cn.edu.pku.search.domain.Recruitment;
-import cn.edu.pku.search.domain.RecruitmentBBS;
+import cn.edu.pku.search.domain.RecruitmentV1;
 import cn.edu.pku.search.domain.RecruitmentTag;
 import cn.edu.pku.search.domain.Relevance;
 import cn.edu.pku.search.domain.Resume;
@@ -254,11 +254,11 @@ public class SearchServiceImpl implements SearchService {
 			}
 			
 			for(int i = 0;;i++) {
-				List<RecruitmentBBS> recruitmentList = recruitmentDAO.listRecruitmentBBS(i*100, 100);
+				List<RecruitmentV1> recruitmentList = recruitmentDAO.listRecruitmentBBS(i*100, 100);
 				if(recruitmentList == null || recruitmentList.size() == 0)
 					break;
-				for (RecruitmentBBS recruitmentBBS : recruitmentList) {
-					PreProcessor.dealWithString(recruitmentBBS.toString(), FilePath.nlpPath+ "tmp/recruitment.txt");
+				for (RecruitmentV1 recruitmentBBS : recruitmentList) {
+					PreProcessor.dealWithString(recruitmentBBS.textField(), FilePath.nlpPath+ "tmp/recruitment.txt");
 	
 					logger.info("职位文件分析中间结果*************************");
 					PositionInfo positionInfo = new PositionInfo();
@@ -307,7 +307,7 @@ public class SearchServiceImpl implements SearchService {
 				if(recruitmentList == null || recruitmentList.size() == 0)
 					break;
 				for (Recruitment recruitment : recruitmentList) {
-					PreProcessor.dealWithString(recruitment.toString(), FilePath.nlpPath+ "tmp/recruitment.txt");
+					PreProcessor.dealWithString(recruitment.textField(), FilePath.nlpPath+ "tmp/recruitment.txt");
 	
 					logger.info("职位文件分析中间结果*************************");
 					PositionInfo positionInfo = new PositionInfo();
@@ -349,7 +349,7 @@ public class SearchServiceImpl implements SearchService {
 
 			PreProcessor.loadSegmenter();
 			PreProcessor.loadStopWords(null);
-			PreProcessor.dealWithString(recruitment.toString(), FilePath.nlpPath + "tmp/recruitment.txt");
+			PreProcessor.dealWithString(recruitment.textField(), FilePath.nlpPath + "tmp/recruitment.txt");
 			
 			KnowledgeBase.setPositionFile(100, FilePath.nlpPath + "positionList top100.txt");
 			KnowledgeBase.setSkillFile(100, FilePath.nlpPath + "skillList top100.txt");
@@ -467,9 +467,8 @@ public class SearchServiceImpl implements SearchService {
 				MatchRecruitment match = new MatchRecruitment(employeeId, rel.getRelevance(), recruitment, recruitmentTagList);
 				matchList.add(match);
 			} else if(rel.getRecruitmentSource() == 2) {
-				RecruitmentBBS recruitmentBBS = recruitmentDAO.loadRecruitmentBbs(rel.getRecruitmentId());
+				RecruitmentV1 recruitmentBBS = recruitmentDAO.loadRecruitmentBbs(rel.getRecruitmentId());
 				List<RecruitmentTag> recruitmentTagList = recruitmentTagDAO.listRecruitmentTag(rel.getRecruitmentId());
-				recruitmentBBS.setContent(recruitmentBBS.getContent().substring(0, 100)+"...");//为了前台只显示两三行内容
 				MatchRecruitment match = new MatchRecruitment(employeeId, rel.getRelevance(), recruitmentBBS, recruitmentTagList);
 				matchList.add(match);
 			}
@@ -541,8 +540,7 @@ public class SearchServiceImpl implements SearchService {
 				}
 				list.add(recruitment);
 			} else {
-				RecruitmentBBS recruitment = recruitmentDAO.loadRecruitmentBbs(id);
-				recruitment.setContent(recruitment.getContent().substring(0, 100)+"...");//为了前台只显示两三行内容
+				RecruitmentV1 recruitment = recruitmentDAO.loadRecruitmentBbs(id);
 				list.add(recruitment);
 			}
 		}

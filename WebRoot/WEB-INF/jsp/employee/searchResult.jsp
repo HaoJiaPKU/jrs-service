@@ -65,18 +65,18 @@ body {
 				
 				<%
 					} else {
-							RecruitmentBBS recruitment = (RecruitmentBBS) abs;
+							RecruitmentV1 recruitment = (RecruitmentV1) abs;
 				%>
 				<h3>
-					<a href="<%=recruitment.getUrl()%>" target="_blank"><%=recruitment.getTitle()%></a>
+					<a href="<%=recruitment.getPosUrl()%>" target="_blank"><%=recruitment.getPosTitle()%></a>
 				</h3>
 				<p>
-					<%=recruitment.getTime()%>
+					<%=recruitment.getPosPublishDate()%>
 					&nbsp &nbsp &nbsp &nbsp &nbsp
 					<%=recruitment.getSource()%>
 					&nbsp &nbsp &nbsp &nbsp &nbsp <a href="<%=recruitment.getSnapshotUrl()%>" target="_blank">快照</a>
 				</p>
-				<p><%=recruitment.getContent()%></p>
+				<p><%=recruitment.getDisplayContent()%></p>
 
 				<%
 					}

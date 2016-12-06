@@ -21,7 +21,7 @@ import org.jsoup.select.Elements;
 import edu.stanford.nlp.ie.crf.CRFClassifier;
 import edu.stanford.nlp.ling.CoreLabel;
 import cn.edu.pku.search.domain.Education;
-import cn.edu.pku.search.domain.RecruitmentBBS;
+import cn.edu.pku.search.domain.RecruitmentV1;
 import cn.edu.pku.search.domain.Resume;
 import cn.edu.pku.search.domain.WorkExperience;
 import cn.edu.pku.util.FilePath;
@@ -452,14 +452,14 @@ public class PreProcessor {
 	 * @param outputPath 输出文件路径
 	 * @throws IOException 找不到HTML文件
 	 */
-	public static void dealWithRecruitment(RecruitmentBBS input, String outputPath) throws IOException
+	public static void dealWithRecruitment(RecruitmentV1 input, String outputPath) throws IOException
 	{
 		FileOutputStream t1 = new FileOutputStream(new File(outputPath));
 		OutputStreamWriter t2 = new OutputStreamWriter(t1, encodingOutput);
 		BufferedWriter t3 = new BufferedWriter(t2);
 //		t3.write(input.getPosition());
 //		t3.newLine();
-		String token = input.getTitle() + "\n" + input.getContent();
+		String token = input.getPosTitle() + "\n" + input.getPosDescription();
 		String [] tokens = stopWordExceptCPP(token.trim());
 
 		Pattern p;
