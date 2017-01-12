@@ -11,21 +11,21 @@ public class MatchResume implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
-	private long recruitmentId;
+	private long positionId;
 	private double relevance;
 	private AbstractResume resume;
 	
-	public MatchResume(long recruitmentId, double relevance, AbstractResume resume) {
+	public MatchResume(long positionId, double relevance, AbstractResume resume) {
 		super();
-		this.recruitmentId = recruitmentId;
+		this.positionId = positionId;
 		this.relevance = relevance;
 		this.resume = resume;
 	}
-	public long getRecruitmentId() {
-		return recruitmentId;
+	public long getPositionId() {
+		return positionId;
 	}
-	public void setRecruitmentId(long recruitmentId) {
-		this.recruitmentId = recruitmentId;
+	public void setPositionId(long positionId) {
+		this.positionId = positionId;
 	}
 	public double getRelevance() {
 		return relevance;

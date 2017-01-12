@@ -21,7 +21,7 @@ import org.jsoup.select.Elements;
 import edu.stanford.nlp.ie.crf.CRFClassifier;
 import edu.stanford.nlp.ling.CoreLabel;
 import cn.edu.pku.search.domain.Education;
-import cn.edu.pku.search.domain.RecruitmentV1;
+import cn.edu.pku.search.domain.Position;
 import cn.edu.pku.search.domain.Resume;
 import cn.edu.pku.search.domain.WorkExperience;
 import cn.edu.pku.util.FilePath;
@@ -452,7 +452,7 @@ public class PreProcessor {
 	 * @param outputPath 输出文件路径
 	 * @throws IOException 找不到HTML文件
 	 */
-	public static void dealWithRecruitment(RecruitmentV1 input, String outputPath) throws IOException
+	public static void dealWithPosition(Position input, String outputPath) throws IOException
 	{
 		FileOutputStream t1 = new FileOutputStream(new File(outputPath));
 		OutputStreamWriter t2 = new OutputStreamWriter(t1, encodingOutput);

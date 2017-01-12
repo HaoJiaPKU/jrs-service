@@ -14,7 +14,7 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import cn.edu.pku.search.dao.RecruitmentDAO;
+import cn.edu.pku.search.dao.PositionDAO;
 import cn.edu.pku.search.dao.RelevanceDAO;
 import cn.edu.pku.search.service.SearchService;
 

@@ -34,7 +34,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div class="container">
 		<div class="row">
 			<div class="col-md-5 col-md-offset-3">
-				<form class="form-horizontal" action="recruitment/addRecruitment" method="post" id="addBasic" enctype="multipart/form-data">
+				<form class="form-horizontal" action="position/addPosition" method="post" id="addBasic" enctype="multipart/form-data">
 					<input type="hidden" name="employerId" value="${employer.id }">
 					<input type="hidden" name="attachNum" id="attachNum" value="0">
 					<div class="form-group">

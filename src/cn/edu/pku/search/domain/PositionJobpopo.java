@@ -15,7 +15,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "recruitment")
-public class Recruitment extends AbstractRecruitment implements Serializable {
+public class PositionJobpopo extends AbstractPosition implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -37,7 +37,7 @@ public class Recruitment extends AbstractRecruitment implements Serializable {
 	private int recruitNum;// 招聘人数
 	private String description;// 职位描述
 
-	public Recruitment() {
+	public PositionJobpopo() {
 	}
 	
 	public String textField() {
@@ -45,7 +45,7 @@ public class Recruitment extends AbstractRecruitment implements Serializable {
 			+ " " + this.description;
 	}
 
-	public Recruitment(long employerId, String uploadTime, String modifyTime,
+	public PositionJobpopo(long employerId, String uploadTime, String modifyTime,
 			String uploadIp, String modifyIp, String title, String degree, String city,
 			String company, String position, String business, String scale,
 			String type, String salary, int recruitNum, String description) {

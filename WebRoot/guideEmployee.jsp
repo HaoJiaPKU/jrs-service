@@ -65,7 +65,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								<c:if test="${employee.hasResume == 1 }">
 									<li><a href="resume/checkResume?employeeId=${employee.id }">查看简历</a></li>
 									<li><a href="search/updateRelevanceForEmployee">更新匹配度</a></li>
-									<li><a href="search/listMatchRecruitment?offset=0">查看匹配职位</a></li>
+									<li><a href="search/listMatchPosition?offset=0">查看匹配职位</a></li>
 								</c:if>
 								<li role="separator" class="divider"></li>
 								<li><a href="employee/logout">退出</a></li>
@@ -107,7 +107,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</div>
 			</div>
 			<div class="col-md-8 col-md-offset-2">
-				<form action="search/listMatchRecruitment?offset=0" method="post" class="form-inline" style="text-align:center;">
+				<form action="search/listMatchPosition?offset=0" method="post" class="form-inline" style="text-align:center;">
 					<button style="width:15%" type="submit" class="btn btn-lg btn-primary">跳过教程</button>
 				</form>
 			</div>

@@ -40,55 +40,55 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div class="row">
 			<div class="col-md-8">
 				<%
-				Pager<MatchRecruitment> pager = (Pager<MatchRecruitment>) session
+				Pager<MatchPosition> pager = (Pager<MatchPosition>) session
 						.getAttribute("relevancePager");
-				for (MatchRecruitment match : pager.getDatas()) {
-					if (match.getRecruitment() instanceof Recruitment) {
-						Recruitment recruitment = (Recruitment) match.getRecruitment();
+				for (MatchPosition match : pager.getDatas()) {
+					if (match.getPosition() instanceof PositionJobpopo) {
+						PositionJobpopo position = (PositionJobpopo) match.getPosition();
 				%>
 				<div class="col-md-12">
 					<h3>
-						<a href="resume/checkRecruitment?recruitId=<%=recruitment.getId()%>" target="_blank"><%=recruitment.getTitle()%></a>
+						<a href="resume/checkPosition?recruitId=<%=position.getId()%>" target="_blank"><%=position.getTitle()%></a>
 					</h3>
 				</div>
 				<div class="col-md-12">
 					<div class="col-md-8">
-						<%=recruitment.getUploadTime()%>
+						<%=position.getUploadTime()%>
 						&nbsp &nbsp &nbsp &nbsp &nbsp
-						<%=recruitment.getCompany()%>
+						<%=position.getCompany()%>
 						&nbsp &nbsp &nbsp &nbsp &nbsp
 						<font color="#11cccc">相关度:<%=(int)(match.getRelevance()*100) %>%</font>
 					</div>
 				</div>
 				<div class="col-md-12 description">
-					<div class="col-md-12"><%=recruitment.getDescription()%></div>
+					<div class="col-md-12"><%=position.getDescription()%></div>
 				</div>
 				<%
 					} else {
-						RecruitmentV1 recruitment = (RecruitmentV1) match.getRecruitment();
+						Position position = (Position) match.getPosition();
 				%>
 				<div class="col-md-12">
 					<h3>
-						<a href="<%=recruitment.getPosUrl()%>" target="_blank"><%=recruitment.getPosTitle()%></a>
+						<a href="<%=position.getPosUrl()%>" target="_blank"><%=position.getPosTitle()%></a>
 					</h3>
 				</div>
 				<div class="col-md-12">
 					<div class="col-md-8">
-							<%=recruitment.getPosPublishDate()%>
+							<%=position.getPosPublishDate()%>
 							&nbsp &nbsp &nbsp &nbsp &nbsp
-							<%=recruitment.getSource()%>
+							<%=position.getSource()%>
 							&nbsp &nbsp &nbsp &nbsp &nbsp 
-							<a href="<%=recruitment.getSnapshotUrl()%>" target="_blank">快照</a>
+							<a href="<%=position.getSnapshotUrl()%>" target="_blank">快照</a>
 							&nbsp &nbsp &nbsp &nbsp &nbsp
 							<font color="#11cccc">相关度:<%=(int)(match.getRelevance()*100) %>%</font>	
 					</div>
 					<div class="col-md-4 radar-div">
 						<div class="radar-img"><img src="bootstrap/img/radar-thumb.jpg" /></div>
-						<div id="recruitment-tag-chart-<%=recruitment.getId()%>" class="radar"></div>
+						<div id="position-tag-chart-<%=position.getId()%>" class="radar"></div>
 					</div>
 				</div>
 				<div class="col-md-12 description">
-					<div class="col-md-12"><%=recruitment.getDisplayContent()%></div>
+					<div class="col-md-12"><%=position.getDisplayContent()%></div>
 				</div>
 				<%
 					}
@@ -132,13 +132,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<ul class="pagination">
 					<c:if test="${relevancePager.offset > 0 }">
 						<li><a
-							href="search/listMatchRecruitment?offset=${relevancePager.offset-relevancePager.size}">&laquo;</a></li>
+							href="search/listMatchPosition?offset=${relevancePager.offset-relevancePager.size}">&laquo;</a></li>
 					</c:if>
 					<c:forEach var="id" begin="0" end="9">
 						<c:if test="${id * relevancePager.size < relevancePager.total }">
 							<c:if test="${id * relevancePager.size != relevancePager.offset }">
 								<li><a
-									href="search/listMatchRecruitment?offset=${id*relevancePager.size}">${id+1}</a></li>
+									href="search/listMatchPosition?offset=${id*relevancePager.size}">${id+1}</a></li>
 							</c:if>
 							<c:if test="${id * relevancePager.size == relevancePager.offset }">
 								<li class="active"><a href="javascript:void(0)">${id+1}<span
@@ -149,7 +149,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<c:if
 						test="${relevancePager.offset+relevancePager.size<relevancePager.total }">
 						<li><a
-							href="search/listMatchRecruitment?offset=${relevancePager.offset+relevancePager.size}">&raquo;</a></li>
+							href="search/listMatchPosition?offset=${relevancePager.offset+relevancePager.size}">&raquo;</a></li>
 					</c:if>
 				</ul>
 			</div>
@@ -217,13 +217,13 @@ var option = {
 myChart.setOption(option);
 
 <%
-for (MatchRecruitment match : pager.getDatas()) {
-	if (match.getRecruitment() instanceof Recruitment) {
-		Recruitment recruitment = (Recruitment) match.getRecruitment();
+for (MatchPosition match : pager.getDatas()) {
+	if (match.getPosition() instanceof PositionJobpopo) {
+		PositionJobpopo position = (PositionJobpopo) match.getPosition();
 	} else {
-		RecruitmentV1 recruitment = (RecruitmentV1) match.getRecruitment();
+		Position position = (Position) match.getPosition();
 %>
-myChart = echarts.init(document.getElementById('recruitment-tag-chart-<%=recruitment.getId()%>'));
+myChart = echarts.init(document.getElementById('position-tag-chart-<%=position.getId()%>'));
 option = {
 	    title : {
 	        text: '职位雷达图'
@@ -233,10 +233,10 @@ option = {
 	        {
 	            indicator : [
 					<%
-						List<RecruitmentTag> recruitmentTagList = match.getRecruitmentTagList();
-						for (int i = 0; i < recruitmentTagList.size(); i ++) {
+						List<PositionTag> positionTagList = match.getPositionTagList();
+						for (int i = 0; i < positionTagList.size(); i ++) {
 					%>
-					{text : '<%= recruitmentTagList.get(i).getTagName() %>', max : 32},
+					{text : '<%= positionTagList.get(i).getTagName() %>', max : 32},
 					<%
 						}
 					%>
@@ -259,9 +259,9 @@ option = {
 	                {
 	                	value : [
 	                	<%
-							for (int i = 0; i < recruitmentTagList.size(); i ++) {
+							for (int i = 0; i < positionTagList.size(); i ++) {
 						%>
-						<%= Math.sqrt(Math.sqrt(recruitmentTagList.get(i).getTagValue()) * 10) * 10 %>
+						<%= Math.sqrt(Math.sqrt(positionTagList.get(i).getTagValue()) * 10) * 10 %>
 						,
 						<%
 							}

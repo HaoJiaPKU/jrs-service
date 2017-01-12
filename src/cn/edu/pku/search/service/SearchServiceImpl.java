@@ -30,19 +30,19 @@ import cn.edu.pku.recruitment.knowledgeBase.KnowledgeBase;
 import cn.edu.pku.recruitment.positionProcessor.PositionInfo;
 import cn.edu.pku.recruitment.preProcessor.PreProcessor;
 import cn.edu.pku.recruitment.resumeProcessor.ResumeInfo;
-import cn.edu.pku.search.dao.RecruitmentDAO;
-import cn.edu.pku.search.dao.RecruitmentTagDAO;
+import cn.edu.pku.search.dao.PositionDAO;
+import cn.edu.pku.search.dao.PositionTagDAO;
 import cn.edu.pku.search.dao.RelevanceDAO;
 import cn.edu.pku.search.dao.ResumeDAO;
-import cn.edu.pku.search.domain.AbstractRecruitment;
+import cn.edu.pku.search.domain.AbstractPosition;
 import cn.edu.pku.search.domain.AbstractResume;
 import cn.edu.pku.search.domain.Education;
-import cn.edu.pku.search.domain.MatchRecruitment;
+import cn.edu.pku.search.domain.MatchPosition;
 import cn.edu.pku.search.domain.MatchResume;
 import cn.edu.pku.search.domain.Pager;
-import cn.edu.pku.search.domain.Recruitment;
-import cn.edu.pku.search.domain.RecruitmentV1;
-import cn.edu.pku.search.domain.RecruitmentTag;
+import cn.edu.pku.search.domain.PositionJobpopo;
+import cn.edu.pku.search.domain.Position;
+import cn.edu.pku.search.domain.PositionTag;
 import cn.edu.pku.search.domain.Relevance;
 import cn.edu.pku.search.domain.Resume;
 import cn.edu.pku.search.domain.Resume51Job;
@@ -60,8 +60,8 @@ public class SearchServiceImpl implements SearchService {
 	public static final Logger logger = Logger.getLogger(SearchServiceImpl.class);
 	
 	ResumeDAO resumeDAO;
-	RecruitmentDAO recruitmentDAO;
-	RecruitmentTagDAO recruitmentTagDAO;
+	PositionDAO positionDAO;
+	PositionTagDAO positionTagDAO;
 	RelevanceDAO relevanceDAO;
 	EmployeeDAO employeeDAO;
 	EmployeeTagDAO employeeTagDAO;
@@ -75,13 +75,13 @@ public class SearchServiceImpl implements SearchService {
 		this.resumeDAO = resumeDAO;
 	}
 
-	public RecruitmentDAO getRecruitmentDAO() {
-		return recruitmentDAO;
+	public PositionDAO getPositionDAO() {
+		return positionDAO;
 	}
 
 	@Resource
-	public void setRecruitmentDAO(RecruitmentDAO recruitmentDAO) {
-		this.recruitmentDAO = recruitmentDAO;
+	public void setPositionDAO(PositionDAO positionDAO) {
+		this.positionDAO = positionDAO;
 	}
 
 	public RelevanceDAO getRelevanceDAO() {
@@ -111,16 +111,16 @@ public class SearchServiceImpl implements SearchService {
 		this.employeeTagDAO = employeeTagDAO;
 	}
 
-	public RecruitmentTagDAO getRecruitmentTagDAO() {
-		return recruitmentTagDAO;
+	public PositionTagDAO getPositionTagDAO() {
+		return positionTagDAO;
 	}
 
 	@Resource
-	public void setRecruitmentTagDAO(RecruitmentTagDAO recruitmentTagDAO) {
-		this.recruitmentTagDAO = recruitmentTagDAO;
+	public void setPositionTagDAO(PositionTagDAO positionTagDAO) {
+		this.positionTagDAO = positionTagDAO;
 	}
 
-	public Pager<AbstractRecruitment> searchRecruitment(String field, String queryString,
+	public Pager<AbstractPosition> searchPosition(String field, String queryString,
 			int offset) {
 //		KnowledgeBase.setSkillFile(100, FilePath.nlpPath+"skillList top100.txt");
 //		KnowledgeBase.setSimilFile(FilePath.nlpPath+"similarity matrix.txt");
@@ -135,9 +135,9 @@ public class SearchServiceImpl implements SearchService {
 //		for(String str : queryStringList) {
 //			System.out.println(str);
 //		}
-		String index = FilePath.recruitmentIndex;
+		String index = FilePath.positionIndex;
 
-		Pager<AbstractRecruitment> res = null; 
+		Pager<AbstractPosition> res = null; 
 		
 		try (IndexReader reader = DirectoryReader.open(FSDirectory.open(Paths
 				.get(index)))){
@@ -154,7 +154,7 @@ public class SearchServiceImpl implements SearchService {
 			Query query = parser.parse(line);
 			logger.info("Searching for: " + query.toString(field));
 	
-			res = doPagingSearchRecruitment(searcher, query, offset);
+			res = doPagingSearchPosition(searcher, query, offset);
 			
 		} catch (IOException e) {
 			logger.error(e.getMessage(), e);
@@ -254,15 +254,15 @@ public class SearchServiceImpl implements SearchService {
 			}
 			
 			for(int i = 0;;i++) {
-				List<RecruitmentV1> recruitmentList = recruitmentDAO.listRecruitmentBBS(i*100, 100);
-				if(recruitmentList == null || recruitmentList.size() == 0)
+				List<Position> positionList = positionDAO.listPositionBBS(i*100, 100);
+				if(positionList == null || positionList.size() == 0)
 					break;
-				for (RecruitmentV1 recruitmentBBS : recruitmentList) {
-					PreProcessor.dealWithString(recruitmentBBS.textField(), FilePath.nlpPath+ "tmp/recruitment.txt");
+				for (Position positionBBS : positionList) {
+					PreProcessor.dealWithString(positionBBS.textField(), FilePath.nlpPath+ "tmp/position.txt");
 	
 					logger.info("职位文件分析中间结果*************************");
 					PositionInfo positionInfo = new PositionInfo();
-					positionInfo.process(FilePath.nlpPath + "tmp/recruitment.txt");
+					positionInfo.process(FilePath.nlpPath + "tmp/position.txt");
 					for (int j = 0; j < positionInfo.skillVector.length; j++) {
 						if (positionInfo.skillVector[j] > 0) {		
 							logger.info(KnowledgeBase.skillList[j] + " "
@@ -277,25 +277,25 @@ public class SearchServiceImpl implements SearchService {
 					
 					// TODO hasTag is supposed to be boolean
 					// TODO 标签的更新不应该放在这个位置，考虑保存招聘信息时
-					if (recruitmentBBS.getHasTag() != -1) {
+					if (positionBBS.getHasTag() != -1) {
 						for (int j = 0; j < distribution.length; j ++) {
-							RecruitmentTag recruitmentTag = new RecruitmentTag(
-									recruitmentBBS.getId(), KnowledgeBase.positionList[j], distribution[j]);
-							if (recruitmentBBS.getHasTag() == 1) {
-								recruitmentTagDAO.update(recruitmentTag);
+							PositionTag positionTag = new PositionTag(
+									positionBBS.getId(), KnowledgeBase.positionList[j], distribution[j]);
+							if (positionBBS.getHasTag() == 1) {
+								positionTagDAO.update(positionTag);
 							} else {
-								recruitmentTagDAO.add(recruitmentTag);
+								positionTagDAO.add(positionTag);
 							}
 						}
-						recruitmentBBS.setHasTag(1);
-						recruitmentDAO.updateBBS(recruitmentBBS);
+						positionBBS.setHasTag(1);
+						positionDAO.updateBBS(positionBBS);
 					}
 	
 					logger.info("职位与简历匹配度计算*************************");
 					Comparer comparer = new Comparer();
 	
 					double rel = comparer.compare(positionInfo, resumeInfo);
-					Relevance relevance = new Relevance(employeeId, 0, 2, recruitmentBBS.getId(), rel);
+					Relevance relevance = new Relevance(employeeId, 0, 2, positionBBS.getId(), rel);
 					relevanceDAO.update(relevance);
 					logger.info(rel);
 	
@@ -303,15 +303,15 @@ public class SearchServiceImpl implements SearchService {
 			}
 			
 			for(int i = 0;;i++) {
-				List<Recruitment> recruitmentList = recruitmentDAO.listRecruitment(i*100, 100);
-				if(recruitmentList == null || recruitmentList.size() == 0)
+				List<PositionJobpopo> positionList = positionDAO.listPosition(i*100, 100);
+				if(positionList == null || positionList.size() == 0)
 					break;
-				for (Recruitment recruitment : recruitmentList) {
-					PreProcessor.dealWithString(recruitment.textField(), FilePath.nlpPath+ "tmp/recruitment.txt");
+				for (PositionJobpopo position : positionList) {
+					PreProcessor.dealWithString(position.textField(), FilePath.nlpPath+ "tmp/position.txt");
 	
 					logger.info("职位文件分析中间结果*************************");
 					PositionInfo positionInfo = new PositionInfo();
-					positionInfo.process(FilePath.nlpPath + "tmp/recruitment.txt");
+					positionInfo.process(FilePath.nlpPath + "tmp/position.txt");
 					for (int j = 0; j < positionInfo.skillVector.length; j++) {
 						if (positionInfo.skillVector[j] > 0) {		
 							logger.info(KnowledgeBase.skillList[j] + " "
@@ -328,7 +328,7 @@ public class SearchServiceImpl implements SearchService {
 					Comparer comparer = new Comparer();
 	
 					double rel = comparer.compare(positionInfo, resumeInfo);
-					Relevance relevance = new Relevance(employeeId, 0, 1, recruitment.getId(), rel);
+					Relevance relevance = new Relevance(employeeId, 0, 1, position.getId(), rel);
 					relevanceDAO.update(relevance);
 					logger.info(rel);
 	
@@ -342,14 +342,14 @@ public class SearchServiceImpl implements SearchService {
 	
 	@Transactional
 	@Override
-	public void updateRelevanceForEmployer(long recruitmentId) {
-		Recruitment recruitment = recruitmentDAO.loadRecruitment(recruitmentId);
+	public void updateRelevanceForEmployer(long positionId) {
+		PositionJobpopo position = positionDAO.loadPosition(positionId);
 		
 		try {
 
 			PreProcessor.loadSegmenter();
 			PreProcessor.loadStopWords(null);
-			PreProcessor.dealWithString(recruitment.textField(), FilePath.nlpPath + "tmp/recruitment.txt");
+			PreProcessor.dealWithString(position.textField(), FilePath.nlpPath + "tmp/position.txt");
 			
 			KnowledgeBase.setPositionFile(100, FilePath.nlpPath + "positionList top100.txt");
 			KnowledgeBase.setSkillFile(100, FilePath.nlpPath + "skillList top100.txt");
@@ -365,7 +365,7 @@ public class SearchServiceImpl implements SearchService {
 
 			logger.info("职位文件分析中间结果*************************");
 			PositionInfo positionInfo = new PositionInfo();
-			positionInfo.process(FilePath.nlpPath + "tmp/recruitment.txt");
+			positionInfo.process(FilePath.nlpPath + "tmp/position.txt");
 			for (int i = 0; i < positionInfo.skillVector.length; i++) {
 				if (positionInfo.skillVector[i] > 0) {		
 					logger.info(KnowledgeBase.skillList[i] + " "
@@ -408,7 +408,7 @@ public class SearchServiceImpl implements SearchService {
 	
 					double rel = comparer.compare(positionInfo, resumeInfo);
 					Relevance relevance = new Relevance(resume.getEmployeeId(),0,1,
-							recruitmentId, rel);
+							positionId, rel);
 					relevanceDAO.update(relevance);
 					logger.info(rel);
 				}
@@ -441,7 +441,7 @@ public class SearchServiceImpl implements SearchService {
 	
 					double rel = comparer.compare(positionInfo, resumeInfo);
 					Relevance relevance = new Relevance(0,resume.getId(),1,
-							recruitmentId, rel);
+							positionId, rel);
 					relevanceDAO.update(relevance);
 					logger.info(rel);
 				}
@@ -455,45 +455,49 @@ public class SearchServiceImpl implements SearchService {
 
 	@Transactional
 	@Override
-	public Pager<MatchRecruitment> listMatchRecruitment(long employeeId,
+	public Pager<MatchPosition> listMatchPosition(long employeeId,
 			int offset) {
 		List<Relevance> list = relevanceDAO.listRelevanceForEmployee(employeeId, offset);
-		List<MatchRecruitment> matchList = new ArrayList<>();
+		List<MatchPosition> matchList = new ArrayList<>();
 		for(Relevance rel : list) {
-			if(rel.getRecruitmentSource() == 1) {
-				Recruitment recruitment = recruitmentDAO.loadRecruitment(rel.getRecruitmentId());
-				List<RecruitmentTag> recruitmentTagList = recruitmentTagDAO.listRecruitmentTag(rel.getRecruitmentId());
-				recruitment.setDescription(recruitment.getDescription().substring(0, 100)+"...");//为了前台只显示两三行内容
-				MatchRecruitment match = new MatchRecruitment(employeeId, rel.getRelevance(), recruitment, recruitmentTagList);
+			if(rel.getPositionSource() == 1) {
+				PositionJobpopo position = positionDAO.loadPosition(rel.getPositionId());
+				List<PositionTag> positionTagList = positionTagDAO.listPositionTag(rel.getPositionId());
+				if (position.getDescription().length() > 100) {
+					position.setDescription(position.getDescription().substring(0, 100) + "...");//为了前台只显示两三行内容
+				} else {
+					position.setDescription(position.getDescription() + "...");//为了前台只显示两三行内容
+				}
+				MatchPosition match = new MatchPosition(employeeId, rel.getRelevance(), position, positionTagList);
 				matchList.add(match);
-			} else if(rel.getRecruitmentSource() == 2) {
-				RecruitmentV1 recruitmentBBS = recruitmentDAO.loadRecruitmentBbs(rel.getRecruitmentId());
-				List<RecruitmentTag> recruitmentTagList = recruitmentTagDAO.listRecruitmentTag(rel.getRecruitmentId());
-				MatchRecruitment match = new MatchRecruitment(employeeId, rel.getRelevance(), recruitmentBBS, recruitmentTagList);
+			} else if(rel.getPositionSource() == 2) {
+				Position positionBBS = positionDAO.loadPositionBbs(rel.getPositionId());
+				List<PositionTag> positionTagList = positionTagDAO.listPositionTag(rel.getPositionId());
+				MatchPosition match = new MatchPosition(employeeId, rel.getRelevance(), positionBBS, positionTagList);
 				matchList.add(match);
 			}
 		}
-		Pager<MatchRecruitment> relevancePager = new Pager<>();
+		Pager<MatchPosition> relevancePager = new Pager<>();
 		relevancePager.setDatas(matchList);
 		relevancePager.setOffset(offset);
 		relevancePager.setSize(SystemContext.getSize());
-		relevancePager.setTotal(relevanceDAO.getRecruitmentNumber(employeeId));
+		relevancePager.setTotal(relevanceDAO.getPositionNumber(employeeId));
 		return relevancePager;
 	}
 	
 	@Transactional
 	@Override
-	public Pager<MatchResume> listMatchResume(long recruitmentId, int offset) {
-		List<Relevance> list = relevanceDAO.listRelevanceForEmployer(recruitmentId, offset);
+	public Pager<MatchResume> listMatchResume(long positionId, int offset) {
+		List<Relevance> list = relevanceDAO.listRelevanceForEmployer(positionId, offset);
 		List<MatchResume> matchList = new ArrayList<>();
 		for(Relevance rel : list) {
 			if(rel.getEmployeeId() == 0) {
 				Resume51Job resume = resumeDAO.getResume51Job(rel.getResumeId());
-				MatchResume match = new MatchResume(recruitmentId, rel.getRelevance(), resume);
+				MatchResume match = new MatchResume(positionId, rel.getRelevance(), resume);
 				matchList.add(match);
 			} else {
 				Resume resume = resumeDAO.getResume(rel.getEmployeeId());
-				MatchResume match = new MatchResume(recruitmentId, rel.getRelevance(), resume);
+				MatchResume match = new MatchResume(positionId, rel.getRelevance(), resume);
 				matchList.add(match);
 			}
 		}
@@ -501,16 +505,16 @@ public class SearchServiceImpl implements SearchService {
 		relevancePager.setDatas(matchList);
 		relevancePager.setOffset(offset);
 		relevancePager.setSize(SystemContext.getSize());
-		relevancePager.setTotal(relevanceDAO.getResumeNumber(recruitmentId));
+		relevancePager.setTotal(relevanceDAO.getResumeNumber(positionId));
 		return relevancePager;
 	}
 	
-	private Pager<AbstractRecruitment> doPagingSearchRecruitment(IndexSearcher searcher,
+	private Pager<AbstractPosition> doPagingSearchPosition(IndexSearcher searcher,
 			Query query, int offset)
 			throws IOException {
 
-		Pager<AbstractRecruitment> res = new Pager<>();
-		List<AbstractRecruitment> list = new ArrayList<>();
+		Pager<AbstractPosition> res = new Pager<>();
+		List<AbstractPosition> list = new ArrayList<>();
 		int hitsPerPage = SystemContext.getSize();
 
 		// Collect enough docs to show 5 pages
@@ -534,14 +538,14 @@ public class SearchServiceImpl implements SearchService {
 			long id = Long.parseLong(doc.get("id"));
 			String source = doc.get("source");
 			if(source.equals("jobpopo")) {
-				Recruitment recruitment = recruitmentDAO.loadRecruitment(id);
-				if(recruitment.getDescription().length()>100) {
-					recruitment.setDescription(recruitment.getDescription().substring(0, 100)+"...");
+				PositionJobpopo position = positionDAO.loadPosition(id);
+				if(position.getDescription().length()>100) {
+					position.setDescription(position.getDescription().substring(0, 100)+"...");
 				}
-				list.add(recruitment);
+				list.add(position);
 			} else {
-				RecruitmentV1 recruitment = recruitmentDAO.loadRecruitmentBbs(id);
-				list.add(recruitment);
+				Position position = positionDAO.loadPositionBbs(id);
+				list.add(position);
 			}
 		}
 		res.setDatas(list);

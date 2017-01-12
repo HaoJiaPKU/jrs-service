@@ -7,7 +7,7 @@ import java.io.Serializable;
  * @author Sun Xiaowei
  *
  */
-public class AbstractRecruitment implements Serializable{
+public class AbstractPosition implements Serializable{
 	
 	
 	private static final long serialVersionUID = 1L;

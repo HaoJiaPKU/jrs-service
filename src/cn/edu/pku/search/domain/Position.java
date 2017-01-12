@@ -15,7 +15,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="recruitment_v1")
-public class RecruitmentV1 extends AbstractRecruitment implements Serializable{
+public class Position extends AbstractPosition implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -44,7 +44,7 @@ public class RecruitmentV1 extends AbstractRecruitment implements Serializable{
 	private String snapshotUrl;
 	private String displayContent;
 	
-	public RecruitmentV1() {
+	public Position() {
 		
 	}
 
@@ -52,7 +52,7 @@ public class RecruitmentV1 extends AbstractRecruitment implements Serializable{
 		return this.posTitle + "\n" + this.posDescription;
 	}
 	
-	public RecruitmentV1(long id, String posTitle, String posSalary, String posLocation, String posPublishDate,
+	public Position(long id, String posTitle, String posSalary, String posLocation, String posPublishDate,
 			String posType, String posExperience, String posDegree, String posRecruitNum, String posCategory,
 			String posDescription, String posUrl, String comScale, String comType, String comIndustry, String comHost,
 			String comLocation, int hasTag, String source, String snapshotUrl, String displayContent) {
@@ -310,7 +310,7 @@ public class RecruitmentV1 extends AbstractRecruitment implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		RecruitmentV1 other = (RecruitmentV1) obj;
+		Position other = (Position) obj;
 		if (comHost == null) {
 			if (other.comHost != null)
 				return false;

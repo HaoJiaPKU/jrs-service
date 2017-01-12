@@ -19,14 +19,14 @@ public class Attachment implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	private long id;
-	private long recruitmentId;
+	private long positionId;
 	private String filepath;
 	
 	public Attachment() {}
 	
-	public Attachment(long recruitmentId, String filepath) {
+	public Attachment(long positionId, String filepath) {
 		super();
-		this.recruitmentId = recruitmentId;
+		this.positionId = positionId;
 		this.filepath = filepath;
 	}
 	@GeneratedValue
@@ -37,12 +37,12 @@ public class Attachment implements Serializable{
 	public void setId(long id) {
 		this.id = id;
 	}
-	@Column(name="recruitment_id")
-	public long getRecruitmentId() {
-		return recruitmentId;
+	@Column(name="position_id")
+	public long getPositionId() {
+		return positionId;
 	}
-	public void setRecruitmentId(long recruitmentId) {
-		this.recruitmentId = recruitmentId;
+	public void setPositionId(long positionId) {
+		this.positionId = positionId;
 	}
 	public String getFilepath() {
 		return filepath;

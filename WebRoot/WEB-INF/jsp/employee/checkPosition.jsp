@@ -36,49 +36,49 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<div class="col-md-8 col-md-offset-2">
 				<div class="panel panel-primary">
 					<div class="panel-heading">
-						<h4>${recruitment.title }</h4>
+						<h4>${position.title }</h4>
 					</div>
 					<div class="panel-body">
-						<p>来自：${recruitment.company }</p>
+						<p>来自：${position.company }</p>
 						<br>
 						<div class="row">
 							<div class="col-md-4">
-								<p>公司行业：${recruitment.business }</p>
+								<p>公司行业：${position.business }</p>
 							</div>
 							<div class="col-md-4">
-								<p>公司规模：${recruitment.scale }</p>
+								<p>公司规模：${position.scale }</p>
 							</div>
 							<div class="col-md-4">
-								<p>公司类型：${recruitment.type }</p>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-4">
-								<p>薪资：${recruitment.salary }</p>
-							</div>
-							<div class="col-md-4">
-								<p>学历：${recruitment.degree }</p>
-							</div>
-							<div class="col-md-4">
-								<p>工作地点：${recruitment.city }</p>
+								<p>公司类型：${position.type }</p>
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-md-4">
-								<p>职位名称：${recruitment.position }</p>
+								<p>薪资：${position.salary }</p>
 							</div>
 							<div class="col-md-4">
-								<p>招聘人数：${recruitment.recruitNum }</p>
+								<p>学历：${position.degree }</p>
 							</div>
 							<div class="col-md-4">
-								<p>发布时间：${recruitment.uploadTime }</p>
+								<p>工作地点：${position.city }</p>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-4">
+								<p>职位名称：${position.position }</p>
+							</div>
+							<div class="col-md-4">
+								<p>招聘人数：${position.recruitNum }</p>
+							</div>
+							<div class="col-md-4">
+								<p>发布时间：${position.uploadTime }</p>
 							</div>
 						</div>
 						<br>
 						<p>
 							<%request.setAttribute("enter", "\n"); %>
 							职位描述：<br>
-							<c:set value="${ fn:split(recruitment.description, enter) }" var="description" />
+							<c:set value="${ fn:split(position.description, enter) }" var="description" />
 							<c:forEach items="${ description }" var="desc">
 								${ desc } <br />
 							</c:forEach>

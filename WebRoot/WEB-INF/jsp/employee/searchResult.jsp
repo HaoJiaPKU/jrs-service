@@ -37,7 +37,7 @@ body {
 		<div class="row">
 			<div class="col-md-7">
 				<!-- 搜索栏 -->
-				<form action="search/searchRecruitment" method="post"
+				<form action="search/searchPosition" method="post"
 					class="form-inline">
 					<input style="width:80%" type="text" name="key" value="${key }"
 						class="form-control input-lg" placeholder="职位关键词"> 
@@ -47,36 +47,36 @@ body {
 				<br>
 
 				<%
-					Pager<AbstractRecruitment> pager = (Pager<AbstractRecruitment>) request
+					Pager<AbstractPosition> pager = (Pager<AbstractPosition>) request
 							.getAttribute("searchResult");
-					for (AbstractRecruitment abs : pager.getDatas()) {
-						if (abs instanceof Recruitment) {
-							Recruitment recruitment = (Recruitment) abs;
+					for (AbstractPosition abs : pager.getDatas()) {
+						if (abs instanceof PositionJobpopo) {
+							PositionJobpopo position = (PositionJobpopo) abs;
 				%>
 				<h3>
-					<a href="resume/checkRecruitment?recruitId=<%=recruitment.getId()%>" target="_blank"><%=recruitment.getTitle()%></a>
+					<a href="resume/checkPosition?recruitId=<%=position.getId()%>" target="_blank"><%=position.getTitle()%></a>
 				</h3>
 				<p>
-					<%=recruitment.getUploadTime()%>
+					<%=position.getUploadTime()%>
 					&nbsp &nbsp &nbsp &nbsp &nbsp
-					<%=recruitment.getCompany()%>
+					<%=position.getCompany()%>
 				</p>
-				<p><%=recruitment.getDescription()%></p>
+				<p><%=position.getDescription()%></p>
 				
 				<%
 					} else {
-							RecruitmentV1 recruitment = (RecruitmentV1) abs;
+							Position position = (Position) abs;
 				%>
 				<h3>
-					<a href="<%=recruitment.getPosUrl()%>" target="_blank"><%=recruitment.getPosTitle()%></a>
+					<a href="<%=position.getPosUrl()%>" target="_blank"><%=position.getPosTitle()%></a>
 				</h3>
 				<p>
-					<%=recruitment.getPosPublishDate()%>
+					<%=position.getPosPublishDate()%>
 					&nbsp &nbsp &nbsp &nbsp &nbsp
-					<%=recruitment.getSource()%>
-					&nbsp &nbsp &nbsp &nbsp &nbsp <a href="<%=recruitment.getSnapshotUrl()%>" target="_blank">快照</a>
+					<%=position.getSource()%>
+					&nbsp &nbsp &nbsp &nbsp &nbsp <a href="<%=position.getSnapshotUrl()%>" target="_blank">快照</a>
 				</p>
-				<p><%=recruitment.getDisplayContent()%></p>
+				<p><%=position.getDisplayContent()%></p>
 
 				<%
 					}
@@ -90,13 +90,13 @@ body {
 				<ul class="pagination">
 					<c:if test="${searchResult.offset > 0 }">
 						<li><a
-							href="search/searchRecruitment?key=${key }&offset=${searchResult.offset-searchResult.size}">&laquo;</a></li>
+							href="search/searchPosition?key=${key }&offset=${searchResult.offset-searchResult.size}">&laquo;</a></li>
 					</c:if>
 					<c:forEach var="id" begin="0" end="9">
 						<c:if test="${id * searchResult.size < searchResult.total }">
 							<c:if test="${id * searchResult.size != searchResult.offset }">
 								<li><a
-									href="search/searchRecruitment?key=${key }&offset=${id*searchResult.size}">${id+1}</a></li>
+									href="search/searchPosition?key=${key }&offset=${id*searchResult.size}">${id+1}</a></li>
 							</c:if>
 							<c:if test="${id * searchResult.size == searchResult.offset }">
 								<li class="active"><a href="javascript:void(0)">${id+1}<span
@@ -107,7 +107,7 @@ body {
 					<c:if
 						test="${searchResult.offset+searchResult.size<searchResult.total }">
 						<li><a
-							href="search/searchRecruitment?key=${key}&offset=${searchResult.offset+searchResult.size}">&raquo;</a></li>
+							href="search/searchPosition?key=${key}&offset=${searchResult.offset+searchResult.size}">&raquo;</a></li>
 					</c:if>
 				</ul>
 				<!-- 分页 -->

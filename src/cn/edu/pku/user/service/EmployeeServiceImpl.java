@@ -23,10 +23,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cn.edu.pku.quartz.factory.ScheduleFactory;
 import cn.edu.pku.quartz.job.EmployeeSubscription;
-import cn.edu.pku.search.dao.RecruitmentDAO;
+import cn.edu.pku.search.dao.PositionDAO;
 import cn.edu.pku.search.dao.RelevanceDAO;
-import cn.edu.pku.search.domain.Recruitment;
-import cn.edu.pku.search.domain.RecruitmentV1;
+import cn.edu.pku.search.domain.PositionJobpopo;
+import cn.edu.pku.search.domain.Position;
 import cn.edu.pku.search.domain.Relevance;
 import cn.edu.pku.search.service.SearchService;
 import cn.edu.pku.user.dao.EmployeeDAO;
@@ -42,7 +42,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public static final Logger logger = Logger.getLogger(EmployeeServiceImpl.class);
 	
 	private EmployeeDAO employeeDAO;
-	private RecruitmentDAO recruitmentDAO;
+	private PositionDAO positionDAO;
 	private RelevanceDAO relevanceDAO;
 	private EmployeeTagDAO employeeTagDAO;
 	
@@ -232,15 +232,15 @@ public class EmployeeServiceImpl implements EmployeeService {
 		String content = new String();
 		List<Relevance> list = relevanceDAO.listRelevanceForEmployee(id);
 		for(int i = 0; i < list.size() && i < subscriptionNum; i ++) {
-			if(list.get(i).getRecruitmentSource() == 1) {
-				Recruitment rec = recruitmentDAO.loadRecruitment(list.get(i).getRecruitmentId());
+			if(list.get(i).getPositionSource() == 1) {
+				PositionJobpopo rec = positionDAO.loadPosition(list.get(i).getPositionId());
 				rec.setDescription(rec.getDescription().substring(0, 100)+"...");//为了前台只显示两三行内容
 				content += "\n\n"
 						+ rec.getCompany()
 						+ "相关度：" + String.valueOf(list.get(i).getRelevance()) + "\n"
 						+ "链接：" + rec.getModifyIp();
-			} else if(list.get(i).getRecruitmentSource() == 2) {
-				RecruitmentV1 rec = recruitmentDAO.loadRecruitmentBbs(list.get(i).getRecruitmentId());
+			} else if(list.get(i).getPositionSource() == 2) {
+				Position rec = positionDAO.loadPositionBbs(list.get(i).getPositionId());
 				content += "\n\n"
 						+ rec.getPosTitle()
 						+ "相关度：" + String.valueOf(list.get(i).getRelevance()) + "\n"
@@ -259,13 +259,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 		this.searchService = searchService;
 	}
 
-	public RecruitmentDAO getRecruitmentDAO() {
-		return recruitmentDAO;
+	public PositionDAO getPositionDAO() {
+		return positionDAO;
 	}
 
 	@Resource
-	public void setRecruitmentDAO(RecruitmentDAO recruitmentDAO) {
-		this.recruitmentDAO = recruitmentDAO;
+	public void setPositionDAO(PositionDAO positionDAO) {
+		this.positionDAO = positionDAO;
 	}
 
 	public RelevanceDAO getRelevanceDAO() {

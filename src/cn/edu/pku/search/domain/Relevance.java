@@ -22,7 +22,7 @@ public class Relevance implements Serializable{
 	private long employeeId;
 	private long resumeId;
 	private int recruitmentSource;
-	private long recruitmentId;
+	private long positionId;
 	private double relevance;
 	
 	public Relevance(){}
@@ -34,7 +34,7 @@ public class Relevance implements Serializable{
 		this.employeeId = employeeId;
 		this.resumeId = resumeId;
 		this.recruitmentSource = recruitmentSource;
-		this.recruitmentId = recruitmentId;
+		this.positionId = recruitmentId;
 		this.relevance = relevance;
 	}
 
@@ -49,11 +49,11 @@ public class Relevance implements Serializable{
 	}
 	@Id
 	@Column(name="recruitment_id")
-	public long getRecruitmentId() {
-		return recruitmentId;
+	public long getPositionId() {
+		return positionId;
 	}
-	public void setRecruitmentId(long recruitmentId) {
-		this.recruitmentId = recruitmentId;
+	public void setPositionId(long recruitmentId) {
+		this.positionId = recruitmentId;
 	}
 	public double getRelevance() {
 		return relevance;
@@ -72,11 +72,11 @@ public class Relevance implements Serializable{
 	}
 	@Id
 	@Column(name="recruitment_source")
-	public int getRecruitmentSource() {
+	public int getPositionSource() {
 		return recruitmentSource;
 	}
 
-	public void setRecruitmentSource(int recruitmentSource) {
+	public void setPositionSource(int recruitmentSource) {
 		this.recruitmentSource = recruitmentSource;
 	}
 
@@ -87,7 +87,7 @@ public class Relevance implements Serializable{
 		int result = 1;
 		result = prime * result + (int) (employeeId ^ (employeeId >>> 32));
 		result = prime * result
-				+ (int) (recruitmentId ^ (recruitmentId >>> 32));
+				+ (int) (positionId ^ (positionId >>> 32));
 		result = prime * result + recruitmentSource;
 		result = prime * result + (int) (resumeId ^ (resumeId >>> 32));
 		return result;
@@ -105,7 +105,7 @@ public class Relevance implements Serializable{
 		Relevance other = (Relevance) obj;
 		if (employeeId != other.employeeId)
 			return false;
-		if (recruitmentId != other.recruitmentId)
+		if (positionId != other.positionId)
 			return false;
 		if (recruitmentSource != other.recruitmentSource)
 			return false;

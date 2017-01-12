@@ -22,10 +22,10 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import cn.edu.pku.search.domain.Attachment;
 import cn.edu.pku.search.domain.Education;
-import cn.edu.pku.search.domain.Recruitment;
+import cn.edu.pku.search.domain.PositionJobpopo;
 import cn.edu.pku.search.domain.Resume;
 import cn.edu.pku.search.domain.WorkExperience;
-import cn.edu.pku.search.service.RecruitmentService;
+import cn.edu.pku.search.service.PositionService;
 import cn.edu.pku.search.service.ResumeService;
 import cn.edu.pku.user.domain.Employee;
 import cn.edu.pku.user.service.EmployeeService;
@@ -44,7 +44,7 @@ public class ResumeController {
 			.getLogger(ResumeController.class);
 
 	private EmployeeService employeeService;
-	private RecruitmentService recruitmentService;
+	private PositionService positionService;
 	private ResumeService resumeService;
 
 	public ResumeService getResumeService() {
@@ -65,13 +65,13 @@ public class ResumeController {
 		this.employeeService = employeeService;
 	}
 	
-	public RecruitmentService getRecruitmentService() {
-		return recruitmentService;
+	public PositionService getPositionService() {
+		return positionService;
 	}
 
 	@Resource
-	public void setRecruitmentService(RecruitmentService recruitmentService) {
-		this.recruitmentService = recruitmentService;
+	public void setPositionService(PositionService positionService) {
+		this.positionService = positionService;
 	}
 
 	@RequestMapping(value = "addResume", method = RequestMethod.GET)
@@ -636,17 +636,17 @@ public class ResumeController {
 	 * @param res
 	 * @return
 	 */
-	@RequestMapping("checkRecruitment")
-	public String checkRecruitment(HttpServletRequest req,
+	@RequestMapping("checkPosition")
+	public String checkPosition(HttpServletRequest req,
 			HttpServletResponse res) {
 		long id = Long.parseLong(req.getParameter("recruitId"));
-		Recruitment recruit = recruitmentService.getRecruitment(id);
-//		List<Attachment> listAttach = recruitmentService.listAttachment(recruit
+		PositionJobpopo recruit = positionService.getPosition(id);
+//		List<Attachment> listAttach = positionService.listAttachment(recruit
 //				.getId());
 		HttpSession session = req.getSession();
-		session.setAttribute("recruitment", recruit);
+		session.setAttribute("position", recruit);
 //		session.setAttribute("listAttach", listAttach);
-		return "../WEB-INF/jsp/employee/checkRecruitment.jsp";
+		return "../WEB-INF/jsp/employee/checkPosition.jsp";
 	}
 
 }

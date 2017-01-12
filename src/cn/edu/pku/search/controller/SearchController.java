@@ -11,12 +11,12 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import cn.edu.pku.search.domain.AbstractRecruitment;
+import cn.edu.pku.search.domain.AbstractPosition;
 import cn.edu.pku.search.domain.AbstractResume;
 import cn.edu.pku.search.domain.MatchResume;
 import cn.edu.pku.search.domain.Pager;
-import cn.edu.pku.search.domain.MatchRecruitment;
-import cn.edu.pku.search.service.RecruitmentService;
+import cn.edu.pku.search.domain.MatchPosition;
+import cn.edu.pku.search.service.PositionService;
 import cn.edu.pku.search.service.SearchService;
 import cn.edu.pku.user.domain.Employee;
 
@@ -32,7 +32,7 @@ public class SearchController {
 	public static final Logger logger = Logger.getLogger(SearchController.class);
 	
 	private SearchService searchService;
-	private RecruitmentService recruitmentService;
+	private PositionService positionService;
 
 	public SearchService getSearchService() {
 		return searchService;
@@ -43,13 +43,13 @@ public class SearchController {
 		this.searchService = searchService;
 	}
 	
-	public RecruitmentService getRecruitmentService() {
-		return recruitmentService;
+	public PositionService getPositionService() {
+		return positionService;
 	}
 
 	@Resource
-	public void setRecruitmentService(RecruitmentService recruitmentService) {
-		this.recruitmentService = recruitmentService;
+	public void setPositionService(PositionService positionService) {
+		this.positionService = positionService;
 	}
 
 	/**
@@ -58,8 +58,8 @@ public class SearchController {
 	 * @param res
 	 * @return
 	 */
-	@RequestMapping("searchRecruitment")
-	public String searchRecruitment(HttpServletRequest req,HttpServletResponse res) {
+	@RequestMapping("searchPosition")
+	public String searchPosition(HttpServletRequest req,HttpServletResponse res) {
 		try {
 			req.setCharacterEncoding("UTF-8");
 		} catch (UnsupportedEncodingException e) {
@@ -71,7 +71,8 @@ public class SearchController {
 			return "../employee.jsp";
 		}
 		
-		Pager<AbstractRecruitment> searchResult = searchService.searchRecruitment("content", key,offset);
+		Pager<AbstractPosition> searchResult
+			= searchService.searchPosition("content", key,offset);
 		
 		req.setAttribute("searchResult", searchResult);
 		req.setAttribute("key", key);
@@ -115,7 +116,7 @@ public class SearchController {
 		Employee employee = (Employee) session.getAttribute("employee");
 		long employeeId = employee.getId();
 		new Thread(new updateRelevanceForEmployee(employeeId)).start();
-		return "../WEB-INF/jsp/employee/listMatchRecruitment.jsp";
+		return "../WEB-INF/jsp/employee/listMatchPosition.jsp";
 	}
 	
 	/**
@@ -126,8 +127,8 @@ public class SearchController {
 	 */
 	@RequestMapping("updateRelevanceForEmployer")
 	public String updateRelevanceForEmployer(HttpServletRequest req, HttpServletResponse res) {
-		long recruitmentId = Long.parseLong(req.getParameter("recruitmentId"));
-		new Thread(new updateRelevanceForEmployer(recruitmentId)).start();
+		long positionId = Long.parseLong(req.getParameter("positionId"));
+		new Thread(new updateRelevanceForEmployer(positionId)).start();
 		return "../employer.jsp";
 	}
 	
@@ -137,28 +138,28 @@ public class SearchController {
 	 * @param res
 	 * @return
 	 */
-	@RequestMapping("listMatchRecruitment")
-	public String listMatchRecruitment(HttpServletRequest req,
+	@RequestMapping("listMatchPosition")
+	public String listMatchPosition(HttpServletRequest req,
 			HttpServletResponse res) {
 		HttpSession session = req.getSession();
 		Employee employee = (Employee) session.getAttribute("employee");
 		long employeeId = employee.getId();
 		int offset = Integer.parseInt(req.getParameter("offset"));
-		Pager<MatchRecruitment> relevancePager = searchService.listMatchRecruitment(employeeId, offset);
+		Pager<MatchPosition> relevancePager = searchService.listMatchPosition(employeeId, offset);
 		session.removeAttribute("relevancePager");
 		session.setAttribute("relevancePager", relevancePager);
-		return "../WEB-INF/jsp/employee/listMatchRecruitment.jsp";
+		return "../WEB-INF/jsp/employee/listMatchPosition.jsp";
 	}
 	
 	@RequestMapping("listMatchResume")
 	public String listMatchResume(HttpServletRequest req, HttpServletResponse res) {
-		long recruitmentId = Long.parseLong(req.getParameter("recruitmentId"));
+		long positionId = Long.parseLong(req.getParameter("positionId"));
 		int offset = Integer.parseInt(req.getParameter("offset"));
-		Pager<MatchResume> relevancePager = searchService.listMatchResume(recruitmentId, offset);
+		Pager<MatchResume> relevancePager = searchService.listMatchResume(positionId, offset);
 		HttpSession session = req.getSession();
 		session.removeAttribute("relevancePager");
 		session.setAttribute("relevancePager", relevancePager);
-		return "../WEB-INF/jsp/employer/listMatchResume.jsp?recruitmentId="+recruitmentId;
+		return "../WEB-INF/jsp/employer/listMatchResume.jsp?positionId="+positionId;
 	}
 
 	/**
@@ -182,15 +183,15 @@ public class SearchController {
 	
 	private class updateRelevanceForEmployer implements Runnable {
 		
-		long recruitmentId;
+		long positionId;
 		
-		public updateRelevanceForEmployer(long recruitmentId) {
-			this.recruitmentId = recruitmentId;
+		public updateRelevanceForEmployer(long positionId) {
+			this.positionId = positionId;
 		}
 
 		@Override
 		public void run() {
-			searchService.updateRelevanceForEmployer(recruitmentId);
+			searchService.updateRelevanceForEmployer(positionId);
 		}
 	}
 	

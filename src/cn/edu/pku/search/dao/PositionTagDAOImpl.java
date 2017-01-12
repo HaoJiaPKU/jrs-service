@@ -12,7 +12,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import org.springframework.stereotype.Repository;
 
-import cn.edu.pku.search.domain.RecruitmentTag;
+import cn.edu.pku.search.domain.PositionTag;
 import cn.edu.pku.util.SystemContext;
 
 /**
@@ -21,7 +21,7 @@ import cn.edu.pku.util.SystemContext;
  */
 
 @Repository
-public class RecuitmentTagDAOImpl extends HibernateDaoSupport implements RecruitmentTagDAO {
+public class PositionTagDAOImpl extends HibernateDaoSupport implements PositionTagDAO {
 
 	@Resource
 	public void setSuperSessionFactory(SessionFactory sessionFactory) {
@@ -29,20 +29,20 @@ public class RecuitmentTagDAOImpl extends HibernateDaoSupport implements Recruit
 	}
 	
 	@Override
-	public void add(RecruitmentTag recruitmentTag) {
-		this.getHibernateTemplate().save(recruitmentTag);
+	public void add(PositionTag positionTag) {
+		this.getHibernateTemplate().save(positionTag);
 	}
 
 	@Override
-	public void update(RecruitmentTag recruitmentTag) {
-		this.getHibernateTemplate().update(recruitmentTag);
+	public void update(PositionTag positionTag) {
+		this.getHibernateTemplate().update(positionTag);
 	}
 
 	@Override
-	public List<RecruitmentTag> listRecruitmentTag(long recruitmentId) {
+	public List<PositionTag> listPositionTag(long positionId) {
 		Query query = this.getSession().createQuery(
-				"from RecruitmentTag where recruitmentId=? order by tagName desc");
-		query.setParameter(0, recruitmentId);
+				"from PositionTag where positionId=? order by tagName desc");
+		query.setParameter(0, positionId);
 		return query.list();
 	}
 

@@ -41,7 +41,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<%		if (match.getResume() instanceof Resume) {  %>
 				<%			Resume resume = (Resume) match.getResume();  %>
 				<h3>
-					<a href="recruitment/checkResume?employeeId=<%=resume.getEmployeeId()%>" target="_blank"><%=resume.getName()+"-"+resume.getEducationBackground()%></a>
+					<a href="position/checkResume?employeeId=<%=resume.getEmployeeId()%>" target="_blank"><%=resume.getName()+"-"+resume.getEducationBackground()%></a>
 				</h3>
 					相关度：<%=match.getRelevance() %>
 				
@@ -74,13 +74,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<ul class="pagination">
 					<c:if test="${relevancePager.offset > 0 }">
 						<li><a
-							href="search/listMatchResume?recruitmentId=<%=request.getParameter("recruitmentId")%>&offset=${relevancePager.offset-relevancePager.size}">&laquo;</a></li>
+							href="search/listMatchResume?positionId=<%=request.getParameter("positionId")%>&offset=${relevancePager.offset-relevancePager.size}">&laquo;</a></li>
 					</c:if>
 					<c:forEach var="id" begin="0" end="9">
 						<c:if test="${id * relevancePager.size < relevancePager.total }">
 							<c:if test="${id * relevancePager.size != relevancePager.offset }">
 								<li><a
-									href="search/listMatchResume?recruitmentId=<%=request.getParameter("recruitmentId")%>&offset=${id*relevancePager.size}">${id+1}</a></li>
+									href="search/listMatchResume?positionId=<%=request.getParameter("positionId")%>&offset=${id*relevancePager.size}">${id+1}</a></li>
 							</c:if>
 							<c:if test="${id * relevancePager.size == relevancePager.offset }">
 								<li class="active"><a href="javascript:void(0)">${id+1}<span
@@ -90,7 +90,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</c:forEach>
 					<c:if test="${relevancePager.offset+relevancePager.size<relevancePager.total }">
 						<li><a
-							href="search/listMatchResume?recruitmentId=<%=request.getParameter("recruitmentId")%>&offset=${relevancePager.offset+relevancePager.size}">&raquo;</a></li>
+							href="search/listMatchResume?positionId=<%=request.getParameter("positionId")%>&offset=${relevancePager.offset+relevancePager.size}">&raquo;</a></li>
 					</c:if>
 				</ul>
 			</div>

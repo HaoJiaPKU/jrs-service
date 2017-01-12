@@ -20,74 +20,74 @@ import org.springframework.stereotype.Service;
 
 import com.chenlb.mmseg4j.analysis.SimpleAnalyzer;
 
-import cn.edu.pku.search.dao.RecruitmentDAO;
+import cn.edu.pku.search.dao.PositionDAO;
 import cn.edu.pku.search.domain.Attachment;
-import cn.edu.pku.search.domain.Recruitment;
+import cn.edu.pku.search.domain.PositionJobpopo;
 
 @Service
-public class RecruitmentServiceImpl implements RecruitmentService {
+public class PositionServiceImpl implements PositionService {
 
 	public static final Logger logger = Logger
-			.getLogger(RecruitmentServiceImpl.class);
+			.getLogger(PositionServiceImpl.class);
 
-	RecruitmentDAO recruitmentDao;
+	PositionDAO positionDao;
 
-	public RecruitmentDAO getRecruitmentDao() {
-		return recruitmentDao;
+	public PositionDAO getPositionDao() {
+		return positionDao;
 	}
 
 	@Resource
-	public void setRecruitmentDao(RecruitmentDAO recruitmentDao) {
-		this.recruitmentDao = recruitmentDao;
+	public void setPositionDao(PositionDAO positionDao) {
+		this.positionDao = positionDao;
 	}
 
 	@Override
-	public long addRecruitment(long employerId, String uploadTime,
+	public long addPosition(long employerId, String uploadTime,
 			String modifyTime, String uploadIp, String modifyIp, String title, String degree,
 			String city, String company, String position, String business,
 			String scale, String type, String salary, int recruitNum,
 			String description) {
-		Recruitment recruitment = new Recruitment(employerId, uploadTime,
+		PositionJobpopo positionJobpopo = new PositionJobpopo(employerId, uploadTime,
 				modifyTime, uploadIp, modifyIp, title, degree, city, company,
 				position, business, scale, type, salary, recruitNum,
 				description);
-		recruitmentDao.addRecruitment(recruitment);
-		new Thread(new UpdateIndex(recruitment)).start();
-		return recruitment.getId();
+		positionDao.addPosition(positionJobpopo);
+		new Thread(new UpdateIndex(positionJobpopo)).start();
+		return positionJobpopo.getId();
 	}
 
 	@Override
-	public void addAttachment(long recruitmentId, String filepath) {
-		Attachment attachment = new Attachment(recruitmentId, filepath);
-		recruitmentDao.addAttachment(attachment);
+	public void addAttachment(long positionId, String filepath) {
+		Attachment attachment = new Attachment(positionId, filepath);
+		positionDao.addAttachment(attachment);
 	}
 
 	@Override
-	public List<Recruitment> listRecruitment(long employerId) {
-		return recruitmentDao.listRecruitment(employerId);
+	public List<PositionJobpopo> listPosition(long employerId) {
+		return positionDao.listPosition(employerId);
 	}
 
 	@Override
-	public Recruitment getRecruitment(long id) {
-		return recruitmentDao.loadRecruitment(id);
+	public PositionJobpopo getPosition(long id) {
+		return positionDao.loadPosition(id);
 	}
 
 	@Override
-	public List<Attachment> listAttachment(long recruitmentId) {
-		return recruitmentDao.listAttachment(recruitmentId);
+	public List<Attachment> listAttachment(long positionId) {
+		return positionDao.listAttachment(positionId);
 	}
 
 	@Override
-	public void deleteRecruitment(long id) {
-		recruitmentDao.deleteRecruitment(id);
+	public void deletePosition(long id) {
+		positionDao.deletePosition(id);
 	}
 
 	private class UpdateIndex implements Runnable {
 
-		private Recruitment recruitment;
+		private PositionJobpopo position;
 
-		public UpdateIndex(Recruitment recruitment) {
-			this.recruitment = recruitment;
+		public UpdateIndex(PositionJobpopo position) {
+			this.position = position;
 		}
 
 		@Override
@@ -108,16 +108,16 @@ public class RecruitmentServiceImpl implements RecruitmentService {
 				IndexWriter writer = new IndexWriter(dir, iwc);
 
 				Document doc = new Document();
-				doc.add(new TextField("id", recruitment.getId() + "",
+				doc.add(new TextField("id", position.getId() + "",
 						Field.Store.YES));
-				doc.add(new TextField("source", recruitment.getCompany(), Field.Store.YES));
-				String content = recruitment.getBusiness() + " "
-						+ recruitment.getCity() + " "
-						+ recruitment.getCompany() + " "
-						+ recruitment.getDegree() + " "
-						+ recruitment.getDescription() + " "
-						+ recruitment.getPosition() + " "
-						+ recruitment.getType();
+				doc.add(new TextField("source", position.getCompany(), Field.Store.YES));
+				String content = position.getBusiness() + " "
+						+ position.getCity() + " "
+						+ position.getCompany() + " "
+						+ position.getDegree() + " "
+						+ position.getDescription() + " "
+						+ position.getPosition() + " "
+						+ position.getType();
 				doc.add(new TextField("content", content, Field.Store.NO));
 				writer.addDocument(doc);
 

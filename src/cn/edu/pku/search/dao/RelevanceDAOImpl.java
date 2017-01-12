@@ -27,7 +27,7 @@ public class RelevanceDAOImpl extends HibernateDaoSupport implements
 	}
 
 	@Override
-	public long getRecruitmentNumber(long employeeId) {
+	public long getPositionNumber(long employeeId) {
 		Query query = this.getSession().createQuery(
 				"select count(*) from Relevance where employeeId=?");
 		query.setParameter(0, employeeId);
@@ -35,19 +35,19 @@ public class RelevanceDAOImpl extends HibernateDaoSupport implements
 	}
 
 	@Override
-	public long getResumeNumber(long recruitmentId) {
+	public long getResumeNumber(long positionId) {
 		Query query = this.getSession().createQuery(
-				"select count(*) from Relevance where recruitmentId=?");
-		query.setParameter(0, recruitmentId);
+				"select count(*) from Relevance where positionId=?");
+		query.setParameter(0, positionId);
 		return ((Number) query.uniqueResult()).longValue();
 	}
 
 	@Override
-	public List<Relevance> listRelevanceForEmployer(long recruitmentId,
+	public List<Relevance> listRelevanceForEmployer(long positionId,
 			int offset) {
 		Query query = this.getSession().createQuery(
-				"from Relevance where recruitmentId=? order by relevance desc");
-		query.setParameter(0, recruitmentId);
+				"from Relevance where positionId=? order by relevance desc");
+		query.setParameter(0, positionId);
 		query.setFirstResult(offset);
 		query.setMaxResults(SystemContext.getSize());
 		return query.list();

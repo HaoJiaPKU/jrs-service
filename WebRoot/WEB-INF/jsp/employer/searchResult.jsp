@@ -50,7 +50,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<%		if (abs instanceof Resume) {  %>
 				<%			Resume resume = (Resume) abs;  %>
 				<h3>
-					<a href="recruitment/checkResume?employeeId=<%=resume.getEmployeeId()%>" target="_blank"><%=resume.getName()+"-"+resume.getEducationBackground()%></a>
+					<a href="position/checkResume?employeeId=<%=resume.getEmployeeId()%>" target="_blank"><%=resume.getName()+"-"+resume.getEducationBackground()%></a>
 				</h3>
 				
 						<!-- 51job上的简历 -->

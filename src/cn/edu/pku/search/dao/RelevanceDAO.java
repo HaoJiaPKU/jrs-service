@@ -18,7 +18,7 @@ public interface RelevanceDAO {
 	 * @param offset 偏移量
 	 * @return
 	 */
-	public List<Relevance> listRelevanceForEmployer(long recruitmentId, int offset);
+	public List<Relevance> listRelevanceForEmployer(long positionId, int offset);
 	
 	/**
 	 * 列出匹配某求职者的一部分相关度信息
@@ -40,12 +40,12 @@ public interface RelevanceDAO {
 	 * @param employeeId
 	 * @return
 	 */
-	public long getRecruitmentNumber(long employeeId);
+	public long getPositionNumber(long employeeId);
 	
 	/**
 	 * 得到简历信息的总条数
-	 * @param recruitmentId
+	 * @param positionId
 	 * @return
 	 */
-	public long getResumeNumber(long recruitmentId);
+	public long getResumeNumber(long positionId);
 }

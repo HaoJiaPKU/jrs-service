@@ -18,5 +18,5 @@ public class FilePath {
 	public static final String resumeIndex = "ResumeIndex";
 	
 	//lucene索引招聘信息的文件路径
-	public static final String recruitmentIndex = "RecruitmentIndex";
+	public static final String positionIndex = "RecruitmentIndex";
 }

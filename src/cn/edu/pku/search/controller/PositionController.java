@@ -20,10 +20,10 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import cn.edu.pku.search.domain.Attachment;
 import cn.edu.pku.search.domain.Education;
-import cn.edu.pku.search.domain.Recruitment;
+import cn.edu.pku.search.domain.PositionJobpopo;
 import cn.edu.pku.search.domain.Resume;
 import cn.edu.pku.search.domain.WorkExperience;
-import cn.edu.pku.search.service.RecruitmentService;
+import cn.edu.pku.search.service.PositionService;
 import cn.edu.pku.search.service.ResumeService;
 import cn.edu.pku.user.domain.Employer;
 import cn.edu.pku.util.FilePath;
@@ -35,13 +35,13 @@ import cn.edu.pku.util.FilePath;
  * 
  */
 @Controller
-@RequestMapping("recruitment")
-public class RecruitmentController {
+@RequestMapping("position")
+public class PositionController {
 
 	public static final Logger logger = Logger
-			.getLogger(RecruitmentController.class);
+			.getLogger(PositionController.class);
 
-	private RecruitmentService recruitmentService;
+	private PositionService positionService;
 	private ResumeService resumeService;
 
 	public ResumeService getResumeService() {
@@ -53,13 +53,13 @@ public class RecruitmentController {
 		this.resumeService = resumeService;
 	}
 
-	public RecruitmentService getRecruitmentService() {
-		return recruitmentService;
+	public PositionService getPositionService() {
+		return positionService;
 	}
 
 	@Resource
-	public void setRecruitmentService(RecruitmentService recruitmentService) {
-		this.recruitmentService = recruitmentService;
+	public void setPositionService(PositionService positionService) {
+		this.positionService = positionService;
 	}
 
 	/**
@@ -67,9 +67,9 @@ public class RecruitmentController {
 	 * 
 	 * @return
 	 */
-	@RequestMapping(value = "addRecruitment", method = RequestMethod.GET)
-	public String addRecruitment() {
-		return "../WEB-INF/jsp/employer/addRecruitment.jsp";
+	@RequestMapping(value = "addPosition", method = RequestMethod.GET)
+	public String addPosition() {
+		return "../WEB-INF/jsp/employer/addPosition.jsp";
 	}
 
 	/**
@@ -79,8 +79,8 @@ public class RecruitmentController {
 	 * @param res
 	 * @return
 	 */
-	@RequestMapping(value = "addRecruitment", method = RequestMethod.POST)
-	public String addRecruitment(HttpServletRequest req, HttpServletResponse res) {
+	@RequestMapping(value = "addPosition", method = RequestMethod.POST)
+	public String addPosition(HttpServletRequest req, HttpServletResponse res) {
 		try {
 			SimpleDateFormat sFormat = new SimpleDateFormat(
 					"yyyy-MM-dd hh:mm:ss");
@@ -112,7 +112,7 @@ public class RecruitmentController {
 			String modifyTime = uploadTime;
 			String uploadIp = req.getRequestURL().substring(7).split(":")[0];
 			String modifyIp = uploadIp;
-			long recruitmentId = recruitmentService.addRecruitment(employerId,
+			long positionId = positionService.addPosition(employerId,
 					uploadTime, modifyTime, uploadIp, modifyIp, title, degree,
 					city, company, position, business, scale, type, salary,
 					recruitNum, description);
@@ -121,8 +121,8 @@ public class RecruitmentController {
 				MultipartFile file = multipartRequest.getFile("attachment" + i);
 				if (!file.isEmpty()) {
 					String extension = file.getContentType().split("/")[1];
-					String filename = recruitmentId + "-" + i + "." + extension;
-					recruitmentService.addAttachment(recruitmentId,
+					String filename = positionId + "-" + i + "." + extension;
+					positionService.addAttachment(positionId,
 							FilePath.attachmentPath + filename);
 					file.transferTo(new File(FilePath.attachmentPath, filename));
 				}
@@ -132,7 +132,7 @@ public class RecruitmentController {
 		} catch (IOException e) {
 			logger.error(e.getMessage(), e);
 		}
-		return "listRecruitment";
+		return "listPosition";
 	}
 
 	/**
@@ -142,14 +142,14 @@ public class RecruitmentController {
 	 * @param res
 	 * @return
 	 */
-	@RequestMapping("listRecruitment")
+	@RequestMapping("listPosition")
 	public String listRecruiment(HttpServletRequest req, HttpServletResponse res) {
 		HttpSession session = req.getSession();
 		Employer employer = (Employer) session.getAttribute("employer");
 		long employerId = employer.getId();
-		List<Recruitment> list = recruitmentService.listRecruitment(employerId);
-		session.setAttribute("listRecruitment", list);
-		return "../WEB-INF/jsp/employer/listRecruitment.jsp";
+		List<PositionJobpopo> list = positionService.listPosition(employerId);
+		session.setAttribute("listPosition", list);
+		return "../WEB-INF/jsp/employer/listPosition.jsp";
 	}
 
 	/**
@@ -159,17 +159,17 @@ public class RecruitmentController {
 	 * @param res
 	 * @return
 	 */
-	@RequestMapping("checkRecruitment")
-	public String checkRecruitment(HttpServletRequest req,
+	@RequestMapping("checkPosition")
+	public String checkPosition(HttpServletRequest req,
 			HttpServletResponse res) {
 		long id = Long.parseLong(req.getParameter("id"));
-		Recruitment recruit = recruitmentService.getRecruitment(id);
-//		List<Attachment> listAttach = recruitmentService.listAttachment(recruit
+		PositionJobpopo recruit = positionService.getPosition(id);
+//		List<Attachment> listAttach = positionService.listAttachment(recruit
 //				.getId());
 		HttpSession session = req.getSession();
-		session.setAttribute("recruitment", recruit);
+		session.setAttribute("position", recruit);
 //		session.setAttribute("listAttach", listAttach);
-		return "../WEB-INF/jsp/employer/checkRecruitment.jsp";
+		return "../WEB-INF/jsp/employer/checkPosition.jsp";
 	}
 
 	/**
@@ -179,12 +179,12 @@ public class RecruitmentController {
 	 * @param res
 	 * @return
 	 */
-	@RequestMapping("deleteRecruitment")
-	public String deleteRecruitment(HttpServletRequest req,
+	@RequestMapping("deletePosition")
+	public String deletePosition(HttpServletRequest req,
 			HttpServletResponse res) {
 		long id = Long.parseLong(req.getParameter("id"));
-		recruitmentService.deleteRecruitment(id);
-		return "listRecruitment";
+		positionService.deletePosition(id);
+		return "listPosition";
 	}
 
 	/**

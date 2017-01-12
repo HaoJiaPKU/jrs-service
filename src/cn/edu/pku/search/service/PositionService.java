@@ -3,9 +3,9 @@ package cn.edu.pku.search.service;
 import java.util.List;
 
 import cn.edu.pku.search.domain.Attachment;
-import cn.edu.pku.search.domain.Recruitment;
+import cn.edu.pku.search.domain.PositionJobpopo;
 
-public interface RecruitmentService {
+public interface PositionService {
 
 	/**
 	 * 添加招聘信息
@@ -27,42 +27,42 @@ public interface RecruitmentService {
 	 * @param description
 	 * @return
 	 */
-	public long addRecruitment(long employerId, String uploadTime, String modifyTime,
+	public long addPosition(long employerId, String uploadTime, String modifyTime,
 			String uploadIp, String modifyIp, String title, String degree, String city,
 			String company, String position, String business, String scale,
 			String type, String salary, int recruitNum, String description);
 	
 	/**
 	 * 添加附件
-	 * @param recruitmentId
+	 * @param positionId
 	 * @param filepath
 	 */
-	public void addAttachment(long recruitmentId,String filepath);
+	public void addAttachment(long positionId,String filepath);
 	
 	/**
 	 * 列出某一用户发布的招聘信息
 	 * @param employerId
 	 * @return
 	 */
-	public List<Recruitment> listRecruitment(long employerId);
+	public List<PositionJobpopo> listPosition(long employerId);
 	
 	/**
 	 * 得到某一条招聘信息
 	 * @param id
 	 * @return
 	 */
-	public Recruitment getRecruitment(long id);
+	public PositionJobpopo getPosition(long id);
 	
 	/**
 	 * 删除某一条招聘信息
 	 * @param id
 	 */
-	public void deleteRecruitment(long id);
+	public void deletePosition(long id);
 	
 	/**
 	 * 列出某一条招聘信息的所有附件
-	 * @param recruitmentId
+	 * @param positionId
 	 * @return
 	 */
-	public List<Attachment> listAttachment(long recruitmentId);
+	public List<Attachment> listAttachment(long positionId);
 }

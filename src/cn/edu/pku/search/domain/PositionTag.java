@@ -17,30 +17,30 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="recruitment_tag")
-public class RecruitmentTag implements Serializable {
+public class PositionTag implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	private long recruitmentId;
+	private long positionId;
 	private String tagName;
 	private double tagValue;
 	
-	public RecruitmentTag () {}
+	public PositionTag () {}
 	
-	public RecruitmentTag (long recruitmentId, String tagName, double tagValue) {
+	public PositionTag (long positionId, String tagName, double tagValue) {
 		super();
-		this.recruitmentId = recruitmentId;
+		this.positionId = positionId;
 		this.tagName = tagName;
 		this.tagValue = tagValue;
 	}
 	
 	@Id
 	@Column(name="recruitment_id")
-	public long getRecruitmentId() {
-		return recruitmentId;
+	public long getPositionId() {
+		return positionId;
 	}
-	public void setRecruitmentId(long recruitmentId) {
-		this.recruitmentId = recruitmentId;
+	public void setPositionId(long positionId) {
+		this.positionId = positionId;
 	}
 	
 	@Id
@@ -65,7 +65,7 @@ public class RecruitmentTag implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + (int) (recruitmentId ^ (recruitmentId >>> 32));
+		result = prime * result + (int) (positionId ^ (positionId >>> 32));
 		result = prime * result + ((tagName == null) ? 0 : tagName.hashCode());
 		long temp;
 		temp = Double.doubleToLongBits(tagValue);
@@ -82,8 +82,8 @@ public class RecruitmentTag implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		RecruitmentTag other = (RecruitmentTag) obj;
-		if (recruitmentId != other.recruitmentId)
+		PositionTag other = (PositionTag) obj;
+		if (positionId != other.positionId)
 			return false;
 		if (tagName == null) {
 			if (other.tagName != null)

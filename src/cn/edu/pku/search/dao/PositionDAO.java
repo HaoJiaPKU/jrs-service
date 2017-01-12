@@ -3,16 +3,16 @@ package cn.edu.pku.search.dao;
 import java.util.List;
 
 import cn.edu.pku.search.domain.Attachment;
-import cn.edu.pku.search.domain.Recruitment;
-import cn.edu.pku.search.domain.RecruitmentV1;
+import cn.edu.pku.search.domain.PositionJobpopo;
+import cn.edu.pku.search.domain.Position;
 
-public interface RecruitmentDAO {
+public interface PositionDAO {
 
 	/**
 	 * 添加招聘信息
-	 * @param recruitment
+	 * @param position
 	 */
-	public void addRecruitment(Recruitment recruitment);
+	public void addPosition(PositionJobpopo position);
 	
 	/**
 	 * 添加附件
@@ -25,27 +25,27 @@ public interface RecruitmentDAO {
 	 * @param employerId
 	 * @return
 	 */
-	public List<Recruitment> listRecruitment(long employerId);
+	public List<PositionJobpopo> listPosition(long employerId);
 	
 	/**
 	 * 得到某条招聘信息
 	 * @param id
 	 * @return
 	 */
-	public Recruitment loadRecruitment(long id);
+	public PositionJobpopo loadPosition(long id);
 	
 	/**
 	 * 得到某条从外部爬取的招聘信息
 	 * @param id
 	 * @return
 	 */
-	public RecruitmentV1 loadRecruitmentBbs(long id);
+	public Position loadPositionBbs(long id);
 	
 	/**
 	 * 删除招聘信息
 	 * @param id
 	 */
-	public void deleteRecruitment(long id);
+	public void deletePosition(long id);
 	
 	/**
 	 * 删除附件
@@ -55,16 +55,16 @@ public interface RecruitmentDAO {
 	
 	/**
 	 * 得到某条招聘信息的附件
-	 * @param recruitmentId
+	 * @param positionId
 	 * @return
 	 */
-	public List<Attachment> listAttachment(long recruitmentId);
+	public List<Attachment> listAttachment(long positionId);
 	
 	/**
 	 * 列出所有的招聘信息
 	 * @return
 	 */
-	public List<Recruitment> listAllRecruitment();
+	public List<PositionJobpopo> listAllPosition();
 	
 	/**
 	 * 列出某一部分招聘信息
@@ -72,7 +72,7 @@ public interface RecruitmentDAO {
 	 * @param size 返回的结果条数
 	 * @return
 	 */
-	public List<RecruitmentV1> listRecruitmentBBS(int offset,int size);
+	public List<Position> listPositionBBS(int offset,int size);
 	
 	/**
 	 * 列出某一部分招聘信息
@@ -80,19 +80,19 @@ public interface RecruitmentDAO {
 	 * @param size 返回的结果条数
 	 * @return
 	 */
-	public List<Recruitment> listRecruitment(int offset, int size);
+	public List<PositionJobpopo> listPosition(int offset, int size);
 	
 	/**
 	 * 更新BBS招聘信息
-	 * @param recruitment 招聘信息
+	 * @param position 招聘信息
 	 * @return
 	 */
-	public void updateBBS(RecruitmentV1 recruitmentBBS);
+	public void updateBBS(Position positionBBS);
 	
 	/**
 	 * 更新招聘信息
-	 * @param recruitment 招聘信息
+	 * @param position 招聘信息
 	 * @return
 	 */
-	public void update(Recruitment recruitment);
+	public void update(PositionJobpopo position);
 }

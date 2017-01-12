@@ -38,22 +38,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<tr>
 						<th>标题</th><th>发布时间</th><th></th><th></th><th></th>
 					</tr>
-					<c:forEach items="${listRecruitment }" var="recruit" varStatus="index">
+					<c:forEach items="${listPosition }" var="recruit" varStatus="index">
 						<tr>
 							<td>
-								<a href="recruitment/checkRecruitment?id=${recruit.id }" target="_blank">${recruit.position }</a>
+								<a href="position/checkPosition?id=${recruit.id }" target="_blank">${recruit.position }</a>
 							</td>
 							<td>
 								${recruit.uploadTime}
 							</td>
 							<td>
-								<a href="search/updateRelevanceForEmployer?recruitmentId=${recruit.id }">更新匹配度</a>
+								<a href="search/updateRelevanceForEmployer?positionId=${recruit.id }">更新匹配度</a>
 							</td>
 							<td>
-								<a href="search/listMatchResume?recruitmentId=${recruit.id }&offset=0">查看匹配简历</a>
+								<a href="search/listMatchResume?positionId=${recruit.id }&offset=0">查看匹配简历</a>
 							</td>
 							<td>
-								<a href="recruitment/deleteRecruitment?id=${recruit.id }">删除</a>
+								<a href="position/deletePosition?id=${recruit.id }">删除</a>
 							</td>
 						</tr>
 					</c:forEach>
