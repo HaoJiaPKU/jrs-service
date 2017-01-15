@@ -1,4 +1,4 @@
-package cn.edu.pku.recruitment.logistic;
+package cn.edu.pku.rec.logistic;
 
 
 import java.io.BufferedReader;

@@ -1,24 +1,26 @@
-package cn.edu.pku.recruitment.expansion;
+package cn.edu.pku.rec.expansion;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.edu.pku.recruitment.preProcessor.PreProcessor;
+import cn.edu.pku.rec.processor.PreProcessor;
+import cn.edu.pku.util.HanLPSegmenter;
 
 public class SortDocs {
 	TfIdfcomputor tfidf;
 	//切词
 	SortDocs() throws IOException
 	{
-		PreProcessor.loadSegmenter();
-		PreProcessor.loadStopWords(null);
+//		PreProcessor.loadSegmenter();
+//		PreProcessor.loadStopWords(null);
+		HanLPSegmenter.loadStopword(null);
 		tfidf = new TfIdfcomputor();
 	}
 	public List<String> cutWords(String s) throws IOException
 	{
 		List<String> res = new ArrayList<String>();
-		for(String i: PreProcessor.stopWordExceptCPP(s))
+		for(String i: HanLPSegmenter.segmentation(s, false, false, null))
 		{
 			res.add(i);
 		}

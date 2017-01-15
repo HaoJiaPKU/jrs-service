@@ -1,4 +1,4 @@
-﻿package cn.edu.pku.recruitment.preProcessor;
+﻿package cn.edu.pku.rec.processor;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
@@ -24,7 +25,9 @@ import cn.edu.pku.search.domain.Education;
 import cn.edu.pku.search.domain.Position;
 import cn.edu.pku.search.domain.Resume;
 import cn.edu.pku.search.domain.WorkExperience;
+import cn.edu.pku.util.FileInput;
 import cn.edu.pku.util.FilePath;
+import cn.edu.pku.util.HanLPSegmenter;
 /**
  * 文本预处理
  * @author Lan Zheng
@@ -35,9 +38,9 @@ public class PreProcessor {
 	/** 分词器 */
 	public static CRFClassifier<CoreLabel> segmenter;
 	/** 停用词、停用符号文件 */
-	public static String stopWordsFile = FilePath.nlpPath+"stopWords.txt";
+	public static String stopwordsFile = FilePath.nlpPath+"stopwords.txt";
 	/** 停用词、停用符号表 */
-	public static HashSet <String> stopWords = new HashSet <String> ();
+	public static HashSet <String> stopwords = new HashSet <String> ();
 	/** 输入文件编码方式 */
 	public static final String encodingInput = "UTF-8";
 	/** 输出文件编码方式 */
@@ -71,30 +74,30 @@ public class PreProcessor {
 	 * 设置停用词、停用符号文件路径 
 	 * @param _matchProbFilePath 停用词、停用符号文件路径
 	 * */
-	public static void setStopWordsFile(String _stopWordsFile)
+	public static void setStopWordsFile(String _stopwordsFile)
 	{
-		stopWordsFile = _stopWordsFile;
+		stopwordsFile = _stopwordsFile;
 	}
 	
 	/** 
 	 * 加载停用词、停用符号表
-	 * @param stopWordsFilePath 停用词表文件路径
+	 * @param stopwordsFilePath 停用词表文件路径
 	 * @throws IOException 找不到停用词、停用符号文件
 	 */
-	public static void loadStopWords(String stopWordsFilePath) throws IOException
+	public static void loadStopWords(String stopwordsFilePath) throws IOException
 	{
-		if(stopWordsFilePath != null)
-			stopWordsFile = stopWordsFilePath;
-		InputStreamReader isr = new InputStreamReader(new FileInputStream(stopWordsFile));
+		if(stopwordsFilePath != null)
+			stopwordsFile = stopwordsFilePath;
+		InputStreamReader isr = new InputStreamReader(new FileInputStream(stopwordsFile));
 		BufferedReader reader = new BufferedReader(isr);
 		String line = null;
 		while((line = reader.readLine()) != null)
-			stopWords.add(new String(line.trim()));
-		stopWords.add(new String("\r"));
-		stopWords.add(new String("\n"));
-		stopWords.add(new String("\r\n"));
-		stopWords.add(new String("\n\r"));
-//		for(Iterator it = stopWords.iterator();it.hasNext();)
+			stopwords.add(new String(line.trim()));
+		stopwords.add(new String("\r"));
+		stopwords.add(new String("\n"));
+		stopwords.add(new String("\r\n"));
+		stopwords.add(new String("\n\r"));
+//		for(Iterator it = stopwords.iterator();it.hasNext();)
 //			System.out.println(it.next());
 		reader.close();
 	}	
@@ -106,7 +109,7 @@ public class PreProcessor {
 	 */
 	public static boolean isStopWords(String token)
 	{
-		if(stopWords.contains(token))
+		if(stopwords.contains(token))
 			return true;
 		return false;
 	}
@@ -161,11 +164,11 @@ public class PreProcessor {
 	}
 
 	/** 
-	 * 对HTML文件进行分词，只用于智联招聘
+	 * 禁用 对HTML文件进行分词，只用于智联招聘
 	 * @param htmlPath HTML文件路径
 	 * @param outputPath 输出文件路径
 	 * @throws IOException 找不到HTML文件
-	 */
+
 	public static void dealWithZhilianHtml(String htmlPath, String outputPath) throws IOException
 	{
 		FileOutputStream t1 = new FileOutputStream(new File(outputPath));
@@ -233,7 +236,7 @@ public class PreProcessor {
 			break;
 		}
 	}
-
+*/
 	/** 
 	 * 对文本文件进行分词
 	 * @param textPath 文本文件路径
@@ -242,57 +245,20 @@ public class PreProcessor {
 	 */
 	public static void dealWithText(String textPath, String outputPath) throws IOException
 	{
-		FileOutputStream t1 = new FileOutputStream(new File(outputPath));
-		OutputStreamWriter t2 = new OutputStreamWriter(t1, encodingOutput);
-		BufferedWriter t3 = new BufferedWriter(t2);
-			
-		File text = new File(textPath);
-		InputStreamReader isr = new InputStreamReader(new FileInputStream(text), encodingInput);
-		BufferedReader reader = new BufferedReader(isr);
-		String line = null;
-		while((line = reader.readLine()) != null)
-		{
-//			System.out.println(line);
-			String [] tokens = stopWordExceptCPP(line.trim());
-			Pattern p;
-			for(int i = 0; i < tokens.length; i ++)
-			{
-				//如果不包含大写字母返回原值，否则返回小写形式
-				tokens[i] = lowerCase(tokens[i].trim());
-					
-				//去除c以外的其他单个字母
-				p = Pattern.compile("[a-b]|[d-z]");
-				if(tokens[i].length() == 1
-						&& p.matcher(tokens[i]).find())
-					continue;
-				
-				//去除完全是数字的词
-				if(tokens[i].matches("[0-9]+"))
-					continue;
-				
-				tokens[i] = tokens[i].replaceAll("\r", "");
-				tokens[i] = tokens[i].replaceAll("\n", "");
-				tokens[i] = tokens[i].replaceAll("\t", "");
-				tokens[i] = tokens[i].trim();
-				//去除停用词和网址等特殊词
-				if(isStopWords(tokens[i]) || tokens[i].length() == 0
-//						|| tokens[i].contains("\n")
-//						|| tokens[i].contains("\r")
-						|| tokens[i].contains("-")
-						|| tokens[i].contains("@")
-						|| tokens[i].contains("COM")
-						|| tokens[i].contains("com")
-						|| tokens[i].contains("CN")
-						|| tokens[i].contains("cn")
-						|| tokens[i].contains("WWW")
-						|| tokens[i].contains("www"))
-					continue;
-				t3.write(tokens[i] + " ");
+		FileInput fi = new FileInput(textPath);
+		String content = new String();
+		String line = new String ();
+		try {
+			while ((line = fi.reader.readLine()) != null) {
+				content += line.trim();
 			}
-			t3.newLine();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		reader.close();
-		t3.close();
+		fi.closeInput();
+		
+		dealWithString(content, outputPath);
 	}
 	
 	/** 
@@ -303,55 +269,14 @@ public class PreProcessor {
 	 */
 	public static void dealWithString(String input, String outputPath) throws IOException
 	{
-		FileOutputStream t1 = new FileOutputStream(new File(outputPath));
-		OutputStreamWriter t2 = new OutputStreamWriter(t1, encodingOutput);
-		BufferedWriter t3 = new BufferedWriter(t2);
-//		t3.write(input.getPosition());
-//		t3.newLine();
-		String [] tokens = stopWordExceptCPP(input.trim());
-
-		Pattern p;
-		for(int i = 0; i < tokens.length; i ++)
-		{
-			//如果不包含大写字母返回原值，否则返回小写形式
-			tokens[i] = lowerCase(tokens[i].trim());
-				
-			//去除c以外的其他单个字母
-			p = Pattern.compile("[a-b]|[d-z]");
-			if(tokens[i].length() == 1
-					&& p.matcher(tokens[i]).find())
-				continue;
-			
-			//去除完全是数字的词
-			if(tokens[i].matches("[0-9]+"))
-				continue;
-			
-			tokens[i] = tokens[i].replaceAll("\r", "");
-			tokens[i] = tokens[i].replaceAll("\n", "");
-			tokens[i] = tokens[i].replaceAll("\t", "");
-			//去除停用词和网址等特殊词
-			if(isStopWords(tokens[i]) || tokens[i].length() == 0
-//						|| tokens[i].contains("\n")
-//						|| tokens[i].contains("\r")
-					|| tokens[i].contains("-")
-					|| tokens[i].contains("@")
-					|| tokens[i].contains("COM")
-					|| tokens[i].contains("com")
-					|| tokens[i].contains("CN")
-					|| tokens[i].contains("cn")
-					|| tokens[i].contains("WWW")
-					|| tokens[i].contains("www"))
-				continue;
-			t3.write(tokens[i] + " ");
-		}
-		t3.close();		
+		HanLPSegmenter.segmentation(input.trim(), true, true, outputPath);
 	}
 	
 	/** 
 	 * 批处理，只用于智联招聘
 	 * @param srcDir 源文件路径
 	 * @param newDir 目标写入文件路径
-	 */
+
 	public static void batchDealWithZhilianHtml(String srcDir, String newDir)
 	{
 		File [] files = new File(srcDir).listFiles();
@@ -376,6 +301,7 @@ public class PreProcessor {
 			}
 		}
 	}
+*/
 	
 	/** 
 	 * 对Resume类进行分词，用于对Resume类的文件进行处理
@@ -384,119 +310,39 @@ public class PreProcessor {
 	 * @throws IOException 找不到HTML文件
 	 */
 	public static void dealWithResume(Resume input, List<Education> edulist,
-			List<WorkExperience> worklist, String outputPath)
-			throws IOException {
-		FileOutputStream t1 = new FileOutputStream(new File(outputPath));
-		OutputStreamWriter t2 = new OutputStreamWriter(t1, encodingOutput);
-		BufferedWriter t3 = new BufferedWriter(t2);
-		t3.write(input.getJobIntension());
-		t3.newLine();
-		String token = input.getSpeciality();
-		token+=input.getOtherInfo();
-		token+=input.getWorkingPlace();
+			List<WorkExperience> worklist, String outputPath) {
+		String content = input.getJobIntension();
+		content += input.getSpeciality();
+		content += input.getOtherInfo();
+		content += input.getWorkingPlace();
 		for(Education edu : edulist)
 		{
-			token+=edu.getAcademy();
-			token+=edu.getDegree();
-			token+=edu.getSchool();
-			token+=edu.getMajor();
+			content += edu.getAcademy();
+			content += edu.getDegree();
+			content += edu.getSchool();
+			content += edu.getMajor();
 		}
 		for(WorkExperience work : worklist)
 		{
-			token+=work.getCompany();
-			token+=work.getJobTitle();
-			token+=work.getDescription();
+			content += work.getCompany();
+			content += work.getJobTitle();
+			content += work.getDescription();
 		}
-		String [] tokens = stopWordExceptCPP(token.trim());
-
-		Pattern p;
-		for(int i = 0; i < tokens.length; i ++)
-		{
-			//如果不包含大写字母返回原值，否则返回小写形式
-			tokens[i] = lowerCase(tokens[i].trim());
-				
-			//去除c以外的其他单个字母
-			p = Pattern.compile("[a-b]|[d-z]");
-			if(tokens[i].length() == 1
-					&& p.matcher(tokens[i]).find())
-				continue;
-			
-			//去除完全是数字的词
-			if(tokens[i].matches("[0-9]+"))
-				continue;
-			
-			tokens[i] = tokens[i].replaceAll("\r", "");
-			tokens[i] = tokens[i].replaceAll("\n", "");
-			tokens[i] = tokens[i].replaceAll("\t", "");
-			//去除停用词和网址等特殊词
-			if(isStopWords(tokens[i]) || tokens[i].length() == 0
-//						|| tokens[i].contains("\n")
-//						|| tokens[i].contains("\r")
-					|| tokens[i].contains("-")
-					|| tokens[i].contains("@")
-					|| tokens[i].contains("COM")
-					|| tokens[i].contains("com")
-					|| tokens[i].contains("CN")
-					|| tokens[i].contains("cn")
-					|| tokens[i].contains("WWW")
-					|| tokens[i].contains("www"))
-				continue;
-			t3.write(tokens[i] + " ");
-		}
-		t3.close();		
+		
+		HanLPSegmenter.segmentation(content.trim(), true, true, outputPath);
 	}
 	
 	/** 
-	 * 对Resume类进行分词，用于对Resume类的文件进行处理
-	 * @param input Resume类文件路径
+	 * 对Position类进行分词，用于对Position类的文件进行处理
+	 * @param input Position类文件路径
 	 * @param outputPath 输出文件路径
 	 * @throws IOException 找不到HTML文件
 	 */
 	public static void dealWithPosition(Position input, String outputPath) throws IOException
 	{
-		FileOutputStream t1 = new FileOutputStream(new File(outputPath));
-		OutputStreamWriter t2 = new OutputStreamWriter(t1, encodingOutput);
-		BufferedWriter t3 = new BufferedWriter(t2);
-//		t3.write(input.getPosition());
-//		t3.newLine();
-		String token = input.getPosTitle() + "\n" + input.getPosDescription();
-		String [] tokens = stopWordExceptCPP(token.trim());
-
-		Pattern p;
-		for(int i = 0; i < tokens.length; i ++)
-		{
-			//如果不包含大写字母返回原值，否则返回小写形式
-			tokens[i] = lowerCase(tokens[i].trim());
-				
-			//去除c以外的其他单个字母
-			p = Pattern.compile("[a-b]|[d-z]");
-			if(tokens[i].length() == 1
-					&& p.matcher(tokens[i]).find())
-				continue;
-			
-			//去除完全是数字的词
-			if(tokens[i].matches("[0-9]+"))
-				continue;
-			
-			tokens[i] = tokens[i].replaceAll("\r", "");
-			tokens[i] = tokens[i].replaceAll("\n", "");
-			tokens[i] = tokens[i].replaceAll("\t", "");
-			//去除停用词和网址等特殊词
-			if(isStopWords(tokens[i]) || tokens[i].length() == 0
-//						|| tokens[i].contains("\n")
-//						|| tokens[i].contains("\r")
-					|| tokens[i].contains("-")
-					|| tokens[i].contains("@")
-					|| tokens[i].contains("COM")
-					|| tokens[i].contains("com")
-					|| tokens[i].contains("CN")
-					|| tokens[i].contains("cn")
-					|| tokens[i].contains("WWW")
-					|| tokens[i].contains("www"))
-				continue;
-			t3.write(tokens[i] + " ");
-		}
-		t3.close();		
+		String content = input.getPosTitle() + "\n" + input.getPosDescription();
+		
+		HanLPSegmenter.segmentation(content.trim(), true, true, outputPath);
 	}
 	
 	public static void main(String args[]) throws IOException

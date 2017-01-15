@@ -1,4 +1,4 @@
-package cn.edu.pku.recruitment.expansion;
+package cn.edu.pku.rec.expansion;
 
 import java.util.ArrayList;
 

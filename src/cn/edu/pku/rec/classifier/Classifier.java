@@ -1,4 +1,4 @@
-﻿package cn.edu.pku.recruitment.classifier;
+﻿package cn.edu.pku.rec.classifier;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;

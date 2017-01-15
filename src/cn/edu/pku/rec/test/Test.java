@@ -1,12 +1,12 @@
-﻿package cn.edu.pku.recruitment.test;
+﻿package cn.edu.pku.rec.test;
 
 import java.io.IOException;
 
-import cn.edu.pku.recruitment.classifier.Classifier;
-import cn.edu.pku.recruitment.comparer.Comparer;
-import cn.edu.pku.recruitment.knowledgeBase.KnowledgeBase;
-import cn.edu.pku.recruitment.positionProcessor.PositionInfo;
-import cn.edu.pku.recruitment.resumeProcessor.ResumeInfo;
+import cn.edu.pku.rec.classifier.Classifier;
+import cn.edu.pku.rec.comparer.Comparer;
+import cn.edu.pku.rec.knowledge.KnowledgeBase;
+import cn.edu.pku.rec.processor.PositionInfo;
+import cn.edu.pku.rec.processor.ResumeInfo;
 
 /**
  * 示例

@@ -1,6 +1,6 @@
-package cn.edu.pku.recruitment.expansion;
+package cn.edu.pku.rec.expansion;
 
-import cn.edu.pku.recruitment.knowledgeBase.KnowledgeBase;
+import cn.edu.pku.rec.knowledge.KnowledgeBase;
 import cn.edu.pku.util.FilePath;
 
 import java.io.IOException;

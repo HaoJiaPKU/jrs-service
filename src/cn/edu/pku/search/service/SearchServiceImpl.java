@@ -24,12 +24,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.chenlb.mmseg4j.analysis.SimpleAnalyzer;
 
-import cn.edu.pku.recruitment.classifier.Classifier;
-import cn.edu.pku.recruitment.comparer.Comparer;
-import cn.edu.pku.recruitment.knowledgeBase.KnowledgeBase;
-import cn.edu.pku.recruitment.positionProcessor.PositionInfo;
-import cn.edu.pku.recruitment.preProcessor.PreProcessor;
-import cn.edu.pku.recruitment.resumeProcessor.ResumeInfo;
+import cn.edu.pku.rec.classifier.Classifier;
+import cn.edu.pku.rec.comparer.Comparer;
+import cn.edu.pku.rec.knowledge.KnowledgeBase;
+import cn.edu.pku.rec.processor.PositionInfo;
+import cn.edu.pku.rec.processor.PreProcessor;
+import cn.edu.pku.rec.processor.ResumeInfo;
 import cn.edu.pku.search.dao.PositionDAO;
 import cn.edu.pku.search.dao.PositionTagDAO;
 import cn.edu.pku.search.dao.RelevanceDAO;
@@ -52,6 +52,7 @@ import cn.edu.pku.user.dao.EmployeeTagDAO;
 import cn.edu.pku.user.domain.Employee;
 import cn.edu.pku.user.domain.EmployeeTag;
 import cn.edu.pku.util.FilePath;
+import cn.edu.pku.util.HanLPSegmenter;
 import cn.edu.pku.util.SystemContext;
 
 @Service
@@ -205,8 +206,9 @@ public class SearchServiceImpl implements SearchService {
 		
 		try {
 
-			PreProcessor.loadSegmenter();
-			PreProcessor.loadStopWords(null);
+//			PreProcessor.loadSegmenter();
+//			PreProcessor.loadStopWords(null);
+			HanLPSegmenter.loadStopword(null);
 			PreProcessor.dealWithResume(resume, eduList, workList, FilePath.nlpPath + "tmp/resume.txt");
 			
 			KnowledgeBase.setPositionFile(100, FilePath.nlpPath + "positionList top100.txt");
@@ -219,7 +221,7 @@ public class SearchServiceImpl implements SearchService {
 			Classifier.loadModel();
 			Classifier classifier = new Classifier();
 
-			double[] distribution;
+			double [] distribution;
 
 			logger.info("简历文件分析中间结果*************************");
 			ResumeInfo resumeInfo = new ResumeInfo();
@@ -238,6 +240,7 @@ public class SearchServiceImpl implements SearchService {
 			
 			// TODO hasTag is supposed to be boolean
 			// TODO 标签的更新不应该放在这个位置，考虑保存简历时
+			// TODO 更新逻辑依然有错误
 			Employee employee = employeeDAO.load(employeeId);
 			if (employee.getHasTag() != -1) {
 				for (int i = 0; i < distribution.length; i ++) {
@@ -245,8 +248,10 @@ public class SearchServiceImpl implements SearchService {
 							employeeId, KnowledgeBase.positionList[i], distribution[i]);
 					if (employee.getHasTag() == 1) {
 						employeeTagDAO.update(employeeTag);
+						System.out.println("update employeeTag");
 					} else {
 						employeeTagDAO.add(employeeTag);
+						System.out.println("add employeeTag");
 					}
 				}
 				employee.setHasTag(1);
@@ -254,6 +259,9 @@ public class SearchServiceImpl implements SearchService {
 			}
 			
 			for(int i = 0;;i++) {
+				if (i % 100 == 0) {
+					System.out.println(String.valueOf(i) + " data from bbs");
+				}
 				List<Position> positionList = positionDAO.listPositionBBS(i*100, 100);
 				if(positionList == null || positionList.size() == 0)
 					break;
@@ -303,6 +311,9 @@ public class SearchServiceImpl implements SearchService {
 			}
 			
 			for(int i = 0;;i++) {
+				if (i % 100 == 0) {
+					System.out.println(String.valueOf(i) + " data from jobpopo");
+				}
 				List<PositionJobpopo> positionList = positionDAO.listPosition(i*100, 100);
 				if(positionList == null || positionList.size() == 0)
 					break;
@@ -347,8 +358,9 @@ public class SearchServiceImpl implements SearchService {
 		
 		try {
 
-			PreProcessor.loadSegmenter();
-			PreProcessor.loadStopWords(null);
+//			PreProcessor.loadSegmenter();
+//			PreProcessor.loadStopWords(null);
+			HanLPSegmenter.loadStopword(null);
 			PreProcessor.dealWithString(position.textField(), FilePath.nlpPath + "tmp/position.txt");
 			
 			KnowledgeBase.setPositionFile(100, FilePath.nlpPath + "positionList top100.txt");

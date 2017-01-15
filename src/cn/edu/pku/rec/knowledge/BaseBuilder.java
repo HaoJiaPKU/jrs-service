@@ -1,4 +1,4 @@
-﻿package cn.edu.pku.recruitment.knowledgeBase;
+﻿package cn.edu.pku.rec.knowledge;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

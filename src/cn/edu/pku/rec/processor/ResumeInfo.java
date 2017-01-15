@@ -1,4 +1,4 @@
-﻿package cn.edu.pku.recruitment.resumeProcessor;
+﻿package cn.edu.pku.rec.processor;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -7,8 +7,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-import cn.edu.pku.recruitment.classifier.Classifier;
-import cn.edu.pku.recruitment.knowledgeBase.KnowledgeBase;
+import cn.edu.pku.rec.classifier.Classifier;
+import cn.edu.pku.rec.knowledge.KnowledgeBase;
 
 /**
  * 简历信息
