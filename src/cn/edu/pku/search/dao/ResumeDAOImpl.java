@@ -9,6 +9,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import org.springframework.stereotype.Repository;
 
+import cn.edu.pku.search.domain.Attachment;
 import cn.edu.pku.search.domain.Education;
 import cn.edu.pku.search.domain.Resume;
 import cn.edu.pku.search.domain.Resume51Job;

@@ -10,6 +10,7 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import org.springframework.stereotype.Repository;
 
 import cn.edu.pku.search.domain.Relevance;
+import cn.edu.pku.user.domain.EmployeeTag;
 import cn.edu.pku.util.SystemContext;
 
 @Repository
@@ -70,5 +71,20 @@ public class RelevanceDAOImpl extends HibernateDaoSupport implements
 		query.setParameter(0, employeeId);
 		query.setFirstResult(0);
 		return query.list();
+	}
+
+	@Override
+	public void deleteRelevanceByEmployeeId(Long employeeId) {
+		// TODO Auto-generated method stub
+		List<Relevance> list = this.listRelevanceForEmployee(employeeId);
+		for (Relevance rel : list) {
+			this.delete(rel);
+		}
+	}
+
+	@Override
+	public void delete(Relevance relevance) {
+		// TODO Auto-generated method stub
+		this.getHibernateTemplate().delete(relevance);
 	}
 }

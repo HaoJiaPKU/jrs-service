@@ -19,6 +19,18 @@ public interface EmployeeTagDAO {
 	public void update(EmployeeTag employeeTag);
 
 	/**
+	 * 删除标签
+	 * @param employeeId
+	 */
+	public void deleteEmployeeTag(Long employeeId);
+	
+	/**
+	 * 删除标签
+	 * @param employeeTag
+	 */
+	public void delete(EmployeeTag employeeTag);
+	
+	/**
 	 * 列出求职者标签
 	 * @param employeeTag
 	 */

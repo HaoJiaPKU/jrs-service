@@ -3,6 +3,7 @@ package cn.edu.pku.search.dao;
 import java.util.List;
 
 import cn.edu.pku.search.domain.Relevance;
+import cn.edu.pku.user.domain.EmployeeTag;
 
 public interface RelevanceDAO {
 
@@ -48,4 +49,16 @@ public interface RelevanceDAO {
 	 * @return
 	 */
 	public long getResumeNumber(long positionId);
+	
+	/**
+	 * 删除employee的相关度
+	 * @param employeeId
+	 */
+	public void deleteRelevanceByEmployeeId(Long employeeId);
+	
+	/**
+	 * 删除相关度
+	 * @param employeeTag
+	 */
+	public void delete(Relevance relevance);
 }

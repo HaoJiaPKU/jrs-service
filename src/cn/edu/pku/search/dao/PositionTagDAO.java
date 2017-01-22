@@ -3,6 +3,7 @@ package cn.edu.pku.search.dao;
 import java.util.List;
 
 import cn.edu.pku.search.domain.PositionTag;
+import cn.edu.pku.user.domain.EmployeeTag;
 
 public interface PositionTagDAO {
 
@@ -18,6 +19,18 @@ public interface PositionTagDAO {
 	 */
 	public void update(PositionTag positionTag);
 
+	/**
+	 * 删除标签
+	 * @param positionId
+	 */
+	public void deletePositionTag(Long positionId);
+	
+	/**
+	 * 删除标签
+	 * @param positionTag
+	 */
+	public void delete(PositionTag positionTag);
+	
 	/**
 	 * 列出职位标签
 	 * @param positionTag

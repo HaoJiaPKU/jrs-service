@@ -221,6 +221,7 @@ public class SearchServiceImpl implements SearchService {
 			Classifier.loadModel();
 			Classifier classifier = new Classifier();
 
+			int updateSize = 1000;
 			double [] distribution;
 
 			logger.info("简历文件分析中间结果*************************");
@@ -243,31 +244,37 @@ public class SearchServiceImpl implements SearchService {
 			// TODO 更新逻辑依然有错误
 			Employee employee = employeeDAO.load(employeeId);
 			if (employee.getHasTag() != -1) {
+				employeeTagDAO.deleteEmployeeTag(employeeId);
 				for (int i = 0; i < distribution.length; i ++) {
 					EmployeeTag employeeTag = new EmployeeTag(
-							employeeId, KnowledgeBase.positionList[i], distribution[i]);
-					if (employee.getHasTag() == 1) {
-						employeeTagDAO.update(employeeTag);
-						System.out.println("update employeeTag");
-					} else {
-						employeeTagDAO.add(employeeTag);
-						System.out.println("add employeeTag");
-					}
+							employeeId,
+							KnowledgeBase.positionList[i],
+							distribution[i]);
+					employeeTagDAO.add(employeeTag);
+//					System.out.println("add employeeTag");
 				}
 				employee.setHasTag(1);
 				employeeDAO.update(employee);
 			}
 			
-			for(int i = 0;;i++) {
-				if (i % 100 == 0) {
-					System.out.println(String.valueOf(i) + " data from bbs");
+			relevanceDAO.deleteRelevanceByEmployeeId(employeeId);
+			
+			
+			for(int i = 0; ;i ++) {
+				List<Position> positionList = positionDAO
+						.listPositionBBS(i * updateSize, updateSize);
+				//只计算一页
+				if (i == 1) {
+					break;
 				}
-				List<Position> positionList = positionDAO.listPositionBBS(i*100, 100);
+				System.out.println(String.valueOf(i * updateSize) + " data from bbs start");
+				
 				if(positionList == null || positionList.size() == 0)
 					break;
+				
 				for (Position positionBBS : positionList) {
 					PreProcessor.dealWithString(positionBBS.textField(), FilePath.nlpPath+ "tmp/position.txt");
-	
+					
 					logger.info("职位文件分析中间结果*************************");
 					PositionInfo positionInfo = new PositionInfo();
 					positionInfo.process(FilePath.nlpPath + "tmp/position.txt");
@@ -286,14 +293,13 @@ public class SearchServiceImpl implements SearchService {
 					// TODO hasTag is supposed to be boolean
 					// TODO 标签的更新不应该放在这个位置，考虑保存招聘信息时
 					if (positionBBS.getHasTag() != -1) {
+						positionTagDAO.deletePositionTag(positionBBS.getId());
 						for (int j = 0; j < distribution.length; j ++) {
 							PositionTag positionTag = new PositionTag(
-									positionBBS.getId(), KnowledgeBase.positionList[j], distribution[j]);
-							if (positionBBS.getHasTag() == 1) {
-								positionTagDAO.update(positionTag);
-							} else {
-								positionTagDAO.add(positionTag);
-							}
+									positionBBS.getId(),
+									KnowledgeBase.positionList[j],
+									distribution[j]);
+							positionTagDAO.add(positionTag);
 						}
 						positionBBS.setHasTag(1);
 						positionDAO.updateBBS(positionBBS);
@@ -306,17 +312,23 @@ public class SearchServiceImpl implements SearchService {
 					Relevance relevance = new Relevance(employeeId, 0, 2, positionBBS.getId(), rel);
 					relevanceDAO.update(relevance);
 					logger.info(rel);
-	
+					
 				}
+				System.out.println(String.valueOf(i * updateSize) + " data from bbs end");
 			}
 			
-			for(int i = 0;;i++) {
-				if (i % 100 == 0) {
-					System.out.println(String.valueOf(i) + " data from jobpopo");
+			for(int i = 0; ;i ++) {
+				List<PositionJobpopo> positionList = positionDAO
+						.listPosition(i * updateSize, updateSize);
+				//只计算一页
+				if (i == 1) {
+					break;
 				}
-				List<PositionJobpopo> positionList = positionDAO.listPosition(i*100, 100);
+				System.out.println(String.valueOf(i * updateSize) + " data from jobpopo start");
+				
 				if(positionList == null || positionList.size() == 0)
 					break;
+				
 				for (PositionJobpopo position : positionList) {
 					PreProcessor.dealWithString(position.textField(), FilePath.nlpPath+ "tmp/position.txt");
 	
@@ -344,7 +356,10 @@ public class SearchServiceImpl implements SearchService {
 					logger.info(rel);
 	
 				}
+				System.out.println(String.valueOf(i * updateSize) + " data from bbs end");
 			}
+			
+			System.out.println("info : update for employee complete");
 		} catch (IOException e) {
 			logger.error(e.getMessage(), e);
 		}

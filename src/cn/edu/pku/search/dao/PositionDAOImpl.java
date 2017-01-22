@@ -1,11 +1,15 @@
 package cn.edu.pku.search.dao;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.hibernate.HibernateException;
 import org.hibernate.Query;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import org.springframework.stereotype.Repository;
 
@@ -81,7 +85,30 @@ public class PositionDAOImpl extends HibernateDaoSupport implements
 
 	@Override
 	public List<Position> listPositionBBS(int offset, int size) {
-		Query query = this.getSession().createQuery("from Position");
+//		List list = getHibernateTemplate().executeFind(new HibernateCallback() {
+//            public Object doInHibernate(Session session)
+//            		throws HibernateException, SQLException {
+//            	Query query = session
+//        				.createQuery("from Position order by posPublishDate desc");
+//        		query.setFirstResult(offset);
+//        		query.setMaxResults(size);
+//            	List list = query.list();
+//            	return list;
+//           }
+//		});
+//		return list;
+		
+//		Session session = this.getSession();
+//		Query query = session
+//				.createQuery("from Position order by posPublishDate desc");
+//		query.setFirstResult(offset);
+//		query.setMaxResults(size);
+//		List list = query.list();
+//		session.close();
+//		return list;
+		
+		Query query = this.getSession()
+				.createQuery("from Position order by posPublishDate desc");
 		query.setFirstResult(offset);
 		query.setMaxResults(size);
 		return query.list();
@@ -95,13 +122,11 @@ public class PositionDAOImpl extends HibernateDaoSupport implements
 		return query.list();
 	}
 
-	
 	@Override
 	public void update(PositionJobpopo position) {
 		this.getHibernateTemplate().update(position);
 	}
 	
-
 	@Override
 	public void updateBBS(Position positionBBS) {
 		this.getHibernateTemplate().update(positionBBS);

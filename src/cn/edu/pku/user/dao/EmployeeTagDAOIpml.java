@@ -9,6 +9,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import org.springframework.stereotype.Repository;
 
+import cn.edu.pku.search.domain.Attachment;
 import cn.edu.pku.user.domain.EmployeeTag;
 import cn.edu.pku.util.SystemContext;
 
@@ -36,6 +37,22 @@ public class EmployeeTagDAOIpml extends HibernateDaoSupport implements EmployeeT
 				"from EmployeeTag where employeeId=? order by tagName desc");
 		query.setParameter(0, employeeId);
 		return query.list();
+	}
+
+	
+	@Override
+	public void deleteEmployeeTag(Long employeeId) {
+		// TODO Auto-generated method stub
+		List<EmployeeTag> list = this.listEmployeeTag(employeeId);
+		for (EmployeeTag tag : list) {
+			this.delete(tag);
+		}
+	}
+
+	@Override
+	public void delete(EmployeeTag employeeTag) {
+		// TODO Auto-generated method stub
+		this.getHibernateTemplate().delete(employeeTag);
 	}
 
 }

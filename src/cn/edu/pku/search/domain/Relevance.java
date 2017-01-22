@@ -21,20 +21,20 @@ public class Relevance implements Serializable{
 	
 	private long employeeId;
 	private long resumeId;
-	private int recruitmentSource;
+	private int positionSource;
 	private long positionId;
 	private double relevance;
 	
 	public Relevance(){}
 
 
-	public Relevance(long employeeId, long resumeId, int recruitmentSource,
-			long recruitmentId, double relevance) {
+	public Relevance(long employeeId, long resumeId, int positionSource,
+			long positionId, double relevance) {
 		super();
 		this.employeeId = employeeId;
 		this.resumeId = resumeId;
-		this.recruitmentSource = recruitmentSource;
-		this.positionId = recruitmentId;
+		this.positionSource = positionSource;
+		this.positionId = positionId;
 		this.relevance = relevance;
 	}
 
@@ -47,20 +47,24 @@ public class Relevance implements Serializable{
 	public void setEmployeeId(long employeeId) {
 		this.employeeId = employeeId;
 	}
+	
 	@Id
 	@Column(name="recruitment_id")
 	public long getPositionId() {
 		return positionId;
 	}
-	public void setPositionId(long recruitmentId) {
-		this.positionId = recruitmentId;
+	public void setPositionId(long positionId) {
+		this.positionId = positionId;
 	}
+	
+	@Column(name="relevance")
 	public double getRelevance() {
 		return relevance;
 	}
 	public void setRelevance(double relevance) {
 		this.relevance = relevance;
 	}
+	
 	@Id
 	@Column(name="resume_id")
 	public long getResumeId() {
@@ -73,11 +77,11 @@ public class Relevance implements Serializable{
 	@Id
 	@Column(name="recruitment_source")
 	public int getPositionSource() {
-		return recruitmentSource;
+		return positionSource;
 	}
 
-	public void setPositionSource(int recruitmentSource) {
-		this.recruitmentSource = recruitmentSource;
+	public void setPositionSource(int positionSource) {
+		this.positionSource = positionSource;
 	}
 
 
@@ -88,7 +92,7 @@ public class Relevance implements Serializable{
 		result = prime * result + (int) (employeeId ^ (employeeId >>> 32));
 		result = prime * result
 				+ (int) (positionId ^ (positionId >>> 32));
-		result = prime * result + recruitmentSource;
+		result = prime * result + positionSource;
 		result = prime * result + (int) (resumeId ^ (resumeId >>> 32));
 		return result;
 	}
@@ -107,7 +111,7 @@ public class Relevance implements Serializable{
 			return false;
 		if (positionId != other.positionId)
 			return false;
-		if (recruitmentSource != other.recruitmentSource)
+		if (positionSource != other.positionSource)
 			return false;
 		if (resumeId != other.resumeId)
 			return false;
