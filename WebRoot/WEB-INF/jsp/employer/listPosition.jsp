@@ -47,7 +47,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								${recruit.uploadTime}
 							</td>
 							<td>
-								<a href="search/updateRelevanceForEmployer?positionId=${recruit.id }">更新匹配度</a>
+								<a href="search/updateRelevanceForEmployer?positionId=${recruit.id }">更新匹配简历</a>
 							</td>
 							<td>
 								<a href="search/listMatchResume?positionId=${recruit.id }&offset=0">查看匹配简历</a>

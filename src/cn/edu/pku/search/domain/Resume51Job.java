@@ -9,7 +9,7 @@ import javax.persistence.Table;
 
 /**
  * 
- * @author Sun Xiaowei
+ * @author lanzheng
  *
  */
 @Entity

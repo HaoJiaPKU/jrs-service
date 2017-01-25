@@ -17,7 +17,7 @@ import cn.edu.pku.user.service.EmployerService;
 
 /**
  * 与企业相关的控制器
- * @author Sun Xiaowei, Lan Zheng
+ * @author lanzheng
  *
  */
 @Controller

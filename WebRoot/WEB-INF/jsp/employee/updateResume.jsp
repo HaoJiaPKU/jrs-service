@@ -1,5 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="cn.edu.pku.search.domain.*"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -102,13 +103,44 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											value="${resume.educationBackground }" class="form-control"></div>
 							</div>
 							<div class="form-group">
-								<label for="salary" class="col-md-3 control-label">期望薪水</label>
-								<div class="col-md-6"><input name="salary" type="text" id="salary" placeholder="期望薪水" value="${resume.salary }" class="form-control"></div>
+								<label for="salary" class="col-md-3 control-label">期望薪资</label>
+								<div class="col-md-6"><input name="salary" type="text" id="salary" placeholder="期望薪资"
+											value="${resume.salary }" class="form-control"></div>
 							</div>
 							<div class="form-group">
 								<label for="workingPlace" class="col-md-3 control-label">期望工作地点</label>
 								<div class="col-md-6"><input name="workingPlace" type="text" id="workingPlace" placeholder="期望工作地点"
 											value="${resume.workingPlace }" class="form-control"></div>
+							</div>
+							<div class="form-group">
+								<label for="industryIntension" class="col-md-3 control-label">期望行业类别</label>
+								<div class="col-md-6">
+								<select name="industryIntension" id="industryIntension" class="form-control">
+									<%
+										Resume resume = (Resume) session.getAttribute("resume");
+										String industry = new String();
+										HashMap<String, HashSet<String>> indu 
+											= (HashMap<String, HashSet<String>>)
+													session.getAttribute("industry");
+										for (String key : indu.keySet()) {
+									%>
+									<option value ="<%= key %>" 
+										<% if (resume.getIndustryIntension().equals(key)) {
+											industry = key;
+										%>
+										selected="selected"
+										<% } %>
+									><%= key %></option>
+									<%
+										}
+									%>
+								</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="categoryIntension" class="col-md-3 control-label">期望职位类别</label>
+								<div class="col-md-6"><input name="categoryIntension" type="text" id="categoryIntension" placeholder="期望职位类别"
+											value="${resume.categoryIntension }" class="form-control"></div>
 							</div>
 							<div class="form-group">
 								<div class="col-md-2 col-md-offset-3">

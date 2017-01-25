@@ -3,11 +3,16 @@ package cn.edu.pku.user.service;
 import static org.quartz.JobBuilder.newJob;
 import static org.quartz.TriggerBuilder.newTrigger;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+//import java.util.Iterator;
 
 import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
+//import org.apache.lucene.util.packed.PackedLongValues.Iterator;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
@@ -23,9 +28,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cn.edu.pku.quartz.factory.ScheduleFactory;
 import cn.edu.pku.quartz.job.EmployeeSubscription;
+import cn.edu.pku.search.dao.IndustryDAO;
 import cn.edu.pku.search.dao.PositionDAO;
 import cn.edu.pku.search.dao.RelevanceDAO;
 import cn.edu.pku.search.domain.PositionJobpopo;
+import cn.edu.pku.search.domain.Industry;
 import cn.edu.pku.search.domain.Position;
 import cn.edu.pku.search.domain.Relevance;
 import cn.edu.pku.search.service.SearchService;
@@ -45,12 +52,24 @@ public class EmployeeServiceImpl implements EmployeeService {
 	private PositionDAO positionDAO;
 	private RelevanceDAO relevanceDAO;
 	private EmployeeTagDAO employeeTagDAO;
+	private IndustryDAO industryDAO;
 	
 	private JavaMailSenderImpl javaMailSender;
 	private SimpleMailMessage simpleMailMessage;
 	private TaskExecutor taskExecutor;
 	
 	private SearchService searchService;
+
+	
+	
+	public IndustryDAO getIndustryDAO() {
+		return industryDAO;
+	}
+
+	@Resource
+	public void setIndustryDAO(IndustryDAO industryDAO) {
+		this.industryDAO = industryDAO;
+	}
 
 	public EmployeeDAO getEmployeeDAO() {
 		return employeeDAO;
@@ -284,6 +303,29 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Resource
 	public void setEmployeeTagDAO(EmployeeTagDAO employeeTagDAO) {
 		this.employeeTagDAO = employeeTagDAO;
+	}
+
+	
+	@Transactional
+	@Override
+	public HashMap<String, HashSet<String>> loadAllIndustry() {
+		// TODO Auto-generated method stub
+		List<Industry> list  = industryDAO.loadAllIndustry();
+		HashMap<String, HashSet<String>> ret
+			= new HashMap<String, HashSet<String>>();
+		for (Iterator<Industry> it = list.iterator(); it.hasNext(); ) {
+			Industry ind = it.next();
+			String industry = ind.getIndustry();
+			String category = ind.getCategory();
+			HashSet<String> t = new HashSet<String> ();
+			if (ret.containsKey(industry)) {
+				t = ret.get(industry);
+				ret.remove(industry);
+			}
+			t.add(category);
+			ret.put(industry, t);
+		}
+		return ret;
 	}
 	
 }

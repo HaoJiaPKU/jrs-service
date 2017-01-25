@@ -1,5 +1,7 @@
 package cn.edu.pku.user.service;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 import cn.edu.pku.user.domain.Employee;
@@ -16,4 +18,5 @@ public interface EmployeeService {
 	public Employee uploadResume(long id);
 	public Employee updateSubscription(long id, int subscriptionNum, int recFreq);
 	public List<EmployeeTag> listEmployeeTag(long employeeId);
+	public HashMap<String, HashSet<String>> loadAllIndustry();
 }

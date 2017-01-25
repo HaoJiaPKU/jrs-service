@@ -84,7 +84,16 @@ public class PositionDAOImpl extends HibernateDaoSupport implements
 	}
 
 	@Override
-	public List<Position> listPositionBBS(int offset, int size) {
+	public List<Position> listPositionBBS(int offset, int size) {		
+		Query query = this.getSession()
+				.createQuery("from Position order by posPublishDate desc");
+		query.setFirstResult(offset);
+		query.setMaxResults(size);
+		return query.list();
+	}
+	
+	@Override
+	public List<Position> listPositionBBS(int offset, int size, String industry) {
 //		List list = getHibernateTemplate().executeFind(new HibernateCallback() {
 //            public Object doInHibernate(Session session)
 //            		throws HibernateException, SQLException {
@@ -108,7 +117,10 @@ public class PositionDAOImpl extends HibernateDaoSupport implements
 //		return list;
 		
 		Query query = this.getSession()
-				.createQuery("from Position order by posPublishDate desc");
+				.createQuery("from Position "
+						+ "where comIndustry=? "
+						+ "order by posPublishDate desc");
+		query.setParameter(0, industry);
 		query.setFirstResult(offset);
 		query.setMaxResults(size);
 		return query.list();

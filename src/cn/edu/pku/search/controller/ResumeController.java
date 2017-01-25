@@ -33,7 +33,7 @@ import cn.edu.pku.util.FilePath;
 
 /**
  * 与简历信息相关的控制器
- * @author Sun Xiaowei
+ * @author lanzheng
  * 
  */
 @Controller
@@ -125,11 +125,14 @@ public class ResumeController {
 			String modifyTime = uploadTime;
 			String uploadIp = req.getRequestURL().substring(7).split(":")[0];
 			String modifyIp = uploadIp;
+			String industryIntension = req.getParameter("industryIntension");
+			String categoryIntension = req.getParameter("categoryIntension");
 			Resume resume = resumeService.addResume(employeeId, name, gender,
 					politics, birthday, age, email, phone,
 					educationBackground, salary, workingPlace,
 					filepath, speciality, rewardAndPunishment,
-					otherInfo, uploadTime, modifyTime, uploadIp, modifyIp);
+					otherInfo, uploadTime, modifyTime, uploadIp, modifyIp,
+					industryIntension, categoryIntension);
 			session.setAttribute("resume", resume);
 
 		} catch (UnsupportedEncodingException e) {
@@ -377,10 +380,12 @@ public class ResumeController {
 			String workingPlace = req.getParameter("workingPlace");
 			String modifyTime = sFormat.format(new Date());
 			String modifyIp = req.getRequestURL().substring(7).split(":")[0];
+			String industryIntension = req.getParameter("industryIntension");
+			String categoryIntension = req.getParameter("categoryIntension");
 			Resume resume = resumeService.updateResume(employeeId, name,
 					gender, politics, birthday, age, email, phone,
 					educationBackground, salary, workingPlace, modifyTime,
-					modifyIp);
+					modifyIp, industryIntension, categoryIntension);
 			session.setAttribute("resume", resume);
 
 		} catch (IllegalStateException e) {

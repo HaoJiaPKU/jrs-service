@@ -9,7 +9,7 @@ import javax.persistence.Table;
 
 /**
  * 
- * @author Sun Xiaowei
+ * @author lanzheng
  *
  */
 @Entity
@@ -31,7 +31,6 @@ public class Resume extends AbstractResume implements Serializable {
 	private String workingYears;
 	private String salary;
 	private String workingPlace;
-	private String jobIntension;
 	private String photo;
 	private String speciality;
 	private String rewardAndPunishment;
@@ -40,25 +39,28 @@ public class Resume extends AbstractResume implements Serializable {
 	private String modifyTime;
 	private String uploadIp;
 	private String modifyIp;
+	private String industryIntension;
+	private String categoryIntension;
 	
 	public Resume() {
 		
 	}
 	
 	public String textField() {
-		return jobIntension
-			+ " " + speciality
+		return speciality
 			+ " " + rewardAndPunishment
-			+ " " + otherInfo;
+			+ " " + otherInfo
+			+ " " + industryIntension
+			+ " " + categoryIntension;
 	}
 	
 	public Resume(long employeeId, String name, String gender, String politics,
 			String nativePlace, String birthday, int age, String email,
 			String phone, String educationBackground, String workingYears,
-			String salary, String workingPlace, String jobIntension, String photo,
+			String salary, String workingPlace, String photo,
 			String speciality, String rewardAndPunishment, String otherInfo,
 			String uploadTime, String modifyTime, String uploadIp,
-			String modifyIp) {
+			String modifyIp, String industryIntension, String categoryIntension) {
 		super();
 		this.employeeId = employeeId;
 		this.name = name;
@@ -73,7 +75,6 @@ public class Resume extends AbstractResume implements Serializable {
 		this.workingYears = workingYears;
 		this.salary = salary;
 		this.workingPlace = workingPlace;
-		this.jobIntension = jobIntension;
 		this.photo = photo;
 		this.speciality = speciality;
 		this.rewardAndPunishment = rewardAndPunishment;
@@ -82,6 +83,8 @@ public class Resume extends AbstractResume implements Serializable {
 		this.modifyTime = modifyTime;
 		this.uploadIp = uploadIp;
 		this.modifyIp = modifyIp;
+		this.industryIntension = industryIntension;
+		this.categoryIntension = categoryIntension;
 	}
 	@Id
 	@Column(name="employee_id")
@@ -167,13 +170,6 @@ public class Resume extends AbstractResume implements Serializable {
 	public void setWorkingPlace(String workingPlace) {
 		this.workingPlace = workingPlace;
 	}
-	@Column(name="job_intension")
-	public String getJobIntension() {
-		return jobIntension;
-	}
-	public void setJobIntension(String jobIntension) {
-		this.jobIntension = jobIntension;
-	}
 	public String getPhoto() {
 		return photo;
 	}
@@ -227,6 +223,24 @@ public class Resume extends AbstractResume implements Serializable {
 	}
 	public void setModifyIp(String modifyIp) {
 		this.modifyIp = modifyIp;
+	}
+	
+	@Column(name="industry_intension")
+	public String getIndustryIntension() {
+		return industryIntension;
+	}
+
+	public void setIndustryIntension(String industryIntension) {
+		this.industryIntension = industryIntension;
+	}
+	
+	@Column(name="category_intension")
+	public String getCategoryIntension() {
+		return categoryIntension;
+	}
+
+	public void setCategoryIntension(String categoryIntension) {
+		this.categoryIntension = categoryIntension;
 	}
 	
 }

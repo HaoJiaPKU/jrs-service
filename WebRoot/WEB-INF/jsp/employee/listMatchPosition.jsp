@@ -57,7 +57,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						&nbsp &nbsp &nbsp &nbsp &nbsp
 						<%=position.getCompany()%>
 						&nbsp &nbsp &nbsp &nbsp &nbsp
-						<font color="#11cccc">相关度:<%=(int)(match.getRelevance()*100) %>%</font>
+						<font color="#11cccc">相关度:
+						<%=(double)((int)(match.getRelevance() * 100000)) / 1000.0%>
+						%</font>
 					</div>
 				</div>
 				<div class="col-md-12 description">
@@ -77,10 +79,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<%=position.getPosPublishDate()%>
 							&nbsp &nbsp &nbsp &nbsp &nbsp
 							<%=position.getSource()%>
-							&nbsp &nbsp &nbsp &nbsp &nbsp 
-							<a href="<%=position.getSnapshotUrl()%>" target="_blank">快照</a>
 							&nbsp &nbsp &nbsp &nbsp &nbsp
-							<font color="#11cccc">相关度:<%=(int)(match.getRelevance()*100) %>%</font>	
+							<font color="#11cccc">相关度:
+							<%=(double)((int)(match.getRelevance() * 100000)) / 1000.0%>
+							%</font>	
 					</div>
 					<div class="col-md-4 radar-div">
 						<div class="radar-img"><img src="bootstrap/img/radar-thumb.jpg" /></div>

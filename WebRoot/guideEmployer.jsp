@@ -59,8 +59,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								<span class="caret"></span>
 							</a>
 							<ul class="dropdown-menu" role="menu">
-								<li><a href="recruitment/addPosition">发布招聘信息</a></li>
-								<li><a href="recruitment/listPosition?employerId=${employer.id }">查看已发布信息</a>
+								<li><a href="position/addPosition">发布招聘信息</a></li>
+								<li><a href="position/listPosition?employerId=${employer.id }">查看已发布信息</a>
 								<li role="separator" class="divider"></li>
 								<li><a href="employer/logout">退出</a></li>
 							</ul>

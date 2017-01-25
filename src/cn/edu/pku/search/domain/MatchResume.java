@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  * 匹配的简历信息
- * @author Sun Xiaowei
+ * @author lanzheng
  *
  */
 public class MatchResume implements Serializable{

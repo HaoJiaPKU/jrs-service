@@ -262,7 +262,7 @@ public class SearchServiceImpl implements SearchService {
 			
 			for(int i = 0; ;i ++) {
 				List<Position> positionList = positionDAO
-						.listPositionBBS(i * updateSize, updateSize);
+						.listPositionBBS(i * updateSize, updateSize, resume.getIndustryIntension());
 				//只计算一页
 				if (i == 1) {
 					break;
@@ -271,10 +271,10 @@ public class SearchServiceImpl implements SearchService {
 				
 				if(positionList == null || positionList.size() == 0)
 					break;
-				
+				int counter = 0;
 				for (Position positionBBS : positionList) {
 					PreProcessor.dealWithString(positionBBS.textField(), FilePath.nlpPath+ "tmp/position.txt");
-					
+					System.out.println( ++ counter);
 					logger.info("职位文件分析中间结果*************************");
 					PositionInfo positionInfo = new PositionInfo();
 					positionInfo.process(FilePath.nlpPath + "tmp/position.txt");
@@ -446,7 +446,7 @@ public class SearchServiceImpl implements SearchService {
 				if(resumeList == null || resumeList.size() == 0)
 					break;
 				for (Resume51Job resume : resumeList) {
-					PreProcessor.dealWithText("../webapps/"+resume.getPath(),FilePath.nlpPath + "tmp/resume.txt");
+					PreProcessor.dealWithText("webapps/"+resume.getPath(),FilePath.nlpPath + "tmp/resume.txt");
 
 					logger.info("简历文件分析中间结果*************************");
 					ResumeInfo resumeInfo = new ResumeInfo();

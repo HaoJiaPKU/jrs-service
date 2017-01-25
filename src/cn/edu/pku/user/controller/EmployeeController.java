@@ -1,5 +1,7 @@
 package cn.edu.pku.user.controller;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -18,7 +20,7 @@ import cn.edu.pku.user.service.EmployeeService;
 
 /**
  * 与求职者相关的控制器
- * @author Sun Xiaowei, Lan Zheng
+ * @author lanzheng
  *
  */
 @Controller
@@ -51,6 +53,11 @@ public class EmployeeController {
 		Employee employee = employeeService.login(username, password);
 		List<EmployeeTag> employeeTagList = employeeService.listEmployeeTag(employee.getId());
 		HttpSession session = req.getSession();
+		
+		HashMap<String, HashSet<String>> industry
+			= employeeService.loadAllIndustry();
+		session.setAttribute("industry", industry);
+		
 		if(employee != null) {
 			session.setAttribute("employee", employee);
 			session.setAttribute("employeeTagList", employeeTagList);
@@ -60,6 +67,7 @@ public class EmployeeController {
 			return "../loginWelcome.jsp";
 		}
 		session.setAttribute("message", "用户名或密码错误");
+		
 		return "../message.jsp";
 	}
 	

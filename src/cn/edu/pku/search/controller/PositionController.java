@@ -31,7 +31,7 @@ import cn.edu.pku.util.FilePath;
 /**
  * 与招聘信息相关的控制器
  * 
- * @author Sun Xiaowei
+ * @author lanzheng
  * 
  */
 @Controller

@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  * 各种招聘信息的超类
- * @author Sun Xiaowei
+ * @author lanzheng
  *
  */
 public class AbstractPosition implements Serializable{

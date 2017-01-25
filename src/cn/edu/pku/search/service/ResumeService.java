@@ -34,7 +34,7 @@ public interface ResumeService {
 	 * @param workingYears
 	 *            工作年限
 	 * @param salary
-	 *            薪水
+	 *            薪资
 	 * @param workingPlace
 	 *            工作地点
 	 * @param jobIntension
@@ -62,7 +62,8 @@ public interface ResumeService {
 			String phone, String educationBackground, String salary,
 			String workingPlace, String photo, String speciality,
 			String rewardAndPunishment, String otherInfo, String uploadTime,
-			String modifyTime, String uploadIp, String modifyIp);
+			String modifyTime, String uploadIp, String modifyIp,
+			String industryIntension, String categoryIntension);
 
 	/**
 	 * 根据用户ID查看简历
@@ -118,7 +119,7 @@ public interface ResumeService {
 	 * @param city
 	 *            城市
 	 * @param salary
-	 *            薪水
+	 *            薪资
 	 * @param dateBegin
 	 *            开始时间
 	 * @param dateEnd
@@ -197,7 +198,8 @@ public interface ResumeService {
 	public Resume updateResume(long employeeId, String name, String gender,
 			String politics, String birthday, int age, String email,
 			String phone, String educationBackground, String salary,
-			String workingPlace, String modifyTime, String modifyIp);
+			String workingPlace, String modifyTime, String modifyIp,
+			String industryIntension, String categoryIntension);
 
 	/**
 	 * 更新教育经历信息

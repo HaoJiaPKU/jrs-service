@@ -48,12 +48,14 @@ public class ResumeServiceImpl implements ResumeService {
 			String salary, String workingPlace,
 			String photo, String speciality,
 			String rewardAndPunishment, String otherInfo, String uploadTime,
-			String modifyTime, String uploadIp, String modifyIp) {
+			String modifyTime, String uploadIp, String modifyIp,
+			String industryIntension, String categoryIntension) {
 		Resume resume = new Resume(employeeId, name, gender, politics,
 				"", birthday, age, email, phone, educationBackground,
-				"", salary, workingPlace, "", photo,
+				"", salary, workingPlace, photo,
 				speciality, rewardAndPunishment, otherInfo, uploadTime,
-				modifyTime, uploadIp, modifyIp);
+				modifyTime, uploadIp, modifyIp,
+				industryIntension, categoryIntension);
 		resumeDao.addResume(resume);
 		return resume;
 	}
@@ -119,7 +121,8 @@ public class ResumeServiceImpl implements ResumeService {
 			String politics, String birthday, int age,
 			String email, String phone, String educationBackground,
 			String salary, String workingPlace,
-			String modifyTime, String modifyIp) {
+			String modifyTime, String modifyIp,
+			String industryIntension, String categoryIntension) {
 		Resume resume = resumeDao.getResume(employeeId);
 		resume.setName(name);
 		resume.setGender(gender);
@@ -133,6 +136,8 @@ public class ResumeServiceImpl implements ResumeService {
 		resume.setWorkingPlace(workingPlace);
 		resume.setModifyIp(modifyIp);
 		resume.setModifyTime(modifyTime);
+		resume.setIndustryIntension(industryIntension);
+		resume.setCategoryIntension(categoryIntension);
 		resumeDao.updateResume(resume);
 		return resume;
 

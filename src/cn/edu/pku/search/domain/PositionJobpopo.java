@@ -10,11 +10,11 @@ import javax.persistence.Table;
 
 /**
  * 
- * @author Sun Xiaowei
+ * @author lanzheng
  *
  */
 @Entity
-@Table(name = "recruitment")
+@Table(name = "position_jobpopo")
 public class PositionJobpopo extends AbstractPosition implements Serializable {
 
 	private static final long serialVersionUID = 1L;

@@ -10,11 +10,11 @@ import javax.persistence.Table;
 
 /**
  * 
- * @author Sun Xiaowei
+ * @author lanzheng
  *
  */
 @Entity
-@Table(name="workexperience")
+@Table(name="work_experience")
 public class WorkExperience implements Serializable{
 
 	private static final long serialVersionUID = 1L;

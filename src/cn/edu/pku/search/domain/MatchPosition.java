@@ -5,7 +5,7 @@ import java.util.List;
 
 /**
  * 匹配的招聘信息
- * @author Sun Xiaowei
+ * @author lanzheng
  *
  */
 public class MatchPosition implements Serializable{

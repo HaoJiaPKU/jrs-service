@@ -311,7 +311,7 @@ public class PreProcessor {
 	 */
 	public static void dealWithResume(Resume input, List<Education> edulist,
 			List<WorkExperience> worklist, String outputPath) {
-		String content = input.getJobIntension();
+		String content = new String();
 		content += input.getSpeciality();
 		content += input.getOtherInfo();
 		content += input.getWorkingPlace();
@@ -328,6 +328,8 @@ public class PreProcessor {
 			content += work.getJobTitle();
 			content += work.getDescription();
 		}
+		content += input.getIndustryIntension();
+		content += input.getCategoryIntension();
 		
 		HanLPSegmenter.segmentation(content.trim(), true, true, outputPath);
 	}

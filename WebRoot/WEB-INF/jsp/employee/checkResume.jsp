@@ -1,6 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ page import="cn.edu.pku.search.domain.*"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -58,6 +59,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<p>手机：${resume.phone }</p>
 							<p>邮箱：${resume.email }</p>
 							<p>期望工作地点：${resume.workingPlace }</p>
+							<p>期望行业类别：${resume.industryIntension}</p>
+							<p>期望职位类别：${resume.categoryIntension}</p>
 						</div>
 					</div>
 				</div>

@@ -74,7 +74,7 @@ body {
 					<%=position.getPosPublishDate()%>
 					&nbsp &nbsp &nbsp &nbsp &nbsp
 					<%=position.getSource()%>
-					&nbsp &nbsp &nbsp &nbsp &nbsp <a href="<%=position.getSnapshotUrl()%>" target="_blank">快照</a>
+					&nbsp &nbsp &nbsp &nbsp &nbsp
 				</p>
 				<p><%=position.getDisplayContent()%></p>
 

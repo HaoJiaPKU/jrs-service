@@ -52,7 +52,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<h3>
 					<a href="<%=resume.getPath()%>" target="_blank">查看完整简历</a>
 				</h3>
-					相关度：<%=match.getRelevance() %>
+					相关度：<%=(double)((int)(match.getRelevance() * 100000)) / 1000.0%>
 				
 				<iframe width="110%" height="30%" border="1" src="<%=resume.getPath()%>" style="zoom:0.5;"></iframe>
 				<br>

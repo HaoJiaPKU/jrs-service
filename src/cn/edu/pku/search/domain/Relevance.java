@@ -9,7 +9,7 @@ import javax.persistence.Table;
 
 /**
  * 
- * @author Sun Xiaowei
+ * @author lanzheng
  *
  */
 @Entity
@@ -49,7 +49,7 @@ public class Relevance implements Serializable{
 	}
 	
 	@Id
-	@Column(name="recruitment_id")
+	@Column(name="position_id")
 	public long getPositionId() {
 		return positionId;
 	}
@@ -75,7 +75,7 @@ public class Relevance implements Serializable{
 		this.resumeId = resumeId;
 	}
 	@Id
-	@Column(name="recruitment_source")
+	@Column(name="position_source")
 	public int getPositionSource() {
 		return positionSource;
 	}

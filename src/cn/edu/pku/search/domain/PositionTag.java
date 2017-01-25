@@ -16,7 +16,7 @@ import javax.persistence.Table;
  */
 
 @Entity
-@Table(name="recruitment_tag")
+@Table(name="position_tag")
 public class PositionTag implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -35,7 +35,7 @@ public class PositionTag implements Serializable {
 	}
 	
 	@Id
-	@Column(name="recruitment_id")
+	@Column(name="position_id")
 	public long getPositionId() {
 		return positionId;
 	}

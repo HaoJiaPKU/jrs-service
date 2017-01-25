@@ -7,7 +7,7 @@ import org.apache.log4j.Logger;
 
 /**
  * 密码加密算法
- * @author Shawn Sun
+ * @author lanzheng
  *
  */
 public class Encrypt {

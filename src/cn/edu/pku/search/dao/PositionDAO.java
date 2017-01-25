@@ -72,7 +72,15 @@ public interface PositionDAO {
 	 * @param size 返回的结果条数
 	 * @return
 	 */
-	public List<Position> listPositionBBS(int offset,int size);
+	public List<Position> listPositionBBS(int offset, int size);
+	
+	/**
+	 * 列出某一部分招聘信息
+	 * @param offset 偏移量
+	 * @param size 返回的结果条数
+	 * @return
+	 */
+	public List<Position> listPositionBBS(int offset, int size, String industry);
 	
 	/**
 	 * 列出某一部分招聘信息

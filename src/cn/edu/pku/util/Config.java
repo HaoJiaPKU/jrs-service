@@ -2,7 +2,7 @@ package cn.edu.pku.util;
 
 /**
  * 域名
- * @author Shawn Sun
+ * @author lanzheng
  *
  */
 public class Config {

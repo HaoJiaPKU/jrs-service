@@ -22,7 +22,7 @@ import cn.edu.pku.user.domain.Employee;
 
 /**
  * 与搜索和匹配相关的控制器
- * @author Sun Xiaowei
+ * @author lanzheng
  *
  */
 @Controller
@@ -164,7 +164,6 @@ public class SearchController {
 
 	/**
 	 * 更新相关度的线程
-	 * @author Sun Xiaowei
 	 *
 	 */
 	private class updateRelevanceForEmployee implements Runnable {

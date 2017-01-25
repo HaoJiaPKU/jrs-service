@@ -60,7 +60,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											class="form-control"></div>
 							</div>
 							<div class="form-group">
-								<label for="salary" class="col-sm-3 control-label">薪水</label>
+								<label for="salary" class="col-sm-3 control-label">薪资</label>
 								<div class="col-sm-6"><input name="salary" type="text" id="salary" value="${workExperience.salary }"
 											class="form-control"></div>
 							</div>

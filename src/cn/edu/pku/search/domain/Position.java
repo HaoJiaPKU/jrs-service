@@ -14,7 +14,7 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name="recruitment_v1")
+@Table(name="position")
 public class Position extends AbstractPosition implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
