@@ -1,6 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ page import="cn.edu.pku.user.domain.*"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -49,31 +50,78 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											class="form-control" required></div>
 							</div>
 							<div class="form-group">
-								<label for="rec-freq" class="col-sm-3 control-label">每周推荐次数</label>
-								<div class="col-sm-6">
-								<select name="recFreq" id="recFreq" class="form-control">
-									<option value="${recFreq }">${recFreq }</option>
-									<option value="0">0</option>
-									<option value="1">1</option>
-									<option value="2">2</option>
-									<option value="3">3</option>
-									<option value="4">4</option>
-									<option value="5">5</option>
-									<option value="6">6</option>
-									<option value="7">7</option>
-									<option value="8">8</option>
-									<option value="9">9</option>
-									<option value="10">10</option>
-									<option value="11">11</option>
-									<option value="12">12</option>
-									<option value="13">13</option>
-									<option value="14">14</option>
-								</select>
-								<!--  
-								<input name="recFreq" type="text" id="recFreq" value="${recFreq }"
-											class="form-control" required>
-								-->
-							</div>
+								<label for="rec-freq" class="col-sm-3 control-label">推送频率</label>
+								<div class="col-sm-3">
+									<select name="recFreqDay" id="recFreqDay" class="form-control">
+										<option value="${recFreqDay }">
+										<%
+											int recFreqDay = (Integer)session.getAttribute("recFreqDay");
+											if (recFreqDay == 0) {
+										%>每天
+										<%	
+											} else if (recFreqDay == 1) {
+										%>每周一
+										<%		
+											} else if (recFreqDay == 2) {
+										%>每周二
+										<%		
+											} else if (recFreqDay == 3) {
+										%>每周三
+										<%
+											} else if (recFreqDay == 4) {
+										%>每周四
+										<%
+											} else if (recFreqDay == 5) {
+										%>每周五
+										<%
+											} else if (recFreqDay == 6) {
+										%>每周六
+										<%
+											} else if (recFreqDay == 7) {
+										%>每周日
+										<%
+											}
+										%>
+										</option>
+										<option value="0">每天</option>
+										<option value="1">每周一</option>
+										<option value="2">每周二</option>
+										<option value="3">每周三</option>
+										<option value="4">每周四</option>
+										<option value="5">每周五</option>
+										<option value="6">每周六</option>
+										<option value="7">每周日</option>
+									</select>
+								</div>
+								<div class="col-sm-3">
+									<select name="recFreqHour" id="recFreqHour" class="form-control">
+										<option value="${recFreqHour }">${recFreqHour }点</option>
+										<option value="0">0点</option>
+										<option value="1">1点</option>
+										<option value="2">2点</option>
+										<option value="3">3点</option>
+										<option value="4">4点</option>
+										<option value="5">5点</option>
+										<option value="6">6点</option>
+										<option value="7">7点</option>
+										<option value="8">8点</option>
+										<option value="9">9点</option>
+										<option value="10">10点</option>
+										<option value="11">11点</option>
+										<option value="12">12点</option>
+										<option value="13">13点</option>
+										<option value="14">14点</option>
+										<option value="15">15点</option>
+										<option value="16">16点</option>
+										<option value="17">17点</option>
+										<option value="18">18点</option>
+										<option value="19">19点</option>
+										<option value="20">20点</option>
+										<option value="21">21点</option>
+										<option value="22">22点</option>
+										<option value="23">23点</option>
+									</select>
+								</div>
 							</div>
 							<div class="form-group">
 								<div class="col-md-2 col-md-offset-3">
@@ -88,7 +136,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					
 				</div>
 			</div>
-		</div><!-- 教育信息 -->
+		</div>
 	</div>
 	
 	<!-- js在最后加载 -->

@@ -161,7 +161,8 @@ public class EmployeeController {
 		HttpSession session = req.getSession();
 		Employee employee = (Employee) session.getAttribute("employee");
 		session.setAttribute("subscriptionNum", employee.getSubscriptionNum());
-		session.setAttribute("recFreq", employee.getRecFreq());
+		session.setAttribute("recFreqDay", employee.getRecFreqDay());
+		session.setAttribute("recFreqHour", employee.getRecFreqHour());
 		return "../WEB-INF/jsp/employee/subscription.jsp";
 	}
 
@@ -174,12 +175,15 @@ public class EmployeeController {
 	@RequestMapping("update")
 	public String update(HttpServletRequest req, HttpServletResponse res) {
 		int subscriptionNum = Integer.parseInt(req.getParameter("subscriptionNum"));
-		int recFreq = Integer.parseInt(req.getParameter("recFreq"));
+		int recFreqDay = Integer.parseInt(req.getParameter("recFreqDay"));
+		int recFreqHour = Integer.parseInt(req.getParameter("recFreqHour"));
 		long id = Long.parseLong(req.getParameter("employeeId"));
-		Employee employee = employeeService.updateSubscription(id, subscriptionNum, recFreq);
+		Employee employee = employeeService.updateSubscription(
+				id, subscriptionNum, recFreqDay, recFreqHour);
 		HttpSession session = req.getSession();
 		session.setAttribute("subscriptionNum", employee.getSubscriptionNum());
-		session.setAttribute("recFreq", employee.getRecFreq());
+		session.setAttribute("recFreqDay", employee.getRecFreqDay());
+		session.setAttribute("recFreqHour", employee.getRecFreqHour());
 		return "../WEB-INF/jsp/employee/subscription.jsp";
 	}
 }

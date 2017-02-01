@@ -18,7 +18,8 @@ public class Employee {
 	private int logins;
 	
 	private int subscriptionNum;
-	private int recFreq;
+	private int recFreqDay;
+	private int recFreqHour;
 	private int hasTag;
 
 	public Employee() {	}
@@ -82,15 +83,6 @@ public class Employee {
 		this.subscriptionNum = subscriptionNum;
 	}
 
-	@Column(name="rec_freq")
-	public int getRecFreq() {
-		return recFreq;
-	}
-
-	public void setRecFreq(int recFreq) {
-		this.recFreq = recFreq;
-	}
-
 	@Column(name="has_tag")
 	public int getHasTag() {
 		return hasTag;
@@ -98,6 +90,25 @@ public class Employee {
 
 	public void setHasTag(int hasTag) {
 		this.hasTag = hasTag;
+	}
+
+	
+	@Column(name="rec_freq_day")
+	public int getRecFreqDay() {
+		return recFreqDay;
+	}
+
+	public void setRecFreqDay(int recFreqDay) {
+		this.recFreqDay = recFreqDay;
+	}
+	
+	@Column(name="rec_freq_hour")
+	public int getRecFreqHour() {
+		return recFreqHour;
+	}
+
+	public void setRecFreqHour(int recFreqHour) {
+		this.recFreqHour = recFreqHour;
 	}
 	
 	

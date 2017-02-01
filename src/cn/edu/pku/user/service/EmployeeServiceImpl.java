@@ -12,11 +12,14 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
+import org.quartz.CronScheduleBuilder;
 //import org.apache.lucene.util.packed.PackedLongValues.Iterator;
 import org.quartz.JobDetail;
+import org.quartz.JobKey;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.Trigger;
+import org.quartz.TriggerBuilder;
 import org.quartz.TriggerKey;
 import org.quartz.impl.StdSchedulerFactory;
 import org.springframework.core.task.TaskExecutor;
@@ -185,27 +188,48 @@ public class EmployeeServiceImpl implements EmployeeService {
 	
 	@Transactional
 	@Override
-	public Employee updateSubscription(long id, int subscriptionNum, int recFreq) {
+	public Employee updateSubscription(
+			long id, int subscriptionNum, int recFreqDay, int recFreqHour) {
 		Employee employee = employeeDAO.load(id);
 		employee.setSubscriptionNum(subscriptionNum);
-		employee.setRecFreq(recFreq);
+		employee.setRecFreqDay(recFreqDay);
+		employee.setRecFreqHour(recFreqHour);
 		employeeDAO.update(employee);
 		
-		updateSubscriptionService(id, employee.getEmail(), subscriptionNum, recFreq);
+		updateSubscriptionService(
+				id, employee.getEmail(), subscriptionNum, recFreqDay, recFreqHour);
 		
 		return employee;
 	}
 	
 	@SuppressWarnings("unchecked")
-	public void updateSubscriptionService(long id, String email, int subscriptionNum, int recFreq) {
+	public void updateSubscriptionService(
+			long id, String email, int subscriptionNum, int recFreqDay, int recFreqHour) {
 		try {
 			Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
 			TriggerKey triggerKey = TriggerKey.triggerKey(
 				     "employee" + String.valueOf(id), "employee");
+			
 			Trigger trigger = scheduler.getTrigger(triggerKey);
 			
-			//每周推荐频率
-			recFreq = 7 * 24 * 3600 / recFreq;
+			String cronExp = "0 50 " + String.valueOf(recFreqHour);
+			if (recFreqDay == 0) {
+				cronExp += " * * " + "?";
+			} else if (recFreqDay == 1) {
+				cronExp += " ? * " + "Mon";
+			} else if (recFreqDay == 2) {
+				cronExp += " ? * " + "TUE";
+			} else if (recFreqDay == 3) {
+				cronExp += " ? * " + "WED";
+			} else if (recFreqDay == 4) {
+				cronExp += " ? * " + "THU";
+			} else if (recFreqDay == 5) {
+				cronExp += " ? * " + "FRI";
+			} else if (recFreqDay == 6) {
+				cronExp += " ? * " + "SAT";
+			} else if (recFreqDay == 7) {
+				cronExp += " ? * " + "SUN";
+			}
 			
 			if(trigger == null) {	
 				JobDetail jobDetail = newJob(EmployeeSubscription.class)
@@ -224,17 +248,18 @@ public class EmployeeServiceImpl implements EmployeeService {
 				trigger = newTrigger()
 						.withIdentity("employee" + String.valueOf(id), "employee")
 						.startNow()
-						.withSchedule(ScheduleFactory.getSimpleSchedule(recFreq))
+						.withSchedule(CronScheduleBuilder.cronSchedule(cronExp))
 						.build();
 				
 				scheduler.scheduleJob(jobDetail, trigger);
-				//scheduler.triggerJob(jobDetail.getKey());
 			}
 			else {
-				trigger = trigger.getTriggerBuilder()
+				
+				trigger = TriggerBuilder.newTrigger()
 						.withIdentity(triggerKey)
 						.startNow()
-						.withSchedule(ScheduleFactory.getSimpleSchedule(recFreq))
+//						.withSchedule(ScheduleFactory.getSimpleSchedule(recFreq))
+						.withSchedule(CronScheduleBuilder.cronSchedule(cronExp))
 						.build();
 				scheduler.rescheduleJob(triggerKey, trigger);
 			}			
@@ -256,13 +281,15 @@ public class EmployeeServiceImpl implements EmployeeService {
 				rec.setDescription(rec.getDescription().substring(0, 100)+"...");//为了前台只显示两三行内容
 				content += "\n\n"
 						+ rec.getCompany()
-						+ "相关度：" + String.valueOf(list.get(i).getRelevance()) + "\n"
+						+ "相关度：" + String.valueOf(
+								(double)((int) (100000 * list.get(i).getRelevance())) / 1000.0) + "%\n"
 						+ "链接：" + rec.getModifyIp();
 			} else if(list.get(i).getPositionSource() == 2) {
 				Position rec = positionDAO.loadPositionBbs(list.get(i).getPositionId());
 				content += "\n\n"
 						+ rec.getPosTitle()
-						+ "相关度：" + String.valueOf(list.get(i).getRelevance()) + "\n"
+						+ "相关度：" + String.valueOf(
+								(double)((int) (100000 * list.get(i).getRelevance())) / 1000.0) + "%\n"
 						+ "链接：" + rec.getPosUrl();
 			}
 		}
