@@ -271,10 +271,12 @@ public class SearchServiceImpl implements SearchService {
 				
 				if(positionList == null || positionList.size() == 0)
 					break;
+				
 				int counter = 0;
 				for (Position positionBBS : positionList) {
 					PreProcessor.dealWithString(positionBBS.textField(), FilePath.nlpPath+ "tmp/position.txt");
-					System.out.println( ++ counter);
+					System.out.println("第" + String.valueOf(++ counter) + "条数据处理中");
+					
 					logger.info("职位文件分析中间结果*************************");
 					PositionInfo positionInfo = new PositionInfo();
 					positionInfo.process(FilePath.nlpPath + "tmp/position.txt");
@@ -314,7 +316,7 @@ public class SearchServiceImpl implements SearchService {
 					logger.info(rel);
 					
 				}
-				System.out.println(String.valueOf(i * updateSize) + " data from bbs end");
+				System.out.println(String.valueOf(i * updateSize + counter) + " data from bbs end");
 			}
 			
 			for(int i = 0; ;i ++) {
@@ -329,9 +331,11 @@ public class SearchServiceImpl implements SearchService {
 				if(positionList == null || positionList.size() == 0)
 					break;
 				
+				int counter = 0;
 				for (PositionJobpopo position : positionList) {
 					PreProcessor.dealWithString(position.textField(), FilePath.nlpPath+ "tmp/position.txt");
-	
+					System.out.println("第" + String.valueOf(++ counter) + "条数据处理中");
+					
 					logger.info("职位文件分析中间结果*************************");
 					PositionInfo positionInfo = new PositionInfo();
 					positionInfo.process(FilePath.nlpPath + "tmp/position.txt");
@@ -356,7 +360,7 @@ public class SearchServiceImpl implements SearchService {
 					logger.info(rel);
 	
 				}
-				System.out.println(String.valueOf(i * updateSize) + " data from bbs end");
+				System.out.println(String.valueOf(i * updateSize + counter) + " data from bbs end");
 			}
 			
 			System.out.println("info : update for employee complete");

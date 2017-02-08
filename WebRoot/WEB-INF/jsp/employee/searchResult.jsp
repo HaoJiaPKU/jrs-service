@@ -57,7 +57,7 @@ body {
 					<a href="resume/checkPosition?recruitId=<%=position.getId()%>" target="_blank"><%=position.getTitle()%></a>
 				</h3>
 				<p>
-					<%=position.getUploadTime()%>
+					<%=position.getUploadTime().toString().substring(0, 10)%>
 					&nbsp &nbsp &nbsp &nbsp &nbsp
 					<%=position.getCompany()%>
 				</p>
@@ -73,7 +73,17 @@ body {
 				<p>
 					<%=position.getPosPublishDate()%>
 					&nbsp &nbsp &nbsp &nbsp &nbsp
-					<%=position.getSource()%>
+					<% if (position.getComName() != null
+						&& position.getComName().length() > 0) {
+					%>
+					<%= position.getComName()%>
+					<%
+						} else {
+					%>
+					<%= position.getSource()%>
+					<%
+						}
+					%>
 					&nbsp &nbsp &nbsp &nbsp &nbsp
 				</p>
 				<p><%=position.getDisplayContent()%></p>

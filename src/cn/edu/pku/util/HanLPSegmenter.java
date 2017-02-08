@@ -211,7 +211,10 @@ public class HanLPSegmenter
 	 * @return 分好词的数组
 	 * */
 	public static String [] segmentation(
-			String input, boolean isNormalized, boolean isSave, String outputPath) {
+			String input,
+			boolean isNormalized,
+			boolean isSave,
+			String outputPath) {
 		
 		FileOutput fo = new FileOutput();
 		if (isSave) {

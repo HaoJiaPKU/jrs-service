@@ -33,6 +33,7 @@ public class Position extends AbstractPosition implements Serializable{
 	private String posDescription;
 	private String posUrl;
 	
+	private String comName;
 	private String comScale;
 	private String comType;
 	private String comIndustry;
@@ -189,6 +190,16 @@ public class Position extends AbstractPosition implements Serializable{
 		this.posUrl = posUrl;
 	}
 
+	@Column(name = "com_name")
+	public String getComName() {
+		return comName;
+	}
+
+	public void setComName(String comName) {
+		this.comName = comName;
+	}
+	
+
 	@Column(name = "com_scale")
 	public String getComScale() {
 		return comScale;
@@ -274,6 +285,7 @@ public class Position extends AbstractPosition implements Serializable{
 		return serialVersionUID;
 	}
 
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -281,27 +293,29 @@ public class Position extends AbstractPosition implements Serializable{
 		result = prime * result + ((comHost == null) ? 0 : comHost.hashCode());
 		result = prime * result + ((comIndustry == null) ? 0 : comIndustry.hashCode());
 		result = prime * result + ((comLocation == null) ? 0 : comLocation.hashCode());
+		result = prime * result + ((comName == null) ? 0 : comName.hashCode());
 		result = prime * result + ((comScale == null) ? 0 : comScale.hashCode());
 		result = prime * result + ((comType == null) ? 0 : comType.hashCode());
 		result = prime * result + ((displayContent == null) ? 0 : displayContent.hashCode());
 		result = prime * result + hasTag;
 		result = prime * result + (int) (id ^ (id >>> 32));
 		result = prime * result + ((posCategory == null) ? 0 : posCategory.hashCode());
-		result = prime * result + ((posDescription == null) ? 0 : posDescription.hashCode());
 		result = prime * result + ((posDegree == null) ? 0 : posDegree.hashCode());
+		result = prime * result + ((posDescription == null) ? 0 : posDescription.hashCode());
 		result = prime * result + ((posExperience == null) ? 0 : posExperience.hashCode());
 		result = prime * result + ((posLocation == null) ? 0 : posLocation.hashCode());
 		result = prime * result + ((posPublishDate == null) ? 0 : posPublishDate.hashCode());
 		result = prime * result + ((posRecruitNum == null) ? 0 : posRecruitNum.hashCode());
 		result = prime * result + ((posSalary == null) ? 0 : posSalary.hashCode());
+		result = prime * result + ((posTitle == null) ? 0 : posTitle.hashCode());
 		result = prime * result + ((posType == null) ? 0 : posType.hashCode());
 		result = prime * result + ((posUrl == null) ? 0 : posUrl.hashCode());
-		result = prime * result + ((posTitle == null) ? 0 : posTitle.hashCode());
 		result = prime * result + ((snapshotUrl == null) ? 0 : snapshotUrl.hashCode());
 		result = prime * result + ((source == null) ? 0 : source.hashCode());
 		return result;
 	}
 
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -325,6 +339,11 @@ public class Position extends AbstractPosition implements Serializable{
 			if (other.comLocation != null)
 				return false;
 		} else if (!comLocation.equals(other.comLocation))
+			return false;
+		if (comName == null) {
+			if (other.comName != null)
+				return false;
+		} else if (!comName.equals(other.comName))
 			return false;
 		if (comScale == null) {
 			if (other.comScale != null)
@@ -350,15 +369,15 @@ public class Position extends AbstractPosition implements Serializable{
 				return false;
 		} else if (!posCategory.equals(other.posCategory))
 			return false;
-		if (posDescription == null) {
-			if (other.posDescription != null)
-				return false;
-		} else if (!posDescription.equals(other.posDescription))
-			return false;
 		if (posDegree == null) {
 			if (other.posDegree != null)
 				return false;
 		} else if (!posDegree.equals(other.posDegree))
+			return false;
+		if (posDescription == null) {
+			if (other.posDescription != null)
+				return false;
+		} else if (!posDescription.equals(other.posDescription))
 			return false;
 		if (posExperience == null) {
 			if (other.posExperience != null)
@@ -385,6 +404,11 @@ public class Position extends AbstractPosition implements Serializable{
 				return false;
 		} else if (!posSalary.equals(other.posSalary))
 			return false;
+		if (posTitle == null) {
+			if (other.posTitle != null)
+				return false;
+		} else if (!posTitle.equals(other.posTitle))
+			return false;
 		if (posType == null) {
 			if (other.posType != null)
 				return false;
@@ -394,11 +418,6 @@ public class Position extends AbstractPosition implements Serializable{
 			if (other.posUrl != null)
 				return false;
 		} else if (!posUrl.equals(other.posUrl))
-			return false;
-		if (posTitle == null) {
-			if (other.posTitle != null)
-				return false;
-		} else if (!posTitle.equals(other.posTitle))
 			return false;
 		if (snapshotUrl == null) {
 			if (other.snapshotUrl != null)
@@ -412,4 +431,6 @@ public class Position extends AbstractPosition implements Serializable{
 			return false;
 		return true;
 	}
+
+	
 }

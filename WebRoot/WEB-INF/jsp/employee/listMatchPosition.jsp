@@ -53,7 +53,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</div>
 				<div class="col-md-12">
 					<div class="col-md-8">
-						<%=position.getUploadTime()%>
+						<%=position.getUploadTime().toString().substring(0, 10)%>
 						&nbsp &nbsp &nbsp &nbsp &nbsp
 						<%=position.getCompany()%>
 						&nbsp &nbsp &nbsp &nbsp &nbsp
@@ -78,7 +78,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<div class="col-md-8">
 							<%=position.getPosPublishDate()%>
 							&nbsp &nbsp &nbsp &nbsp &nbsp
-							<%=position.getSource()%>
+							<% if (position.getComName() != null
+								&& position.getComName().length() > 0) {
+							%>
+							<%= position.getComName()%>
+							<%
+								} else {
+							%>
+							<%= position.getSource()%>
+							<%
+								}
+							%>
 							&nbsp &nbsp &nbsp &nbsp &nbsp
 							<font color="#11cccc">相关度:
 							<%=(double)((int)(match.getRelevance() * 100000)) / 1000.0%>
