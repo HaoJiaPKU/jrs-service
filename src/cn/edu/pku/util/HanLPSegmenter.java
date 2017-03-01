@@ -12,6 +12,7 @@
 package cn.edu.pku.util;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -24,10 +25,6 @@ import com.hankcs.hanlp.seg.common.Term;
 import cn.edu.pku.util.FileInput;
 import cn.edu.pku.util.FileOutput;
 
-/**
- * 词性标注
- * @author hankcs
- */
 public class HanLPSegmenter
 {
 	/** 停用词、停用符号表 */
@@ -37,11 +34,11 @@ public class HanLPSegmenter
 	/** 停用符号 */
 	public static final String StopSigns = "[\\p{P}~$`^=|<>～｀＄＾＋＝｜＜＞￥× \\s|\t|\r|\n]+";
 	/** 停用模式 */
-	public static Pattern pattern = Pattern.compile("[a-b]|[d-z]");
+	public static Pattern pattern = Pattern.compile("[a-b]|[d-q]|[s-z]");
 	
 	/** 
 	 * 加载停用词、停用符号表
-	 * @param stopwordsFilePath 停用词表文件路径
+	 * @param stopWordsFilePath 停用词表文件路径
 	 * @throws IOException 找不到停用词、停用符号文件
 	 */
 	public static void loadStopword(String _stopwordsFile) {
@@ -59,15 +56,6 @@ public class HanLPSegmenter
 			e.printStackTrace();
 		}
 		fi.closeInput();
-	}
-	
-	/** 
-	 * 设置停用词、停用符号文件路径 
-	 * @param _matchProbFilePath 停用词、停用符号文件路径
-	 * */
-	public static void setStopWordsFile(String _stopwordsFile)
-	{
-		stopwordsFile = _stopwordsFile;
 	}
 	
 	/** 
@@ -117,7 +105,7 @@ public class HanLPSegmenter
 		textContent = textContent.replaceAll("Div[+]Css", "@pattern3@");
 		textContent = textContent.replaceAll("Css[+]Div", "@pattern3@");
 		textContent = textContent.replaceAll("[+]", " ");
-		textContent = textContent.replaceAll("@pattern1@", "c++ ");
+		textContent = textContent.replaceAll("@pattern1@", "cpp ");
 		textContent = textContent.replaceAll("@pattern2@", ".net");
 		textContent = textContent.replaceAll("@pattern3@", "div+css");
 		textContent = textContent.replaceAll("sql server", "sqlserver");
@@ -128,6 +116,65 @@ public class HanLPSegmenter
 		textContent = textContent.replaceAll("SQL Server", "sqlserver");
 		textContent = textContent.replaceAll("c #", "c#");
 		return textContent;
+	}
+	
+	/**
+	 * 将特殊词汇进行替换
+	 * */
+	public static String replaceToken(String token) {
+		if(token.equals("net")) {
+			token = ".net";
+		}
+		if(token.equals("cpp")) {
+			token = "c++";
+		}
+		if(token.equals("ccpp")) {
+			token = "c c++";
+		}
+		if(token.equals("vcpp") || token.equals("visualcpp")) {
+			token = "visualc++";
+		}
+		if(token.equals("pythoncpp")) {
+			token = "python c++";
+		}
+		if(token.equals("qtcpp")) {
+			token = "qt c++";
+		}
+		if(token.equals("javaccpp")) {
+			token = "java c c++";
+		}
+		if (token.equals("j2") || token.equals("ee") || token.equals("javaee")) {
+			token = "j2ee";
+		}
+		if (token.equals("se") || token.equals("javase")) {
+			token = "j2se";
+		}
+		if (token.equals("me") || token.equals("javame")) {
+			token = "j2me";
+		}
+		if (token.equals("es")) {
+			token = "elasticsearch";
+		}
+		if (token.equals("js") || token.equals("javascrip")) {
+			token = "javascript";
+		}
+		if (token.equals("go")) {
+			token = "golang";
+		}
+		if(token.equals("reduce")) {
+			token = "mapreduce";
+		}
+		if(token.equals("map")) {
+			return "";
+		}
+		if(token.equals("rest")) {
+			return "restful";
+		}
+		if (token.indexOf("js") == token.length() - 2
+				&& token.length() > 2 ) {
+			token = token.substring(0, token.length() - 2);
+		}
+		return token;
 	}
 	
 	/**
@@ -144,7 +191,7 @@ public class HanLPSegmenter
 		token = lowerCase(token.trim());
 			
 		//去除c以外的其他单个字母和汉字
-		if(token.length() == 1 && !token.equals("c")) {
+		if(token.length() == 1 && !token.equals("c") && !token.equals("r")) {
 			return null;
 		}
 		
@@ -153,9 +200,9 @@ public class HanLPSegmenter
 			return null;
 		}
 		
-		if (token.equals("ee")) {
-			token = "j2ee";
-		}
+		token = replaceToken(token);
+		
+		
 		token = token.replaceAll("\r", "");
 		token = token.replaceAll("\n", "");
 		token = token.replaceAll("\t", "");
@@ -186,7 +233,8 @@ public class HanLPSegmenter
 				|| token.equals("学历")
 				|| token.equals("本科")
 				|| token.equals("专科")
-				|| token.equals("能力")				
+				|| token.equals("能力")
+				|| token.equals("基础")
 				) {
 			return null;
 		}
@@ -204,14 +252,11 @@ public class HanLPSegmenter
 				|| token.equals("nx");
 	}
 	
-	/** 对文本进行分词，返回分词后的数组
-	 * @param input 输入字符串
-	 * @param isNormalized 是否需要归一化
-	 * @param isSave 是否要将结果保存到文件
-	 * @return 分好词的数组
+	/**
+	 * 对文本进行分词
 	 * */
-	public static String [] segmentation(
-			String input,
+	public static String[] segmentation(
+			String content,
 			boolean isNormalized,
 			boolean isSave,
 			String outputPath) {
@@ -220,11 +265,12 @@ public class HanLPSegmenter
 		if (isSave) {
 			fo = new FileOutput(outputPath);
 		}
-		Segment segment = HanLP.newSegment();
-		segment.enablePartOfSpeechTagging(true);
 		
-		input = preStopWord(input.trim());
-		List<Term> termList = segment.seg(input);
+		Segment segmenter = HanLP.newSegment();
+		segmenter.enablePartOfSpeechTagging(true);	
+		
+		content = preStopWord(content.trim());
+		List<Term> termList = segmenter.seg(content);
 		
 		String [] temp = new String[termList.size()];
 		int index = 0;
@@ -262,5 +308,239 @@ public class HanLPSegmenter
 		return ret;
 	}
 	
-    public static void main(String[] args) {}
+	/**
+	 * 对文本进行分词
+	 * @param inputPath 输入文件路径
+	 * @param outputPath 输出文件路径
+	 * @param indices 需要分词的域的索引
+	 * */
+	public static void segmentationForFeature(
+			String inputPath,
+			String inputSeperator,
+			String outputPathTFIDF,
+			String outputPathPos,
+			String outputPathLoc,
+			String outputSeperator,
+			int[] indices) {
+		if (indices == null || indices.length == 0) {
+			System.out.println("info : no indices specified");
+			return;
+		}
+		
+		FileInput fi = new FileInput(inputPath);
+		FileOutput foToken = new FileOutput(outputPathTFIDF);
+		FileOutput foPos = new FileOutput(outputPathPos);
+		FileOutput foLoc = new FileOutput(outputPathLoc);
+		loadStopword(null);
+		
+		Segment segmenter = HanLP.newSegment();
+		segmenter.enablePartOfSpeechTagging(true);	
+		
+		int counter = 0;
+		String line = new String();
+		try {
+			while ((line = fi.reader.readLine()) != null) {
+				String content = new String();
+				String [] fields = line.split(inputSeperator);
+				if (fields.length - 1 < indices[indices.length - 1]) {
+					continue;
+				}
+				
+				foToken.t3.write(fields[0] + outputSeperator);
+				foPos.t3.write(fields[0] + outputSeperator);
+				foLoc.t3.write(fields[0] + outputSeperator);
+				
+				boolean [] flag = new boolean [fields.length];
+				for (int i = 1; i < fields.length; i ++) {
+					flag[i] = false;
+				}
+				for (int i = 0; i < indices.length; i ++) {
+					flag[indices[i]] = true;
+				}
+				for (int i = 1; i < flag.length; i ++) {
+					if (!flag[i]) {
+						foToken.t3.write(fields[i] + outputSeperator);
+					}
+				}
+				
+				for (int i = 1; i < fields.length; i ++) {
+					if (fields[i] == null
+							|| fields[i].length() == 0
+							|| fields[i].equals("")) {
+						continue;
+					}
+					if (flag[i]) {
+						content += fields[i];
+					}
+				}
+				
+				content = preStopWord(content.trim());
+				List<Term> termList = segmenter.seg(content);
+				
+				ArrayList<String> token = new ArrayList<String>();
+				ArrayList<String> pos = new ArrayList<String>();
+				
+				Iterator it = termList.iterator();
+				while (it.hasNext()) {
+					String [] term = it.next().toString().split("/");
+					term[0] = normalizedToken(term[0]);
+					if (term[0] == null
+							|| term[0].length() == 0
+							|| term[0].equals("")) {
+						continue;
+					}
+					token.add(term[0]);
+					pos.add(term[1]);
+				}
+				
+				flag = new boolean[token.size()];
+				for (int i = 0; i < flag.length; i ++) {
+					flag[i] = false;
+				}
+				
+				for (int i = 0; i < token.size(); i ++) {
+					if (pos.get(i).equals("gi")) {
+						flag[i] = true;
+						continue;
+					}
+					if (pos.get(i).equals("v")) {
+						if (i + 1 < token.size()
+								&& token.get(i + 1) != null
+								&& isGivenPos(pos.get(i + 1))
+								) {
+							while (i + 1 < token.size()
+									&& token.get(i + 1) != null
+									&& isGivenPos(pos.get(i + 1))
+									) {
+								flag[i + 1] = true;
+								i ++;
+							}
+						} else if (i + 2 < token.size()
+								&& token.get(i + 2) != null
+								&& isGivenPos(pos.get(i + 2))
+								) {
+							while (i + 2 < token.size()
+									&& token.get(i + 2) != null
+									&& isGivenPos(pos.get(i + 2))
+									) {
+								flag[i + 2] = true;
+								i ++;
+							}
+						} else if (i + 3 < token.size()
+								&& token.get(i + 3) != null
+								&& isGivenPos(pos.get(i + 3))
+								) {
+							while (i + 3 < token.size()
+									&& token.get(i + 3) != null
+									&& isGivenPos(pos.get(i + 3))
+									) {
+								flag[i + 3] = true;
+								i ++;
+							}
+						}
+					}
+				}
+				
+				for (int i = 0; i < token.size(); i ++) {
+					foToken.t3.write(token.get(i) + outputSeperator);
+					if (flag[i]) {
+						foPos.t3.write(token.get(i) + outputSeperator);
+						foLoc.t3.write(token.get(i) 
+								+ "/" + String.valueOf(i) + outputSeperator);
+					}
+				}
+				
+				foToken.t3.newLine();
+				foPos.t3.newLine();
+				foLoc.t3.newLine();
+				
+				if (++ counter % 1000 == 0) {
+					System.out.println(counter + " results");
+				}
+			}
+			System.out.println(counter + " results");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		foToken.closeOutput();
+		foPos.closeOutput();
+		foLoc.closeOutput();
+		fi.closeInput();
+	}
+	
+	/**
+	 * 对文本进行分词
+	 * @param inputPath 输入文件路径
+	 * @param outputPath 输出文件路径
+	 * @param indices 需要分词的域的索引
+	 * */
+	public static void segmentationForGBDT(
+			String inputPath,
+			String inputSeperator,
+			String outputPath,
+			String outputSeperator) {		
+		FileInput fi = new FileInput(inputPath);
+		FileOutput fo = new FileOutput(outputPath);
+		loadStopword(null);
+		
+		Segment segmenter = HanLP.newSegment();
+		segmenter.enablePartOfSpeechTagging(true);	
+		
+		int counter = 0;
+		String line = new String();
+		try {
+			while ((line = fi.reader.readLine()) != null) {
+				String content = new String();
+				String [] fields = line.split(inputSeperator);
+				
+				boolean flag = true;
+				for (int i = 0; i < fields.length; i ++) {
+					if (fields[i] == null
+							|| fields[i].length() == 0
+							|| fields[i].equals("")) {
+						flag = false;
+						break;
+					}
+				}
+				if (!flag) {
+					continue;
+				}
+				
+				for (int i = 0; i < fields.length; i ++) {
+					content = preStopWord(fields[i].trim());
+					List<Term> termList = segmenter.seg(content);
+					
+					Iterator it = termList.iterator();
+					while (it.hasNext()) {
+						String [] term = it.next().toString().split("/");
+						term[0] = normalizedToken(term[0]);
+						if (term[0] == null
+								|| term[0].length() == 0
+								|| term[0].equals("")) {
+							continue;
+						}
+						fo.t3.write(term[0] + " ");
+					}
+					if (i != fields.length - 1) {
+						fo.t3.write(outputSeperator);
+					}
+				}
+				fo.t3.newLine();
+				
+				if (++ counter % 1000 == 0) {
+					System.out.println(counter + " results");
+				}
+			}
+			System.out.println(counter + " results");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		fo.closeOutput();
+		fi.closeInput();
+	}
+
 }

@@ -1,8 +1,10 @@
 package cn.edu.pku.search.service;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -24,6 +26,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.chenlb.mmseg4j.analysis.SimpleAnalyzer;
 
+import cn.edu.pku.algo.Comparator;
+import cn.edu.pku.algo.TextProcessor;
+import cn.edu.pku.gbdt.Instance;
+import cn.edu.pku.gbdt.Model;
 import cn.edu.pku.rec.classifier.Classifier;
 import cn.edu.pku.rec.comparer.Comparer;
 import cn.edu.pku.rec.knowledge.KnowledgeBase;
@@ -205,51 +211,41 @@ public class SearchServiceImpl implements SearchService {
 		List<WorkExperience> workList = resumeDAO.listWorkExperience(employeeId);
 		
 		try {
-
-//			PreProcessor.loadSegmenter();
-//			PreProcessor.loadStopWords(null);
 			HanLPSegmenter.loadStopword(null);
-			PreProcessor.dealWithResume(resume, eduList, workList, FilePath.nlpPath + "tmp/resume.txt");
+			Model model = new Model();
+			model.load(FilePath.modelPath + "model.json");
+			TextProcessor tp = new TextProcessor();
+			Comparator comparator = new Comparator();
 			
-			KnowledgeBase.setPositionFile(100, FilePath.nlpPath + "positionList top100.txt");
-			KnowledgeBase.setSkillFile(100, FilePath.nlpPath + "skillList top100.txt");
-			KnowledgeBase.setProbFile(FilePath.nlpPath + "contribution matrix.txt");
-			KnowledgeBase.setSimilFile(FilePath.nlpPath + "similarity matrix.txt");
-			KnowledgeBase.loadKnowledgeBase();
-
-			Classifier.setProbFile(15, 40, FilePath.nlpPath + "classifier param.txt");
-			Classifier.loadModel();
-			Classifier classifier = new Classifier();
+			Instance resumeIns = tp.makeInstanceForResume(
+					resume, eduList, workList,
+					FilePath.nlpPath + "tmp/resume.txt", model);
 
 			int updateSize = 1000;
-			double [] distribution;
+			HashMap<String, Double> distributionResume, distributionPosition;
 
 			logger.info("简历文件分析中间结果*************************");
-			ResumeInfo resumeInfo = new ResumeInfo();
-			resumeInfo.process(FilePath.nlpPath + "tmp/resume.txt");
-			for (int i = 0; i < resumeInfo.skillVector.length; i++) {
-				if (resumeInfo.skillVector[i] > 0) {
-					logger.info(KnowledgeBase.skillList[i] + " "
-							+ resumeInfo.skillVector[i] + "\n");
-				}
+			for (String str : resumeIns.numTypeFeature.keySet()) {
+				logger.info(str + " " + resumeIns.numTypeFeature.get(str));
 			}
-			distribution = classifier.getDistri(resumeInfo.skillVector);
-			for (int i = 0; i < distribution.length; i++) {
-				logger.info(KnowledgeBase.positionList[i] + "	"
-						+ distribution[i]);
+			for (String str : resumeIns.strTypeFeature.keySet()) {
+				logger.info(str + " " + resumeIns.strTypeFeature.get(str));
+			}
+			distributionResume = model.predict(resumeIns);
+			for (String label : distributionResume.keySet()) {
+				logger.info(label + "	" + distributionResume.get(label));
 			}
 			
 			// TODO hasTag is supposed to be boolean
 			// TODO 标签的更新不应该放在这个位置，考虑保存简历时
-			// TODO 更新逻辑依然有错误
 			Employee employee = employeeDAO.load(employeeId);
 			if (employee.getHasTag() != -1) {
 				employeeTagDAO.deleteEmployeeTag(employeeId);
-				for (int i = 0; i < distribution.length; i ++) {
+				for (String label : distributionResume.keySet()) {
 					EmployeeTag employeeTag = new EmployeeTag(
 							employeeId,
-							KnowledgeBase.positionList[i],
-							distribution[i]);
+							label,
+							distributionResume.get(label));
 					employeeTagDAO.add(employeeTag);
 //					System.out.println("add employeeTag");
 				}
@@ -261,8 +257,8 @@ public class SearchServiceImpl implements SearchService {
 			
 			
 			for(int i = 0; ;i ++) {
-				List<Position> positionList = positionDAO
-						.listPositionBBS(i * updateSize, updateSize, resume.getIndustryIntension());
+				List<Position> positionList = positionDAO.listPositionBBS(
+						i * updateSize, updateSize, resume.getIndustryIntension());
 				//只计算一页
 				if (i == 1) {
 					break;
@@ -273,45 +269,41 @@ public class SearchServiceImpl implements SearchService {
 					break;
 				
 				int counter = 0;
-				for (Position positionBBS : positionList) {
-					PreProcessor.dealWithString(positionBBS.textField(), FilePath.nlpPath+ "tmp/position.txt");
+				for (Position position : positionList) {
+					Instance positionIns = tp.makeInstanceForPosition(
+							position.textField(),
+							FilePath.nlpPath + "tmp/position.txt", model);
 					System.out.println("第" + String.valueOf(++ counter) + "条数据处理中");
 					
 					logger.info("职位文件分析中间结果*************************");
-					PositionInfo positionInfo = new PositionInfo();
-					positionInfo.process(FilePath.nlpPath + "tmp/position.txt");
-					for (int j = 0; j < positionInfo.skillVector.length; j++) {
-						if (positionInfo.skillVector[j] > 0) {		
-							logger.info(KnowledgeBase.skillList[j] + " "
-									+ positionInfo.skillVector[j] + "\n");
-						}
+					for (String str : positionIns.numTypeFeature.keySet()) {
+						logger.info(str + " " + positionIns.numTypeFeature.get(str));
 					}
-					distribution = classifier.getDistri(positionInfo.skillVector);
-					for (int j = 0; j < distribution.length; j++) {
-						logger.info(KnowledgeBase.positionList[j] + "	"
-								+ distribution[j]);
+					for (String str : positionIns.strTypeFeature.keySet()) {
+						logger.info(str + " " + positionIns.strTypeFeature.get(str));
+					}
+					distributionPosition = model.predict(positionIns);
+					for (String label : distributionPosition.keySet()) {
+						logger.info(label + "	" + distributionPosition.get(label));
 					}
 					
 					// TODO hasTag is supposed to be boolean
 					// TODO 标签的更新不应该放在这个位置，考虑保存招聘信息时
-					if (positionBBS.getHasTag() != -1) {
-						positionTagDAO.deletePositionTag(positionBBS.getId());
-						for (int j = 0; j < distribution.length; j ++) {
+					if (position.getHasTag() != -1) {
+						positionTagDAO.deletePositionTag(position.getId());
+						for (String label : distributionPosition.keySet()) {
 							PositionTag positionTag = new PositionTag(
-									positionBBS.getId(),
-									KnowledgeBase.positionList[j],
-									distribution[j]);
+									position.getId(),
+									label,
+									distributionPosition.get(label));
 							positionTagDAO.add(positionTag);
 						}
-						positionBBS.setHasTag(1);
-						positionDAO.updateBBS(positionBBS);
+						position.setHasTag(1);
+						positionDAO.updateBBS(position);
 					}
 	
-					logger.info("职位与简历匹配度计算*************************");
-					Comparer comparer = new Comparer();
-	
-					double rel = comparer.compare(positionInfo, resumeInfo);
-					Relevance relevance = new Relevance(employeeId, 0, 2, positionBBS.getId(), rel);
+					double rel = comparator.compare(distributionResume, distributionPosition);
+					Relevance relevance = new Relevance(employeeId, 0, 2, position.getId(), rel);
 					relevanceDAO.update(relevance);
 					logger.info(rel);
 					
@@ -320,8 +312,8 @@ public class SearchServiceImpl implements SearchService {
 			}
 			
 			for(int i = 0; ;i ++) {
-				List<PositionJobpopo> positionList = positionDAO
-						.listPosition(i * updateSize, updateSize);
+				List<PositionJobpopo> positionList = positionDAO.listPosition(
+						i * updateSize, updateSize);
 				//只计算一页
 				if (i == 1) {
 					break;
@@ -333,28 +325,24 @@ public class SearchServiceImpl implements SearchService {
 				
 				int counter = 0;
 				for (PositionJobpopo position : positionList) {
-					PreProcessor.dealWithString(position.textField(), FilePath.nlpPath+ "tmp/position.txt");
+					Instance positionIns = tp.makeInstanceForPosition(
+							position.textField(),
+							FilePath.nlpPath + "tmp/position.txt", model);
 					System.out.println("第" + String.valueOf(++ counter) + "条数据处理中");
 					
 					logger.info("职位文件分析中间结果*************************");
-					PositionInfo positionInfo = new PositionInfo();
-					positionInfo.process(FilePath.nlpPath + "tmp/position.txt");
-					for (int j = 0; j < positionInfo.skillVector.length; j++) {
-						if (positionInfo.skillVector[j] > 0) {		
-							logger.info(KnowledgeBase.skillList[j] + " "
-									+ positionInfo.skillVector[j] + "\n");
-						}
+					for (String str : positionIns.numTypeFeature.keySet()) {
+						logger.info(str + " " + positionIns.numTypeFeature.get(str));
 					}
-					distribution = classifier.getDistri(positionInfo.skillVector);
-					for (int j = 0; j < distribution.length; j++) {
-						logger.info(KnowledgeBase.positionList[j] + "	"
-								+ distribution[j]);
+					for (String str : positionIns.strTypeFeature.keySet()) {
+						logger.info(str + " " + positionIns.strTypeFeature.get(str));
+					}
+					distributionPosition = model.predict(positionIns);
+					for (String label : distributionPosition.keySet()) {
+						logger.info(label + "	" + distributionPosition.get(label));
 					}
 	
-					logger.info("职位与简历匹配度计算*************************");
-					Comparer comparer = new Comparer();
-	
-					double rel = comparer.compare(positionInfo, resumeInfo);
+					double rel = comparator.compare(distributionResume, distributionPosition);
 					Relevance relevance = new Relevance(employeeId, 0, 1, position.getId(), rel);
 					relevanceDAO.update(relevance);
 					logger.info(rel);
@@ -364,7 +352,7 @@ public class SearchServiceImpl implements SearchService {
 			}
 			
 			System.out.println("info : update for employee complete");
-		} catch (IOException e) {
+		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 		}
 		

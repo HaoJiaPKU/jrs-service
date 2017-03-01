@@ -163,6 +163,8 @@ public class PreProcessor {
 		return token;
 	}
 
+	
+	
 	/** 
 	 * 禁用 对HTML文件进行分词，只用于智联招聘
 	 * @param htmlPath HTML文件路径
@@ -312,24 +314,24 @@ public class PreProcessor {
 	public static void dealWithResume(Resume input, List<Education> edulist,
 			List<WorkExperience> worklist, String outputPath) {
 		String content = new String();
-		content += input.getSpeciality();
-		content += input.getOtherInfo();
-		content += input.getWorkingPlace();
+		content += " " + input.getSpeciality();
+		content += " " + input.getOtherInfo();
+		content += " " + input.getWorkingPlace();
 		for(Education edu : edulist)
 		{
-			content += edu.getAcademy();
-			content += edu.getDegree();
-			content += edu.getSchool();
-			content += edu.getMajor();
+			content += " " + edu.getAcademy();
+			content += " " + edu.getDegree();
+			content += " " + edu.getSchool();
+			content += " " + edu.getMajor();
 		}
 		for(WorkExperience work : worklist)
 		{
-			content += work.getCompany();
-			content += work.getJobTitle();
-			content += work.getDescription();
+			content += " " + work.getCompany();
+			content += " " + work.getJobTitle();
+			content += " " + work.getDescription();
 		}
-		content += input.getIndustryIntension();
-		content += input.getCategoryIntension();
+		content += " " + input.getIndustryIntension();
+		content += " " + input.getCategoryIntension();
 		
 		HanLPSegmenter.segmentation(content.trim(), true, true, outputPath);
 	}
@@ -340,23 +342,12 @@ public class PreProcessor {
 	 * @param outputPath 输出文件路径
 	 * @throws IOException 找不到HTML文件
 	 */
-	public static void dealWithPosition(Position input, String outputPath) throws IOException
+	public static void dealWithPosition(Position input, String outputPath)
 	{
-		String content = input.getPosTitle() + "\n" + input.getPosDescription();
+		String content = input.getPosTitle()
+				+ " " + input.getPosDescription();
 		
 		HanLPSegmenter.segmentation(content.trim(), true, true, outputPath);
 	}
-	
-	public static void main(String args[]) throws IOException
-	{
-//		SetPath path = new SetPath();
-//		path.setSighanCorporaDict("");
-//		path.setSerDictionary("");
-//		path.setLoadDictionary("");
-//		loadSegmenter(path);
-//		loadStopWords(null);
-//		
-//		new File("E:\\workj2ee\\智联招聘 训练集_pro").mkdirs();
-//		batchDealWithZhilianHtml("E:\\workj2ee\\智联招聘 训练集", "E:\\workj2ee\\智联招聘 训练集_pro");
-	}
+
 }
