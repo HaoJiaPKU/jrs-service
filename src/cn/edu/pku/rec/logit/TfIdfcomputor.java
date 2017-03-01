@@ -1,4 +1,4 @@
-package cn.edu.pku.rec.expansion;
+package cn.edu.pku.rec.logit;
 
 
 import java.util.List;

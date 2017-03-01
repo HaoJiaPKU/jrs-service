@@ -1,6 +1,5 @@
-package cn.edu.pku.rec.expansion;
+package cn.edu.pku.rec.logit;
 
-import cn.edu.pku.rec.knowledge.KnowledgeBase;
 import cn.edu.pku.util.FilePath;
 
 import java.io.IOException;

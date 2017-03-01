@@ -1,4 +1,4 @@
-package cn.edu.pku.algo;
+package cn.edu.pku.rec.gbdt;
 
 import java.io.IOException;
 import java.util.List;

@@ -1,12 +1,6 @@
-﻿package cn.edu.pku.rec.test;
+﻿package cn.edu.pku.rec.logit;
 
 import java.io.IOException;
-
-import cn.edu.pku.rec.classifier.Classifier;
-import cn.edu.pku.rec.comparer.Comparer;
-import cn.edu.pku.rec.knowledge.KnowledgeBase;
-import cn.edu.pku.rec.processor.PositionInfo;
-import cn.edu.pku.rec.processor.ResumeInfo;
 
 /**
  * 示例

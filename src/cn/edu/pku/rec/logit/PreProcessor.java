@@ -1,4 +1,4 @@
-﻿package cn.edu.pku.rec.processor;
+﻿package cn.edu.pku.rec.logit;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

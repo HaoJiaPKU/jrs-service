@@ -1,4 +1,4 @@
-﻿package cn.edu.pku.rec.processor;
+﻿package cn.edu.pku.rec.logit;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -6,8 +6,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-
-import cn.edu.pku.rec.knowledge.KnowledgeBase;
 
 /**
  * 职位信息

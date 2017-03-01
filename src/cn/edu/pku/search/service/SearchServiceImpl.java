@@ -26,16 +26,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.chenlb.mmseg4j.analysis.SimpleAnalyzer;
 
-import cn.edu.pku.algo.Comparator;
-import cn.edu.pku.algo.TextProcessor;
 import cn.edu.pku.gbdt.Instance;
 import cn.edu.pku.gbdt.Model;
-import cn.edu.pku.rec.classifier.Classifier;
-import cn.edu.pku.rec.comparer.Comparer;
-import cn.edu.pku.rec.knowledge.KnowledgeBase;
-import cn.edu.pku.rec.processor.PositionInfo;
-import cn.edu.pku.rec.processor.PreProcessor;
-import cn.edu.pku.rec.processor.ResumeInfo;
+import cn.edu.pku.rec.gbdt.Comparator;
+import cn.edu.pku.rec.gbdt.TextProcessor;
+import cn.edu.pku.rec.logit.Classifier;
+import cn.edu.pku.rec.logit.Comparer;
+import cn.edu.pku.rec.logit.KnowledgeBase;
+import cn.edu.pku.rec.logit.PositionInfo;
+import cn.edu.pku.rec.logit.PreProcessor;
+import cn.edu.pku.rec.logit.ResumeInfo;
 import cn.edu.pku.search.dao.PositionDAO;
 import cn.edu.pku.search.dao.PositionTagDAO;
 import cn.edu.pku.search.dao.RelevanceDAO;

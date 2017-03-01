@@ -1,12 +1,7 @@
-﻿package cn.edu.pku.rec.comparer;
+﻿package cn.edu.pku.rec.logit;
 
 import java.io.IOException;
 import java.util.ArrayList;
-
-import cn.edu.pku.rec.classifier.Classifier;
-import cn.edu.pku.rec.knowledge.KnowledgeBase;
-import cn.edu.pku.rec.processor.PositionInfo;
-import cn.edu.pku.rec.processor.ResumeInfo;
 
 /**
  * 职位与简历比较器

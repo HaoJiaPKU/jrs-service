@@ -1,10 +1,9 @@
-package cn.edu.pku.rec.expansion;
+package cn.edu.pku.rec.logit;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.edu.pku.rec.processor.PreProcessor;
 import cn.edu.pku.util.HanLPSegmenter;
 
 public class SortDocs {
