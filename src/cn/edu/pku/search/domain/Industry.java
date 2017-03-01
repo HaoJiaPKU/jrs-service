@@ -23,7 +23,7 @@ public class Industry implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private String industry;
-	private String category;
+	private int num;
 	
 	@Id
 	@Column(name="industry")
@@ -35,20 +35,20 @@ public class Industry implements Serializable {
 	}
 	
 	@Id
-	@Column(name="category")
-	public String getCategory() {
-		return category;
+	@Column(name="num")
+	public int getNum() {
+		return num;
 	}
-	public void setCategory(String category) {
-		this.category = category;
+	public void setNum(int num) {
+		this.num = num;
 	}
 	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((category == null) ? 0 : category.hashCode());
 		result = prime * result + ((industry == null) ? 0 : industry.hashCode());
+		result = prime * result + num;
 		return result;
 	}
 	@Override
@@ -60,18 +60,16 @@ public class Industry implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Industry other = (Industry) obj;
-		if (category == null) {
-			if (other.category != null)
-				return false;
-		} else if (!category.equals(other.category))
-			return false;
 		if (industry == null) {
 			if (other.industry != null)
 				return false;
 		} else if (!industry.equals(other.industry))
 			return false;
+		if (num != other.num)
+			return false;
 		return true;
 	}
+	
 	
 	
 }

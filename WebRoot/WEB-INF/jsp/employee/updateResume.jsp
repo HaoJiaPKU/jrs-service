@@ -119,9 +119,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<%
 										Resume resume = (Resume) session.getAttribute("resume");
 										String industry = new String();
-										HashMap<String, HashSet<String>> indu 
-											= (HashMap<String, HashSet<String>>)
-													session.getAttribute("industry");
+										HashMap<String, Integer> indu 
+											= (HashMap<String, Integer>) session.getAttribute("industry");
 										for (String key : indu.keySet()) {
 									%>
 									<option value ="<%= key %>" 

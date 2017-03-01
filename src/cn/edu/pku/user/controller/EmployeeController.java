@@ -54,7 +54,7 @@ public class EmployeeController {
 		List<EmployeeTag> employeeTagList = employeeService.listEmployeeTag(employee.getId());
 		HttpSession session = req.getSession();
 		
-		HashMap<String, HashSet<String>> industry
+		HashMap<String, Integer> industry
 			= employeeService.loadAllIndustry();
 		session.setAttribute("industry", industry);
 		

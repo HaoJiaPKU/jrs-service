@@ -24,7 +24,7 @@ public class IndustryDAOImpl extends HibernateDaoSupport implements
 	public List<Industry> loadAllIndustry() {
 		// TODO Auto-generated method stub
 		Query query = this.getSession()
-				.createQuery("from Industry");
+				.createQuery("from Industry order by num desc");
 		return query.list();
 	}
 	

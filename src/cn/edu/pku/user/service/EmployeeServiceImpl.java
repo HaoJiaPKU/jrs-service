@@ -332,25 +332,22 @@ public class EmployeeServiceImpl implements EmployeeService {
 		this.employeeTagDAO = employeeTagDAO;
 	}
 
-	
 	@Transactional
 	@Override
-	public HashMap<String, HashSet<String>> loadAllIndustry() {
+	public HashMap<String, Integer> loadAllIndustry() {
 		// TODO Auto-generated method stub
 		List<Industry> list  = industryDAO.loadAllIndustry();
-		HashMap<String, HashSet<String>> ret
-			= new HashMap<String, HashSet<String>>();
+		HashMap<String, Integer> ret
+			= new HashMap<String, Integer>();
+		int counter = 0;
 		for (Iterator<Industry> it = list.iterator(); it.hasNext(); ) {
 			Industry ind = it.next();
 			String industry = ind.getIndustry();
-			String category = ind.getCategory();
-			HashSet<String> t = new HashSet<String> ();
-			if (ret.containsKey(industry)) {
-				t = ret.get(industry);
-				ret.remove(industry);
+			int num = ind.getNum();
+			ret.put(industry, num);
+			if (++ counter >= 10) {
+				break;
 			}
-			t.add(category);
-			ret.put(industry, t);
 		}
 		return ret;
 	}

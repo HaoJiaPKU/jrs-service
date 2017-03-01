@@ -19,5 +19,5 @@ public interface EmployeeService {
 	public Employee updateSubscription(
 			long id, int subscriptionNum, int recFreqDay, int recFreqHour);
 	public List<EmployeeTag> listEmployeeTag(long employeeId);
-	public HashMap<String, HashSet<String>> loadAllIndustry();
+	public HashMap<String, Integer> loadAllIndustry();
 }
