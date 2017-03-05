@@ -214,7 +214,7 @@ public class SearchServiceImpl implements SearchService {
 			HanLPSegmenter.loadStopword(null);
 			Model model = new Model();
 			model.load(FilePath.modelPath
-					+ resume.getIndustryIntension().trim().replaceAll("/", "|")
+					+ resume.getIndustryIntension().trim().replaceAll("/", "or")
 					+ ".gbdt.model.json");
 			TextProcessor tp = new TextProcessor();
 			Comparator comparator = new Comparator();
