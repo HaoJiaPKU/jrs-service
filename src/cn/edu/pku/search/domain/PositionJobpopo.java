@@ -36,6 +36,7 @@ public class PositionJobpopo extends AbstractPosition implements Serializable {
 	private String salary;// 薪资
 	private int recruitNum;// 招聘人数
 	private String description;// 职位描述
+	private int hasTag = 0;	
 
 	public PositionJobpopo() {
 	}
@@ -210,4 +211,13 @@ public class PositionJobpopo extends AbstractPosition implements Serializable {
 		this.description = description;
 	}
 
+	
+	@Column(name = "has_tag")
+	public int getHasTag() {
+		return hasTag;
+	}
+
+	public void setHasTag(int hasTag) {
+		this.hasTag = hasTag;
+	}
 }

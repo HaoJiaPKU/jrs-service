@@ -238,7 +238,7 @@ public class SearchServiceImpl implements SearchService {
 				logger.info(label + "	" + distributionResume.get(label));
 			}
 			
-			// TODO hasTag is supposed to be boolean
+			// TODO hasTag是否需要
 			// TODO 标签的更新不应该放在这个位置，考虑保存简历时
 			Employee employee = employeeDAO.load(employeeId);
 			if (employee.getHasTag() != -1) {
@@ -259,12 +259,12 @@ public class SearchServiceImpl implements SearchService {
 			
 			
 			for(int i = 0; ;i ++) {
-				List<Position> positionList = positionDAO.listPositionBBS(
-						i * updateSize, updateSize, resume.getIndustryIntension());
 				//只计算一页
 				if (i == 1) {
 					break;
 				}
+				List<Position> positionList = positionDAO.listPositionBBS(
+						i * updateSize, updateSize, resume.getIndustryIntension());
 				System.out.println(String.valueOf(i * updateSize) + " data from bbs start");
 				
 				if(positionList == null || positionList.size() == 0)
@@ -289,13 +289,14 @@ public class SearchServiceImpl implements SearchService {
 						logger.info(label + "	" + distributionPosition.get(label));
 					}
 					
-					// TODO hasTag is supposed to be boolean
+					// TODO hasTag是否需要
 					// TODO 标签的更新不应该放在这个位置，考虑保存招聘信息时
 					if (position.getHasTag() != -1) {
 						positionTagDAO.deletePositionTag(position.getId());
 						for (String label : distributionPosition.keySet()) {
 							PositionTag positionTag = new PositionTag(
 									position.getId(),
+									2,
 									label,
 									distributionPosition.get(label));
 							positionTagDAO.add(positionTag);
@@ -314,12 +315,12 @@ public class SearchServiceImpl implements SearchService {
 			}
 			
 			for(int i = 0; ;i ++) {
-				List<PositionJobpopo> positionList = positionDAO.listPosition(
-						i * updateSize, updateSize);
 				//只计算一页
 				if (i == 1) {
 					break;
 				}
+				List<PositionJobpopo> positionList = positionDAO.listPosition(
+						i * updateSize, updateSize);
 				System.out.println(String.valueOf(i * updateSize) + " data from jobpopo start");
 				
 				if(positionList == null || positionList.size() == 0)
@@ -342,6 +343,22 @@ public class SearchServiceImpl implements SearchService {
 					distributionPosition = model.predict(positionIns);
 					for (String label : distributionPosition.keySet()) {
 						logger.info(label + "	" + distributionPosition.get(label));
+					}
+					
+					// TODO hasTag是否需要
+					// TODO 标签的更新不应该放在这个位置，考虑保存招聘信息时
+					if (position.getHasTag() != -1) {
+						positionTagDAO.deletePositionTag(position.getId());
+						for (String label : distributionPosition.keySet()) {
+							PositionTag positionTag = new PositionTag(
+									position.getId(),
+									1,
+									label,
+									distributionPosition.get(label));
+							positionTagDAO.add(positionTag);
+						}
+						position.setHasTag(1);
+						positionDAO.update(position);
 					}
 	
 					double rel = comparator.compare(distributionResume, distributionPosition);

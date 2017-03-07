@@ -22,18 +22,22 @@ public class PositionTag implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private long positionId;
+	private int positionSource;
 	private String tagName;
 	private double tagValue;
 	
 	public PositionTag () {}
 	
-	public PositionTag (long positionId, String tagName, double tagValue) {
+	public PositionTag(long positionId, int positionSource, String tagName, double tagValue) {
 		super();
 		this.positionId = positionId;
+		this.positionSource = positionSource;
 		this.tagName = tagName;
 		this.tagValue = tagValue;
 	}
-	
+
+
+
 	@Id
 	@Column(name="position_id")
 	public long getPositionId() {
@@ -41,6 +45,16 @@ public class PositionTag implements Serializable {
 	}
 	public void setPositionId(long positionId) {
 		this.positionId = positionId;
+	}
+	
+	@Id
+	@Column(name="position_source")
+	public int getPositionSource() {
+		return positionSource;
+	}
+
+	public void setPositionSource(int positionSource) {
+		this.positionSource = positionSource;
 	}
 	
 	@Id
@@ -66,13 +80,13 @@ public class PositionTag implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + (int) (positionId ^ (positionId >>> 32));
+		result = prime * result + positionSource;
 		result = prime * result + ((tagName == null) ? 0 : tagName.hashCode());
 		long temp;
 		temp = Double.doubleToLongBits(tagValue);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		return result;
 	}
-	
 
 	@Override
 	public boolean equals(Object obj) {
@@ -85,6 +99,8 @@ public class PositionTag implements Serializable {
 		PositionTag other = (PositionTag) obj;
 		if (positionId != other.positionId)
 			return false;
+		if (positionSource != other.positionSource)
+			return false;
 		if (tagName == null) {
 			if (other.tagName != null)
 				return false;
@@ -95,4 +111,5 @@ public class PositionTag implements Serializable {
 		return true;
 	}
 
+	
 }
