@@ -72,5 +72,5 @@
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
  	
  	<mvc:resources mapping="/bootstrap/**" location="/bootstrap/" cache-period="31556926"/>  
- 	<mvc:resources mapping="/fileUpload/**" location="../fileUpload/" cache-period="31556926"/>
+ 	<mvc:resources mapping="/fileUpload/**" location="/fileUpload/" cache-period="31556926"/>
 </beans>

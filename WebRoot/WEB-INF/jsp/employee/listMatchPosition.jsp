@@ -61,6 +61,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<%=(double)((int)(match.getRelevance() * 100000)) / 1000.0%>
 						%</font>
 					</div>
+					<div class="col-md-4 radar-div">
+						<div class="radar-img"><img src="bootstrap/img/radar-thumb.jpg" /></div>
+						<div id="position-tag-chart-<%=position.getId()%>" class="radar"></div>
+					</div>
 				</div>
 				<div class="col-md-12 description">
 					<div class="col-md-12"><%=position.getDescription()%></div>
@@ -232,6 +236,58 @@ myChart.setOption(option);
 for (MatchPosition match : pager.getDatas()) {
 	if (match.getPosition() instanceof PositionJobpopo) {
 		PositionJobpopo position = (PositionJobpopo) match.getPosition();
+%>
+myChart = echarts.init(document.getElementById('position-tag-chart-<%=position.getId()%>'));
+option = {
+	    title : {
+	        text: '职位雷达图'
+	    },
+	    calculable : true,
+	    polar : [
+	        {
+	            indicator : [
+					<%
+						List<PositionTag> positionTagList = match.getPositionTagList();
+						for (int i = 0; i < positionTagList.size(); i ++) {
+					%>
+					{text : '<%= positionTagList.get(i).getTagName() %>', max : 32},
+					<%
+						}
+					%>
+	            ],
+	            radius : 100
+	        }
+	    ],
+	    series : [
+	        {
+	            name: '职位雷达图',
+	            type: 'radar',
+	            itemStyle: {
+	                normal: {
+	                    areaStyle: {
+	                        type: 'default'
+	                    }
+	                }
+	            },
+	            data : [
+	                {
+	                	value : [
+	                	<%
+							for (int i = 0; i < positionTagList.size(); i ++) {
+						%>
+						<%= Math.sqrt(Math.sqrt(positionTagList.get(i).getTagValue()) * 10) * 10 %>
+						,
+						<%
+							}
+	                	%>
+	                    ],
+	                }
+	            ]
+	        }
+	    ]
+	};
+myChart.setOption(option);
+<%
 	} else {
 		Position position = (Position) match.getPosition();
 %>

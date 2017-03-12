@@ -305,7 +305,11 @@ public class SearchServiceImpl implements SearchService {
 						positionDAO.updateBBS(position);
 					}
 	
-					double rel = comparator.compare(distributionResume, distributionPosition);
+					double rel = comparator.compare(
+							resumeIns,
+							positionIns,
+							distributionResume,
+							distributionPosition);
 					Relevance relevance = new Relevance(employeeId, 0, 2, position.getId(), rel);
 					relevanceDAO.update(relevance);
 					logger.info(rel);
@@ -361,7 +365,11 @@ public class SearchServiceImpl implements SearchService {
 						positionDAO.update(position);
 					}
 	
-					double rel = comparator.compare(distributionResume, distributionPosition);
+					double rel = comparator.compare(
+							resumeIns,
+							positionIns,
+							distributionResume,
+							distributionPosition);
 					Relevance relevance = new Relevance(employeeId, 0, 1, position.getId(), rel);
 					relevanceDAO.update(relevance);
 					logger.info(rel);
