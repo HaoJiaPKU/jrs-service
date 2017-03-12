@@ -11,7 +11,7 @@ public class Comparator {
 			Instance positionIns,
 			HashMap<String, Double> distributionResume,
 			HashMap<String, Double> distributionPosition) {
-		double alpha = 0.45;
+		double alpha = 0.6;
 		
 		HashMap<String, Double> resumeWeight = new HashMap<String, Double>();
 		HashMap<String, Double> positionWeight = new HashMap<String, Double>();
@@ -33,12 +33,12 @@ public class Comparator {
 		for (String word : t.keySet()) {
 			positionWeight.put(word, t.get(word) / sum);
 		}
-		return wordMatch(resumeWeight, positionWeight) * alpha
-			+ (1.0 - relativeEntropyForProbability(distributionResume, distributionPosition)) * (1.0 - alpha);
+		return vsmMatch(resumeWeight, positionWeight) * alpha
+			+ vsmMatch(distributionResume, distributionPosition) * (1 - alpha);
 	}
 	
 	public double wordMatch(HashMap<String, Double> resumeWeight, HashMap<String, Double> positionWeight) {
-		double score = 0.0, sumOfScore = 0.000001;
+		double score = 0.0, sumOfScore = 0.0;
 		for (String word : positionWeight.keySet()) {
 			if (positionWeight.get(word) != 0) {
 				if (resumeWeight.containsKey(word)) {
@@ -53,6 +53,32 @@ public class Comparator {
 				}
 			}
 		}
+		if (sumOfScore == 0.0) {
+			return 0;
+		}
+		return score / sumOfScore;
+	}
+	
+	public double vsmMatch(HashMap<String, Double> resumeWeight, HashMap<String, Double> positionWeight) {
+		double score = 0.0, sumOfScore = 0.0;
+		double sumsqr = 0.0, sumsqp = 0.0;
+		for (String word : resumeWeight.keySet()) {
+			if (resumeWeight.get(word) != 0
+					&& positionWeight.containsKey(word)
+					&& positionWeight.get(word) != 0) {
+				score += resumeWeight.get(word) * positionWeight.get(word);
+			}
+		}
+		for (String word : resumeWeight.keySet()) {
+			sumsqr += resumeWeight.get(word) * resumeWeight.get(word);
+		}
+		for (String word : positionWeight.keySet()) {
+			sumsqp += positionWeight.get(word) * positionWeight.get(word);
+		}
+		sumOfScore = Math.pow(sumsqr, 0.5) * Math.pow(sumsqp, 0.5);
+		if (sumOfScore == 0.0) {
+			return 0;
+		}
 		return score / sumOfScore;
 	}
 	
@@ -64,7 +90,7 @@ public class Comparator {
 				double p2 = probs2.get(feature);
 				if (p1 > 0.0 && p2 > 0.0) {
 					res += p1 * Math.log(p1 / (p1 + p2))
-							+ p2 * Math.log(p2 / (p1 + p2));
+						+ p2 * Math.log(p2 / (p1 + p2));
 				}
 			}
 		}

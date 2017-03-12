@@ -47,15 +47,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						PositionJobpopo position = (PositionJobpopo) match.getPosition();
 				%>
 				<div class="col-md-12">
-					<h3>
+					<h4>
 						<a href="resume/checkPosition?recruitId=<%=position.getId()%>" target="_blank"><%=position.getTitle()%></a>
-					</h3>
+					</h4>
 				</div>
 				<div class="col-md-12">
 					<div class="col-md-8">
 						<%=position.getUploadTime().toString().substring(0, 10)%>
 						&nbsp &nbsp &nbsp &nbsp &nbsp
-						<%=position.getCompany()%>
+						<%-- <% if (position.getCompany() != null
+							&& position.getCompany().length() > 0) {
+						%>
+						<%= position.getCompany()%>
+						<%
+							} else {
+						%> --%>
+						Jobpopo
+						<%-- <%
+							}
+						%> --%>
 						&nbsp &nbsp &nbsp &nbsp &nbsp
 						<font color="#11cccc">相关度:
 						<%=(double)((int)(match.getRelevance() * 100000)) / 1000.0%>
@@ -74,33 +84,35 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						Position position = (Position) match.getPosition();
 				%>
 				<div class="col-md-12">
-					<h3>
+					<h4>
 						<a href="<%=position.getPosUrl()%>" target="_blank"><%=position.getPosTitle()%></a>
-					</h3>
+					</h4>
 				</div>
 				<div class="col-md-12">
 					<div class="col-md-8">
 							<%=position.getPosPublishDate()%>
 							&nbsp &nbsp &nbsp &nbsp &nbsp
-							<% if (position.getComName() != null
+							<%-- <% if (position.getComName() != null
 								&& position.getComName().length() > 0) {
 							%>
 							<%= position.getComName()%>
 							<%
 								} else {
-							%>
+							%> --%>
 							<%= position.getSource()%>
-							<%
+							<%-- <%
 								}
-							%>
+							%> --%>
 							&nbsp &nbsp &nbsp &nbsp &nbsp
 							<font color="#11cccc">相关度:
 							<%=(double)((int)(match.getRelevance() * 100000)) / 1000.0%>
 							%</font>	
 					</div>
-					<div class="col-md-4 radar-div">
-						<div class="radar-img"><img src="bootstrap/img/radar-thumb.jpg" /></div>
-						<div id="position-tag-chart-<%=position.getId()%>" class="radar"></div>
+					<div class="col-md-4">
+						<div class="radar-div">
+							<div class="radar-img"><img src="bootstrap/img/radar-thumb.jpg" /></div>
+							<div id="position-tag-chart-<%=position.getId()%>" class="radar"></div>
+						</div>
 					</div>
 				</div>
 				<div class="col-md-12 description">
@@ -109,8 +121,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<%
 					}
 				}
-				%>
-					
+				%>	
 			</div>
 			
 			<div class="col-md-4 blog-sidebar">
@@ -126,16 +137,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							</strong>
 						</li>
 						<li class="list-group-item">
-							<a style="white-space: normal; width:100%;" class="btn btn-lg btn-primary" href="resume/addResume">创建我的简历</a>
+							<a style="white-space: normal; width:100%;" class="btn btn-primary" href="resume/addResume">创建我的简历</a>
 						</li>
 						<li class="list-group-item">
-							<a style="white-space: normal; width:100%;" class="btn btn-lg btn-primary" href="resume/checkResume?employeeId=${employee.id }">查看我的简历</a>
+							<a style="white-space: normal; width:100%;" class="btn btn-primary" href="resume/checkResume?employeeId=${employee.id }">查看我的简历</a>
 						</li>
 						<li class="list-group-item">
-							<a style="white-space: normal; width:100%;" class="btn btn-lg btn-primary" href="search/updateRelevanceForEmployee">更新适合我的职位</a>
+							<a style="white-space: normal; width:100%;" class="btn btn-primary" href="search/updateRelevanceForEmployee">更新适合我的职位</a>
 						</li>
 						<li class="list-group-item">
-							<a style="white-space: normal; width:100%;" class="btn btn-lg btn-primary" href="employee/check?employeeId=${employee.id }">订阅职位推送</a>
+							<a style="white-space: normal; width:100%;" class="btn btn-primary" href="employee/check?employeeId=${employee.id }">订阅职位推送</a>
 						</li>
 					</ul>
 				</div>
@@ -183,7 +194,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 var myChart = echarts.init(document.getElementById('employee-tag-chart'));
 var option = {
 	    title : {
-	        text: '我的职位雷达图'
+	        text: '我的职位雷达图',
+	        textStyle: {
+	        	fontSize: 14
+	        }
 	    },
 	    calculable : true,
 	    polar : [
@@ -240,7 +254,10 @@ for (MatchPosition match : pager.getDatas()) {
 myChart = echarts.init(document.getElementById('position-tag-chart-<%=position.getId()%>'));
 option = {
 	    title : {
-	        text: '职位雷达图'
+	        text: '职位雷达图',
+	        textStyle: {
+	        	fontSize: 14
+	        }
 	    },
 	    calculable : true,
 	    polar : [
@@ -294,7 +311,10 @@ myChart.setOption(option);
 myChart = echarts.init(document.getElementById('position-tag-chart-<%=position.getId()%>'));
 option = {
 	    title : {
-	        text: '职位雷达图'
+	        text: '职位雷达图',
+	        textStyle: {
+	        	fontSize: 14
+	        }
 	    },
 	    calculable : true,
 	    polar : [

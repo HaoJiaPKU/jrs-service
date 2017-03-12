@@ -265,7 +265,7 @@ public class SearchServiceImpl implements SearchService {
 				}
 				List<Position> positionList = positionDAO.listPositionBBS(
 						i * updateSize, updateSize, resume.getIndustryIntension());
-				System.out.println(String.valueOf(i * updateSize) + " data from bbs start");
+				System.out.println(String.valueOf(i * updateSize) + " data from zhilian start");
 				
 				if(positionList == null || positionList.size() == 0)
 					break;
@@ -315,7 +315,7 @@ public class SearchServiceImpl implements SearchService {
 					logger.info(rel);
 					
 				}
-				System.out.println(String.valueOf(i * updateSize + counter) + " data from bbs end");
+				System.out.println(String.valueOf(i * updateSize + counter) + " data from zhilian end");
 			}
 			
 			for(int i = 0; ;i ++) {
@@ -375,7 +375,7 @@ public class SearchServiceImpl implements SearchService {
 					logger.info(rel);
 	
 				}
-				System.out.println(String.valueOf(i * updateSize + counter) + " data from bbs end");
+				System.out.println(String.valueOf(i * updateSize + counter) + " data from jobpopo end");
 			}
 			
 			System.out.println("info : update for employee complete");
