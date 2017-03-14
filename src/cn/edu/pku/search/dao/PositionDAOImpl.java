@@ -93,7 +93,7 @@ public class PositionDAOImpl extends HibernateDaoSupport implements
 	}
 	
 	@Override
-	public List<Position> listPositionBBS(int offset, int size, String industry) {
+	public List<Position> listPositionBBS(int offset, int size, String key, String value) {
 //		List list = getHibernateTemplate().executeFind(new HibernateCallback() {
 //            public Object doInHibernate(Session session)
 //            		throws HibernateException, SQLException {
@@ -118,9 +118,9 @@ public class PositionDAOImpl extends HibernateDaoSupport implements
 		
 		Query query = this.getSession()
 				.createQuery("from Position "
-						+ "where comIndustry=? "
+						+ "where " + key + "=? "
 						+ "order by posPublishDate desc");
-		query.setParameter(0, industry);
+		query.setParameter(0, value);
 		query.setFirstResult(offset);
 		query.setMaxResults(size);
 		return query.list();

@@ -80,7 +80,7 @@ public interface PositionDAO {
 	 * @param size 返回的结果条数
 	 * @return
 	 */
-	public List<Position> listPositionBBS(int offset, int size, String industry);
+	public List<Position> listPositionBBS(int offset, int size, String key, String value);
 	
 	/**
 	 * 列出某一部分招聘信息

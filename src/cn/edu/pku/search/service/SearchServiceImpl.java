@@ -223,7 +223,7 @@ public class SearchServiceImpl implements SearchService {
 					resume, eduList, workList,
 					FilePath.nlpPath + "tmp/resume.txt", model);
 
-			int updateSize = 1000;
+			int updateSize = 500;
 			HashMap<String, Double> distributionResume, distributionPosition;
 
 			logger.info("简历文件分析中间结果*************************");
@@ -264,7 +264,7 @@ public class SearchServiceImpl implements SearchService {
 					break;
 				}
 				List<Position> positionList = positionDAO.listPositionBBS(
-						i * updateSize, updateSize, resume.getIndustryIntension());
+						i * updateSize, updateSize, "comIndustry", resume.getIndustryIntension());
 				System.out.println(String.valueOf(i * updateSize) + " data from zhilian start");
 				
 				if(positionList == null || positionList.size() == 0)
@@ -316,6 +316,66 @@ public class SearchServiceImpl implements SearchService {
 					
 				}
 				System.out.println(String.valueOf(i * updateSize + counter) + " data from zhilian end");
+			}
+			
+			for(int i = 0; ;i ++) {
+				//只计算一页
+				if (i == 1) {
+					break;
+				}
+				List<Position> positionList = positionDAO.listPositionBBS(
+						i * updateSize, updateSize, "source", "北大未名");
+				System.out.println(String.valueOf(i * updateSize) + " data from bdwm start");
+				
+				if(positionList == null || positionList.size() == 0)
+					break;
+				
+				int counter = 0;
+				for (Position position : positionList) {
+					Instance positionIns = tp.makeInstanceForPosition(
+							position.textField(),
+							FilePath.nlpPath + "tmp/position.txt", model);
+					System.out.println("第" + String.valueOf(++ counter) + "条数据处理中");
+					
+					logger.info("职位文件分析中间结果*************************");
+					for (String str : positionIns.numTypeFeature.keySet()) {
+						logger.info(str + " " + positionIns.numTypeFeature.get(str));
+					}
+					for (String str : positionIns.strTypeFeature.keySet()) {
+						logger.info(str + " " + positionIns.strTypeFeature.get(str));
+					}
+					distributionPosition = model.predict(positionIns);
+					for (String label : distributionPosition.keySet()) {
+						logger.info(label + "	" + distributionPosition.get(label));
+					}
+					
+					// TODO hasTag是否需要
+					// TODO 标签的更新不应该放在这个位置，考虑保存招聘信息时
+					if (position.getHasTag() != -1) {
+						positionTagDAO.deletePositionTag(position.getId());
+						for (String label : distributionPosition.keySet()) {
+							PositionTag positionTag = new PositionTag(
+									position.getId(),
+									2,
+									label,
+									distributionPosition.get(label));
+							positionTagDAO.add(positionTag);
+						}
+						position.setHasTag(1);
+						positionDAO.updateBBS(position);
+					}
+	
+					double rel = comparator.compare(
+							resumeIns,
+							positionIns,
+							distributionResume,
+							distributionPosition);
+					Relevance relevance = new Relevance(employeeId, 0, 2, position.getId(), rel);
+					relevanceDAO.update(relevance);
+					logger.info(rel);
+					
+				}
+				System.out.println(String.valueOf(i * updateSize + counter) + " data from bdwm end");
 			}
 			
 			for(int i = 0; ;i ++) {
