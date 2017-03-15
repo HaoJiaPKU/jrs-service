@@ -21,7 +21,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import cn.edu.pku.search.domain.Attachment;
 import cn.edu.pku.search.domain.Education;
 import cn.edu.pku.search.domain.PositionJobpopo;
-import cn.edu.pku.search.domain.Resume;
+import cn.edu.pku.search.domain.ResumeJobpopo;
 import cn.edu.pku.search.domain.WorkExperience;
 import cn.edu.pku.search.service.PositionService;
 import cn.edu.pku.search.service.ResumeService;
@@ -198,7 +198,7 @@ public class PositionController {
 	public String checkResume(HttpServletRequest req, HttpServletResponse res) {
 		HttpSession session = req.getSession();
 		long employeeId = Long.parseLong(req.getParameter("employeeId"));
-		Resume resume = resumeService.checkResume(employeeId);
+		ResumeJobpopo resume = resumeService.checkResume(employeeId);
 		List<Education> eduList = resumeService.checkEducation(employeeId);
 		List<WorkExperience> workList = resumeService.checkWork(employeeId);
 		session.setAttribute("resume", resume);

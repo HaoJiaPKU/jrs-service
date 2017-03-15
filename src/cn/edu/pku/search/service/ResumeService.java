@@ -3,7 +3,7 @@ package cn.edu.pku.search.service;
 import java.util.List;
 
 import cn.edu.pku.search.domain.Education;
-import cn.edu.pku.search.domain.Resume;
+import cn.edu.pku.search.domain.ResumeJobpopo;
 import cn.edu.pku.search.domain.WorkExperience;
 
 public interface ResumeService {
@@ -57,7 +57,7 @@ public interface ResumeService {
 	 *            修改IP
 	 * @return
 	 */
-	public Resume addResume(long employeeId, String name, String gender,
+	public ResumeJobpopo addResume(long employeeId, String name, String gender,
 			String politics, String birthday, int age, String email,
 			String phone, String educationBackground, String salary,
 			String workingPlace, String photo, String speciality,
@@ -72,7 +72,7 @@ public interface ResumeService {
 	 *            用户ID
 	 * @return
 	 */
-	public Resume checkResume(long employeeId);
+	public ResumeJobpopo checkResume(long employeeId);
 
 	/**
 	 * 添加教育经历
@@ -195,7 +195,7 @@ public interface ResumeService {
 	 * @param uploadIp
 	 * @param modifyIp
 	 */
-	public Resume updateResume(long employeeId, String name, String gender,
+	public ResumeJobpopo updateResume(long employeeId, String name, String gender,
 			String politics, String birthday, int age, String email,
 			String phone, String educationBackground, String salary,
 			String workingPlace, String modifyTime, String modifyIp,
@@ -251,7 +251,7 @@ public interface ResumeService {
 	 * @param modifyIp
 	 * @return
 	 */
-	public Resume changePhoto(long employeeId, String photo, String modifyTime,
+	public ResumeJobpopo changePhoto(long employeeId, String photo, String modifyTime,
 			String modifyIp);
 
 	/**
@@ -261,7 +261,7 @@ public interface ResumeService {
 	 * @param speciality
 	 * @return
 	 */
-	public Resume updateSpeciality(long employeeId, String speciality);
+	public ResumeJobpopo updateSpeciality(long employeeId, String speciality);
 
 	/**
 	 * 更新奖惩信息
@@ -270,7 +270,7 @@ public interface ResumeService {
 	 * @param rewardAndPunishment
 	 * @return
 	 */
-	public Resume updateReward(long employeeId, String rewardAndPunishment);
+	public ResumeJobpopo updateReward(long employeeId, String rewardAndPunishment);
 
 	/**
 	 * 更新其他信息
@@ -279,6 +279,6 @@ public interface ResumeService {
 	 * @param otherInfo
 	 * @return
 	 */
-	public Resume updateOtherInfo(long employeeId, String otherInfo);
+	public ResumeJobpopo updateOtherInfo(long employeeId, String otherInfo);
 
 }

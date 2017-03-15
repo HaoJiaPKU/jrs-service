@@ -47,8 +47,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							.getAttribute("searchResult");%>
 				<%	for (AbstractResume abs : pager.getDatas()) { %>
 						<!-- 本网站的简历 -->		
-				<%		if (abs instanceof Resume) {  %>
-				<%			Resume resume = (Resume) abs;  %>
+				<%		if (abs instanceof ResumeJobpopo) {  %>
+				<%			ResumeJobpopo resume = (ResumeJobpopo) abs;  %>
 				<h3>
 					<a href="position/checkResume?employeeId=<%=resume.getEmployeeId()%>" target="_blank"><%=resume.getName()+"-"+resume.getEducationBackground()%></a>
 				</h3>

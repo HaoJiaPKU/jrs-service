@@ -38,8 +38,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<%	Pager<MatchResume> relevancePager = (Pager<MatchResume>) session.getAttribute("relevancePager");%>
 				<%	for (MatchResume match : relevancePager.getDatas()) { %>
 						<!-- 本网站的简历 -->		
-				<%		if (match.getResume() instanceof Resume) {  %>
-				<%			Resume resume = (Resume) match.getResume();  %>
+				<%		if (match.getResume() instanceof ResumeJobpopo) {  %>
+				<%			ResumeJobpopo resume = (ResumeJobpopo) match.getResume();  %>
 				<h3>
 					<a href="position/checkResume?employeeId=<%=resume.getEmployeeId()%>" target="_blank"><%=resume.getName()+"-"+resume.getEducationBackground()%></a>
 				</h3>

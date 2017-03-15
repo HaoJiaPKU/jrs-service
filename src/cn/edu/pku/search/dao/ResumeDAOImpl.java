@@ -11,8 +11,8 @@ import org.springframework.stereotype.Repository;
 
 import cn.edu.pku.search.domain.Attachment;
 import cn.edu.pku.search.domain.Education;
-import cn.edu.pku.search.domain.Resume;
 import cn.edu.pku.search.domain.Resume51Job;
+import cn.edu.pku.search.domain.ResumeJobpopo;
 import cn.edu.pku.search.domain.WorkExperience;
 
 @Repository
@@ -71,7 +71,7 @@ public class ResumeDAOImpl extends HibernateDaoSupport implements ResumeDAO {
 	}
 
 	@Override
-	public void updateResume(Resume resume) {
+	public void updateResume(ResumeJobpopo resume) {
 		this.getHibernateTemplate().update(resume);
 	}
 	
@@ -101,8 +101,8 @@ public class ResumeDAOImpl extends HibernateDaoSupport implements ResumeDAO {
 	}
 	
 	@Override
-	public List<Resume> listResume(int offset,int size) {
-		Query query = this.getSession().createQuery("from Resume");
+	public List<ResumeJobpopo> listResume(int offset,int size) {
+		Query query = this.getSession().createQuery("from ResumeJobpopo");
 		query.setFirstResult(offset);
 		query.setMaxResults(size);
 		return query.list();
@@ -117,19 +117,19 @@ public class ResumeDAOImpl extends HibernateDaoSupport implements ResumeDAO {
 	}
 
 	@Override
-	public void addResume(Resume resume) {
+	public void addResume(ResumeJobpopo resume) {
 		this.getHibernateTemplate().saveOrUpdate(resume);
 	}
 	
 	@Override
 	public void deleteResume(long employeeId) {
-		Resume resume = this.getResume(employeeId);
+		ResumeJobpopo resume = this.getResume(employeeId);
 		this.getHibernateTemplate().delete(resume);
 	}
 
 	@Override
-	public Resume getResume(long employeeId) {
-		return this.getHibernateTemplate().load(Resume.class, employeeId);
+	public ResumeJobpopo getResume(long employeeId) {
+		return this.getHibernateTemplate().load(ResumeJobpopo.class, employeeId);
 	}
 
 	@Override

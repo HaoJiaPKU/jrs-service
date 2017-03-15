@@ -23,7 +23,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import cn.edu.pku.search.domain.Attachment;
 import cn.edu.pku.search.domain.Education;
 import cn.edu.pku.search.domain.PositionJobpopo;
-import cn.edu.pku.search.domain.Resume;
+import cn.edu.pku.search.domain.ResumeJobpopo;
 import cn.edu.pku.search.domain.WorkExperience;
 import cn.edu.pku.search.service.PositionService;
 import cn.edu.pku.search.service.ResumeService;
@@ -127,7 +127,7 @@ public class ResumeController {
 			String modifyIp = uploadIp;
 			String industryIntension = req.getParameter("industryIntension");
 			String categoryIntension = req.getParameter("categoryIntension");
-			Resume resume = resumeService.addResume(employeeId, name, gender,
+			ResumeJobpopo resume = resumeService.addResume(employeeId, name, gender,
 					politics, birthday, age, email, phone,
 					educationBackground, salary, workingPlace,
 					filepath, speciality, rewardAndPunishment,
@@ -300,7 +300,7 @@ public class ResumeController {
 		HttpSession session = req.getSession();
 		Employee employee = (Employee) session.getAttribute("employee");
 		long employeeId = employee.getId();
-		Resume resume = resumeService.checkResume(employeeId);
+		ResumeJobpopo resume = resumeService.checkResume(employeeId);
 		List<Education> eduList = resumeService.checkEducation(employeeId);
 		List<WorkExperience> workList = resumeService.checkWork(employeeId);
 		session.setAttribute("resume", resume);
@@ -382,7 +382,7 @@ public class ResumeController {
 			String modifyIp = req.getRequestURL().substring(7).split(":")[0];
 			String industryIntension = req.getParameter("industryIntension");
 			String categoryIntension = req.getParameter("categoryIntension");
-			Resume resume = resumeService.updateResume(employeeId, name,
+			ResumeJobpopo resume = resumeService.updateResume(employeeId, name,
 					gender, politics, birthday, age, email, phone,
 					educationBackground, salary, workingPlace, modifyTime,
 					modifyIp, industryIntension, categoryIntension);
@@ -502,7 +502,7 @@ public class ResumeController {
 		HttpSession session = req.getSession();
 		Employee employee = (Employee) session.getAttribute("employee");
 		long employeeId = employee.getId();
-		Resume resume = resumeService.checkResume(employeeId);
+		ResumeJobpopo resume = resumeService.checkResume(employeeId);
 		session.setAttribute("resume", resume);
 		return "../WEB-INF/jsp/employee/changePhoto.jsp";
 	}

@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cn.edu.pku.search.dao.ResumeDAO;
 import cn.edu.pku.search.domain.Education;
-import cn.edu.pku.search.domain.Resume;
+import cn.edu.pku.search.domain.ResumeJobpopo;
 import cn.edu.pku.search.domain.WorkExperience;
 import cn.edu.pku.user.dao.EmployeeDAO;
 
@@ -42,7 +42,7 @@ public class ResumeServiceImpl implements ResumeService {
 
 	@Transactional
 	@Override
-	public Resume addResume(long employeeId, String name, String gender,
+	public ResumeJobpopo addResume(long employeeId, String name, String gender,
 			String politics, String birthday, int age,
 			String email, String phone, String educationBackground,
 			String salary, String workingPlace,
@@ -50,7 +50,7 @@ public class ResumeServiceImpl implements ResumeService {
 			String rewardAndPunishment, String otherInfo, String uploadTime,
 			String modifyTime, String uploadIp, String modifyIp,
 			String industryIntension, String categoryIntension) {
-		Resume resume = new Resume(employeeId, name, gender, politics,
+		ResumeJobpopo resume = new ResumeJobpopo(employeeId, name, gender, politics,
 				"", birthday, age, email, phone, educationBackground,
 				"", salary, workingPlace, photo,
 				speciality, rewardAndPunishment, otherInfo, uploadTime,
@@ -71,7 +71,7 @@ public class ResumeServiceImpl implements ResumeService {
 	}
 
 	@Override
-	public Resume checkResume(long employeeId) {
+	public ResumeJobpopo checkResume(long employeeId) {
 		return resumeDao.getResume(employeeId);
 	}
 
@@ -117,13 +117,13 @@ public class ResumeServiceImpl implements ResumeService {
 	}
 
 	@Override
-	public Resume updateResume(long employeeId, String name, String gender,
+	public ResumeJobpopo updateResume(long employeeId, String name, String gender,
 			String politics, String birthday, int age,
 			String email, String phone, String educationBackground,
 			String salary, String workingPlace,
 			String modifyTime, String modifyIp,
 			String industryIntension, String categoryIntension) {
-		Resume resume = resumeDao.getResume(employeeId);
+		ResumeJobpopo resume = resumeDao.getResume(employeeId);
 		resume.setName(name);
 		resume.setGender(gender);
 		resume.setPolitics(politics);
@@ -174,9 +174,9 @@ public class ResumeServiceImpl implements ResumeService {
 
 	@Transactional
 	@Override
-	public Resume changePhoto(long employeeId, String photo, String modifyTime,
+	public ResumeJobpopo changePhoto(long employeeId, String photo, String modifyTime,
 			String modifyIp) {
-		Resume resume = resumeDao.getResume(employeeId);
+		ResumeJobpopo resume = resumeDao.getResume(employeeId);
 		resume.setPhoto(photo);
 		resume.setModifyIp(modifyIp);
 		resume.setModifyTime(modifyTime);
@@ -185,24 +185,24 @@ public class ResumeServiceImpl implements ResumeService {
 	}
 
 	@Override
-	public Resume updateSpeciality(long employeeId, String speciality) {
-		Resume resume = resumeDao.getResume(employeeId);
+	public ResumeJobpopo updateSpeciality(long employeeId, String speciality) {
+		ResumeJobpopo resume = resumeDao.getResume(employeeId);
 		resume.setSpeciality(speciality);
 		resumeDao.updateResume(resume);
 		return resume;
 	}
 
 	@Override
-	public Resume updateReward(long employeeId, String rewardAndPunishment) {
-		Resume resume = resumeDao.getResume(employeeId);
+	public ResumeJobpopo updateReward(long employeeId, String rewardAndPunishment) {
+		ResumeJobpopo resume = resumeDao.getResume(employeeId);
 		resume.setRewardAndPunishment(rewardAndPunishment);
 		resumeDao.updateResume(resume);
 		return resume;
 	}
 
 	@Override
-	public Resume updateOtherInfo(long employeeId, String otherInfo) {
-		Resume resume = resumeDao.getResume(employeeId);
+	public ResumeJobpopo updateOtherInfo(long employeeId, String otherInfo) {
+		ResumeJobpopo resume = resumeDao.getResume(employeeId);
 		resume.setOtherInfo(otherInfo);
 		resumeDao.updateResume(resume);
 		return resume;

@@ -50,7 +50,7 @@ import cn.edu.pku.search.domain.PositionJobpopo;
 import cn.edu.pku.search.domain.Position;
 import cn.edu.pku.search.domain.PositionTag;
 import cn.edu.pku.search.domain.Relevance;
-import cn.edu.pku.search.domain.Resume;
+import cn.edu.pku.search.domain.ResumeJobpopo;
 import cn.edu.pku.search.domain.Resume51Job;
 import cn.edu.pku.search.domain.WorkExperience;
 import cn.edu.pku.user.dao.EmployeeDAO;
@@ -206,7 +206,7 @@ public class SearchServiceImpl implements SearchService {
 	@Transactional
 	@Override
 	public void updateRelevanceForEmployee(long employeeId) {
-		Resume resume = resumeDAO.getResume(employeeId);
+		ResumeJobpopo resume = resumeDAO.getResume(employeeId);
 		List<Education> eduList = resumeDAO.listEducation(employeeId);
 		List<WorkExperience> workList = resumeDAO.listWorkExperience(employeeId);
 		
@@ -486,10 +486,10 @@ public class SearchServiceImpl implements SearchService {
 			
 			
 			for(int i = 0;;i++) {
-				List<Resume> resumeList = resumeDAO.listResume(i*100, 100);
+				List<ResumeJobpopo> resumeList = resumeDAO.listResume(i*100, 100);
 				if(resumeList == null || resumeList.size() == 0)
 					break;
-				for (Resume resume : resumeList) {
+				for (ResumeJobpopo resume : resumeList) {
 					List<Education> eduList = resumeDAO.listEducation(resume.getEmployeeId());
 					List<WorkExperience> workList = resumeDAO.listWorkExperience(resume.getEmployeeId());
 					PreProcessor.dealWithResume(resume, eduList, workList,FilePath.nlpPath + "tmp/resume.txt");
@@ -602,7 +602,7 @@ public class SearchServiceImpl implements SearchService {
 				MatchResume match = new MatchResume(positionId, rel.getRelevance(), resume);
 				matchList.add(match);
 			} else {
-				Resume resume = resumeDAO.getResume(rel.getEmployeeId());
+				ResumeJobpopo resume = resumeDAO.getResume(rel.getEmployeeId());
 				MatchResume match = new MatchResume(positionId, rel.getRelevance(), resume);
 				matchList.add(match);
 			}
@@ -694,7 +694,7 @@ public class SearchServiceImpl implements SearchService {
 				resume.setContent(doc.get("contents"));
 				list.add(resume);
 			} else {
-				Resume resume = resumeDAO.getResume(Long.parseLong(doc.get("path")));
+				ResumeJobpopo resume = resumeDAO.getResume(Long.parseLong(doc.get("path")));
 				list.add(resume);
 			}
 			

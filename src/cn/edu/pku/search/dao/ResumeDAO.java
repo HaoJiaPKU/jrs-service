@@ -3,8 +3,8 @@ package cn.edu.pku.search.dao;
 import java.util.List;
 
 import cn.edu.pku.search.domain.Education;
-import cn.edu.pku.search.domain.Resume;
 import cn.edu.pku.search.domain.Resume51Job;
+import cn.edu.pku.search.domain.ResumeJobpopo;
 import cn.edu.pku.search.domain.WorkExperience;
 
 public interface ResumeDAO {
@@ -61,7 +61,7 @@ public interface ResumeDAO {
 	 * 更新简历
 	 * @param resume
 	 */
-	public void updateResume(Resume resume);
+	public void updateResume(ResumeJobpopo resume);
 	
 	/**
 	 * 更新教育经历
@@ -95,7 +95,7 @@ public interface ResumeDAO {
 	 * @param size 信息条数
 	 * @return
 	 */
-	public List<Resume> listResume(int offset,int size);
+	public List<ResumeJobpopo> listResume(int offset,int size);
 	
 	/**
 	 * 列出一部分51job的简历
@@ -109,7 +109,7 @@ public interface ResumeDAO {
 	 * 添加简历
 	 * @param resume
 	 */
-	public void addResume(Resume resume);
+	public void addResume(ResumeJobpopo resume);
 	
 	/**
 	 * 删除简历
@@ -122,7 +122,7 @@ public interface ResumeDAO {
 	 * @param employeeId
 	 * @return
 	 */
-	public Resume getResume(long employeeId);
+	public ResumeJobpopo getResume(long employeeId);
 	
 	/**
 	 * 得到51job中的简历

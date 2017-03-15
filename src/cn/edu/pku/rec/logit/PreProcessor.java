@@ -23,7 +23,7 @@ import edu.stanford.nlp.ie.crf.CRFClassifier;
 import edu.stanford.nlp.ling.CoreLabel;
 import cn.edu.pku.search.domain.Education;
 import cn.edu.pku.search.domain.Position;
-import cn.edu.pku.search.domain.Resume;
+import cn.edu.pku.search.domain.ResumeJobpopo;
 import cn.edu.pku.search.domain.WorkExperience;
 import cn.edu.pku.util.FileInput;
 import cn.edu.pku.util.FilePath;
@@ -311,7 +311,7 @@ public class PreProcessor {
 	 * @param outputPath 输出文件路径
 	 * @throws IOException 找不到HTML文件
 	 */
-	public static void dealWithResume(Resume input, List<Education> edulist,
+	public static void dealWithResume(ResumeJobpopo input, List<Education> edulist,
 			List<WorkExperience> worklist, String outputPath) {
 		String content = new String();
 		content += " " + input.getSpeciality();

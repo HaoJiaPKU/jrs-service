@@ -107,7 +107,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								<div class="col-md-6">
 								<select name="industryIntension" id="industryIntension" class="form-control">
 									<%
-										Resume resume = (Resume) session.getAttribute("resume");
+										ResumeJobpopo resume = (ResumeJobpopo) session.getAttribute("resume");
 										String industry = new String();
 										HashMap<String, Integer> indu 
 											= (HashMap<String, Integer>) session.getAttribute("industry");

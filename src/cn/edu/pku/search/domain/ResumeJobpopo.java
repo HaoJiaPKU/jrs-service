@@ -13,8 +13,8 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name="resume")
-public class Resume extends AbstractResume implements Serializable {
+@Table(name="resume_jobpopo")
+public class ResumeJobpopo extends AbstractResume implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -42,7 +42,7 @@ public class Resume extends AbstractResume implements Serializable {
 	private String industryIntension;
 	private String categoryIntension;
 	
-	public Resume() {
+	public ResumeJobpopo() {
 		
 	}
 	
@@ -54,7 +54,7 @@ public class Resume extends AbstractResume implements Serializable {
 			+ " " + categoryIntension;
 	}
 	
-	public Resume(long employeeId, String name, String gender, String politics,
+	public ResumeJobpopo(long employeeId, String name, String gender, String politics,
 			String nativePlace, String birthday, int age, String email,
 			String phone, String educationBackground, String workingYears,
 			String salary, String workingPlace, String photo,

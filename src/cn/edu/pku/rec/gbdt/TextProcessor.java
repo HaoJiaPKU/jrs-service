@@ -6,8 +6,7 @@ import java.util.List;
 import cn.edu.pku.gbdt.Instance;
 import cn.edu.pku.gbdt.Model;
 import cn.edu.pku.search.domain.Education;
-import cn.edu.pku.search.domain.Position;
-import cn.edu.pku.search.domain.Resume;
+import cn.edu.pku.search.domain.ResumeJobpopo;
 import cn.edu.pku.search.domain.WorkExperience;
 import cn.edu.pku.util.FileInput;
 import cn.edu.pku.util.HanLPSegmenter;
@@ -35,7 +34,7 @@ public class TextProcessor {
 		return HanLPSegmenter.segmentation(input.trim(), true, true, outputPath);
 	}
 	
-	public Instance makeInstanceForResume(Resume input, List<Education> edulist,
+	public Instance makeInstanceForResume(ResumeJobpopo input, List<Education> edulist,
 			List<WorkExperience> worklist, String outputPath, Model model) {
 		String content = new String();
 		content += " " + input.getSpeciality();
