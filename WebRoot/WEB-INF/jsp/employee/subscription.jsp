@@ -95,40 +95,63 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								</div>
 								<div class="col-sm-3">
 									<select name="recFreqHour" id="recFreqHour" class="form-control">
-										<option value="${recFreqHour }">${recFreqHour }点</option>
-										<option value="0">0点</option>
-										<option value="1">1点</option>
-										<option value="2">2点</option>
-										<option value="3">3点</option>
-										<option value="4">4点</option>
-										<option value="5">5点</option>
-										<option value="6">6点</option>
-										<option value="7">7点</option>
-										<option value="8">8点</option>
-										<option value="9">9点</option>
-										<option value="10">10点</option>
-										<option value="11">11点</option>
-										<option value="12">12点</option>
-										<option value="13">13点</option>
-										<option value="14">14点</option>
-										<option value="15">15点</option>
-										<option value="16">16点</option>
-										<option value="17">17点</option>
-										<option value="18">18点</option>
-										<option value="19">19点</option>
-										<option value="20">20点</option>
-										<option value="21">21点</option>
-										<option value="22">22点</option>
-										<option value="23">23点</option>
+										<%
+										int recFreqHour = (Integer)session.getAttribute("recFreqHour");
+										for (int i = 0; i < 24; i ++) {
+											if (i == recFreqHour) {
+												%>
+													<option value="<%=i%>" selected="selected"><%=i%>点</option>
+												<%
+											} else {
+												%>
+													<option value="<%=i%>"><%=i%>点</option>
+												<%
+											}
+										}
+										%>
 									</select>
 								</div>
 							</div>
 							<div class="form-group">
-								<div class="col-md-2 col-md-offset-3">
+								<div class="col-md-3 col-md-offset-3">
 									<button id="save" class="btn btn-primary btn-block" type="submit">保存</button>
 								</div>
-								<div class="col-md-2">
-									<button id="cancelSubscription" class="btn btn-block" type="button" onclick="cancel()">取消</button>
+								<div class="col-md-3">
+									<button id="cancelSubscription" class="btn btn-block" type="button" onclick="cancel()">重置</button>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="" class="col-sm-3 control-label">已订阅</label>
+								<div class="col-md-6">
+								<label for="" class="control-label">
+								<%
+									if (recFreqDay == 0) {
+								%>每天
+								<%	
+									} else if (recFreqDay == 1) {
+								%>每周一
+								<%		
+									} else if (recFreqDay == 2) {
+								%>每周二
+								<%		
+									} else if (recFreqDay == 3) {
+								%>每周三
+								<%
+									} else if (recFreqDay == 4) {
+								%>每周四
+								<%
+									} else if (recFreqDay == 5) {
+								%>每周五
+								<%
+									} else if (recFreqDay == 6) {
+								%>每周六
+								<%
+									} else if (recFreqDay == 7) {
+								%>每周日
+								<%
+									}
+								%>${recFreqHour}点推送${subscriptionNum}个职位
+								</label>
 								</div>
 							</div>
 						</form>

@@ -212,7 +212,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 			
 			Trigger trigger = scheduler.getTrigger(triggerKey);
 			
-			String cronExp = "0 50 " + String.valueOf(recFreqHour);
+			String cronExp = "0 0 " + String.valueOf(recFreqHour);
 			if (recFreqDay == 0) {
 				cronExp += " * * " + "?";
 			} else if (recFreqDay == 1) {
@@ -230,6 +230,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 			} else if (recFreqDay == 7) {
 				cronExp += " ? * " + "SUN";
 			}
+			
+			System.out.println(cronExp);
 			
 			if(trigger == null) {	
 				JobDetail jobDetail = newJob(EmployeeSubscription.class)
@@ -275,20 +277,20 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public String getSubscriptionContent(long id, int subscriptionNum) {
 		String content = new String();
 		List<Relevance> list = relevanceDAO.listRelevanceForEmployee(id);
-		for(int i = 0; i < list.size() && i < subscriptionNum; i ++) {
+		for(int i = 0; i < 50 && i < subscriptionNum; i ++) {
 			if(list.get(i).getPositionSource() == 1) {
 				PositionJobpopo rec = positionDAO.loadPosition(list.get(i).getPositionId());
 				rec.setDescription(rec.getDescription().substring(0, 100)+"...");//为了前台只显示两三行内容
 				content += "\n\n"
 						+ rec.getCompany()
-						+ "相关度：" + String.valueOf(
+						+ " 相关度：" + String.valueOf(
 								(double)((int) (100000 * list.get(i).getRelevance())) / 1000.0) + "%\n"
 						+ "链接：" + rec.getModifyIp();
 			} else if(list.get(i).getPositionSource() == 2) {
 				Position rec = positionDAO.loadPositionBbs(list.get(i).getPositionId());
 				content += "\n\n"
 						+ rec.getPosTitle()
-						+ "相关度：" + String.valueOf(
+						+ " 相关度：" + String.valueOf(
 								(double)((int) (100000 * list.get(i).getRelevance())) / 1000.0) + "%\n"
 						+ "链接：" + rec.getPosUrl();
 			}
