@@ -42,7 +42,7 @@ body {
 					<input style="width:80%" type="text" name="key" value="${key }"
 						class="form-control input-lg" placeholder="职位关键词"> 
 					<input type="hidden" name="offset" value="0">
-					<button type="submit" class="btn btn-lg btn-primary">找工作</button>
+					<button type="submit" class="btn btn-lg btn-primary">职位搜索</button>
 				</form>
 				<br>
 

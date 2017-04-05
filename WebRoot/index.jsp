@@ -31,8 +31,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div class="container">
 			<div class="navbar-header">
 				<a class="navbar-brand" href="javascript:void(0)"><span style="color:orange">Jobpopo</span></a>
-				<a class="navbar-brand" href="employee.jsp">找工作</a>
-				<a class="navbar-brand" href="employer.jsp">找简历</a>
+				<a class="navbar-brand" href="employee.jsp">职位搜索</a>
+				<a class="navbar-brand" href="employer.jsp">简历搜索</a>
 			</div>			
 			<div class="navbar-collapse collapse">
 				<c:if test="${empty employee }">
@@ -57,13 +57,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							</a>
 							<ul class="dropdown-menu" role="menu">
 								<c:if test="${employee.hasResume == 0 }">
-									<li><a href="resume/addResume">添加简历</a></li>
+									<li><a href="resume/addResume">创建简历</a></li>
 								</c:if>
 								<c:if test="${employee.hasResume == 1 }">
 									<li><a href="resume/checkResume?employeeId=${employee.id }">查看简历</a></li>
-									<li><a href="search/updateRelevanceForEmployee">更新适合我的职位</a></li>
-									<li><a href="search/listMatchPosition?offset=0">查看匹配职位</a></li>
-									<li><a href="employee/check?employeeId=${employee.id }">订阅推送</a></li>
+									<li><a href="search/updateRelevanceForEmployee">更新推荐职位</a></li>
+									<li><a href="search/listMatchPosition?offset=0">查看推荐职位</a></li>
+									<li><a href="employee/check?employeeId=${employee.id }">订阅职位推送</a></li>
 								</c:if>
 								<li role="separator" class="divider"></li>
 								<li><a href="employee/logout">退出</a></li>
@@ -82,7 +82,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<h2>Jobpopo</h2>
 				<p>欢迎注册成为Jobpopo用户</p>
 				<p>上传您的简历，我们帮您找到最适合您的职位</p>
-				<p>您也可以使用“找工作”来搜索您需要的职位，虽然我们并不推荐</p>
+				<p>您也可以使用“职位搜索”来搜索您需要的职位</p>
 				<div class="row">
 	        		<form class="form" method="POST" action="employee/regist">
 	          			<div class="form-group">
@@ -97,7 +97,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	              		</div>
 	              		<div class="form-group">
 	              			<div class="col-md-3 no-left-padding">
-	                			<button style="width:90%" class="btn btn-primary btn-lg" type="submit">注册成为Jobpopo用户</button>
+	                			<button style="width:90%" class="btn btn-primary btn-lg" type="submit">注册账号</button>
 	                		</div>
 	              		</div>
 	              	</form>

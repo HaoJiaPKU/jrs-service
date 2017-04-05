@@ -11,7 +11,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>找简历</title>
+    <title>简历搜索</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -39,7 +39,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<form action="search/searchResume" method="post" class="form-inline">
 					<input style="width:80%" type="text" name="key" value="${key }" class="form-control input-lg" placeholder="简历关键词">
 					<input type="hidden" name="offset" value="0">
-					<button type="submit" class="btn btn-lg btn-primary">找简历</button>
+					<button type="submit" class="btn btn-lg btn-primary">简历搜索</button>
 				</form>
 				<br>
 			

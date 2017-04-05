@@ -5,8 +5,8 @@
 	<div class="container">
 		<div class="navbar-header">
 			<a class="navbar-brand" href="index.jsp">Jobpopo</a>
-			<a class="navbar-brand" href="employee.jsp"><span style="color:orange">找工作</span></a> 
-			<a class="navbar-brand" href="employer.jsp">找简历</a>
+			<a class="navbar-brand" href="employee.jsp"><span style="color:orange">职位搜索</span></a> 
+			<a class="navbar-brand" href="employer.jsp">简历搜索</a>
 		</div>
 		<div class="navbar-collapse collapse">
 			<c:if test="${empty employee }">
@@ -22,7 +22,7 @@
 					</div>
 					<button type="submit" class="btn btn-primary">登录</button>
 					<button type="button" class="btn btn-primary"
-						onclick="javascript:window.location.href='/employee/regist'">求职者注册</button>
+						onclick="javascript:window.location.href='/employee/regist'">注册</button>
 				</form>
 			</c:if>
 			<c:if test="${not empty employee }">
@@ -38,9 +38,9 @@
 							</c:if>
 							<c:if test="${employee.hasResume == 1 }">
 								<li><a href="resume/checkResume?employeeId=${employee.id }">查看简历</a></li>
-								<li><a href="search/updateRelevanceForEmployee">更新适合我的职位</a></li>
-								<li><a href="search/listMatchPosition?offset=0">查看匹配职位</a></li>
-								<li><a href="employee/check?employeeId=${employee.id }">订阅推送</a></li>
+								<li><a href="search/updateRelevanceForEmployee">更新推荐职位</a></li>
+								<li><a href="search/listMatchPosition?offset=0">查看推荐职位</a></li>
+								<li><a href="employee/check?employeeId=${employee.id }">订阅职位推送</a></li>
 							</c:if>
 							<li role="separator" class="divider"></li>
 							<li><a href="employee/logout">退出</a></li>

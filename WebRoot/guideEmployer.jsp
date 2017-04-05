@@ -10,7 +10,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>找简历</title>
+    <title>简历搜索</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -33,8 +33,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div class="container">
 			<div class="navbar-header">
 				<a class="navbar-brand" href="index.jsp">Jobpopo</a>
-				<a class="navbar-brand" href="employee.jsp">找工作</a>
-				<a class="navbar-brand" href="employer.jsp"><span style="color:orange">找简历</span></a>
+				<a class="navbar-brand" href="employee.jsp">职位搜索</a>
+				<a class="navbar-brand" href="employer.jsp"><span style="color:orange">简历搜索</span></a>
 			</div>
 			<div id="navbar" class="navbar-collapse collapse">
 				<c:if test="${empty employer }">
@@ -48,7 +48,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								class="form-control">
 						</div>
 						<button type="submit" class="btn btn-primary">登录</button>
-						<button type="button" class="btn btn-primary" onclick="javascript:window.location.href='/employer/regist'">企业注册</button>
+						<button type="button" class="btn btn-primary" onclick="javascript:window.location.href='/employer/regist'">注册</button>
 					</form>
 				</c:if>
 				<c:if test="${not empty employer }">
@@ -59,8 +59,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								<span class="caret"></span>
 							</a>
 							<ul class="dropdown-menu" role="menu">
-								<li><a href="position/addPosition">发布招聘信息</a></li>
-								<li><a href="position/listPosition?employerId=${employer.id }">查看已发布信息</a>
+								<li><a href="position/addPosition">发布职位信息</a></li>
+								<li><a href="position/listPosition?employerId=${employer.id }">查看已发布职位</a>
 								<li role="separator" class="divider"></li>
 								<li><a href="employer/logout">退出</a></li>
 							</ul>

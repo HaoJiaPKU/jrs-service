@@ -10,7 +10,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>找工作</title>
+    <title>职位搜索</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -31,8 +31,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div class="container">
 			<div class="navbar-header">
 				<a class="navbar-brand" href="index.jsp">Jobpopo</a>
-				<a class="navbar-brand" href="javascript:void(0)"><span style="color:orange">找工作</span></a>
-				<a class="navbar-brand" href="employer.jsp">找简历</a>
+				<a class="navbar-brand" href="javascript:void(0)"><span style="color:orange">职位搜索</span></a>
+				<a class="navbar-brand" href="employer.jsp">简历搜索</a>
 			</div>
 			<div class="navbar-collapse collapse">
 				<c:if test="${empty employee }">
@@ -46,7 +46,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								class="form-control">
 						</div>
 						<button type="submit" class="btn btn-primary">登录</button>
-						<button type="button" class="btn btn-primary" onclick="javascript:window.location.href='/employee/regist'">求职者注册</button>
+						<button type="button" class="btn btn-primary" onclick="javascript:window.location.href='/employee/regist'">注册</button>
 					</form>
 				</c:if>
 				<c:if test="${not empty employee }">
@@ -62,9 +62,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								</c:if>
 								<c:if test="${employee.hasResume == 1 }">
 									<li><a href="resume/checkResume?employeeId=${employee.id }">查看简历</a></li>
-									<li><a href="search/updateRelevanceForEmployee">更新适合我的职位</a></li>
-									<li><a href="search/listMatchPosition?offset=0">查看匹配职位</a></li>
-									<li><a href="employee/check?employeeId=${employee.id }">订阅推送</a></li>
+									<li><a href="search/updateRelevanceForEmployee">更新推荐职位</a></li>
+									<li><a href="search/listMatchPosition?offset=0">查看推荐职位</a></li>
+									<li><a href="employee/check?employeeId=${employee.id }">订阅职位推送</a></li>
 								</c:if>
 								<li role="separator" class="divider"></li>
 								<li><a href="employee/logout">退出</a></li>
@@ -89,7 +89,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<form action="search/searchPosition" method="post" class="form-inline">
 					<input style="width:80%" type="text" name="key" id="key" class="form-control input-lg" placeholder="职位关键词">
 					<input type="hidden" name="offset" value="0">
-					<button style="width:15%" type="submit" class="btn btn-lg btn-primary">找工作</button>
+					<button style="width:15%" type="submit" class="btn btn-lg btn-primary">职位搜索</button>
 				</form>
 			</div>
 		</div>

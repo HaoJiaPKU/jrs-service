@@ -11,7 +11,7 @@ public class Comparator {
 			Instance positionIns,
 			HashMap<String, Double> distributionResume,
 			HashMap<String, Double> distributionPosition) {
-		double alpha = 0.6;
+		double alpha = 0.5;
 		
 		HashMap<String, Double> resumeWeight = new HashMap<String, Double>();
 		HashMap<String, Double> positionWeight = new HashMap<String, Double>();
@@ -33,8 +33,8 @@ public class Comparator {
 		for (String word : t.keySet()) {
 			positionWeight.put(word, t.get(word) / sum);
 		}
-		return vsmMatch(resumeWeight, positionWeight) * alpha
-			+ vsmMatch(distributionResume, distributionPosition) * (1 - alpha);
+		return Math.pow(vsmMatch(resumeWeight, positionWeight), alpha)
+			;
 	}
 	
 	public double wordMatch(HashMap<String, Double> resumeWeight, HashMap<String, Double> positionWeight) {
@@ -49,7 +49,7 @@ public class Comparator {
 					score += ratio;
 					sumOfScore += 1.0;
 				} else {
-					
+					sumOfScore += 1.0;
 				}
 			}
 		}
@@ -94,6 +94,7 @@ public class Comparator {
 				}
 			}
 		}
-		return Math.exp(res) / (1.0 + Math.exp(res));
+		res = res / Math.log(4.0);
+		return 1.0 - res;
 	}
 }

@@ -37,3 +37,10 @@
 	padding-top:8px;
 	padding-bottom:24px;
 }
+
+.radar {
+	height:300px;
+	width:300px;
+	z-index:10;
+	transition:all 3s;
+}

@@ -23,6 +23,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
 	
 	<link href="bootstrap/rewritecss/radar.css" rel="stylesheet">
+	<link href="bootstrap/rewritecss/content.css" rel="stylesheet">
 	
 	<style>
 		body {
@@ -38,58 +39,64 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 	<div class="container">
 		<div class="row">
-			<div class="col-md-8">
+			<div class="col-md-9">
+			
+				<div class="row content-list">
+					<div class="col-md-9">
+						<h4>职位信息</h4>
+					</div>
+					<div class="col-md-3">
+						<h4>相关度</h4>
+					</div>
+				</div>
+				
 				<%
 				Pager<MatchPosition> pager = (Pager<MatchPosition>) session
 						.getAttribute("relevancePager");
 				for (MatchPosition match : pager.getDatas()) {
+					long pid = 0;
 					if (match.getPosition() instanceof PositionJobpopo) {
 						PositionJobpopo position = (PositionJobpopo) match.getPosition();
+						pid = position.getId();
 				%>
-				<div class="col-md-12">
-					<h4>
-						<a href="resume/checkPosition?recruitId=<%=position.getId()%>" target="_blank"><%=position.getTitle()%></a>
-					</h4>
-				</div>
-				<div class="col-md-12">
-					<div class="col-md-8">
-						<%=position.getUploadTime().toString().substring(0, 10)%>
-						&nbsp &nbsp &nbsp &nbsp &nbsp
-						<%-- <% if (position.getCompany() != null
-							&& position.getCompany().length() > 0) {
-						%>
-						<%= position.getCompany()%>
-						<%
-							} else {
-						%> --%>
-						Jobpopo
-						<%-- <%
-							}
-						%> --%>
-						&nbsp &nbsp &nbsp &nbsp &nbsp
-						<font color="#11cccc">相关度:
-						<%=(double)((int)(match.getRelevance() * 100000)) / 1000.0%>
-						%</font>
+				<div id="position-<%=pid%>" class="row content-list" onmouseenter="changeChart(<%=pid%>)">
+					<div class="col-md-9">
+						<div class="col-md-12">
+							<h4>
+								<a href="resume/checkPosition?recruitId=<%=position.getId()%>" target="_blank"><%=position.getTitle()%></a>
+							</h4>
+						</div>
+						<div class="col-md-12">
+							<%=position.getUploadTime().toString().substring(0, 10)%>
+							&nbsp &nbsp &nbsp &nbsp &nbsp
+							<%-- <% if (position.getCompany() != null
+								&& position.getCompany().length() > 0) {
+							%>
+							<%= position.getCompany()%>
+							<%
+								} else {
+							%> --%>
+							Jobpopo
+							<%-- <%
+								}
+							%> --%>
+							&nbsp &nbsp &nbsp &nbsp &nbsp
+						</div>
+						<div class="col-md-12 description">
+							<%=position.getDescription()%>
+						</div>
 					</div>
-					<div class="col-md-4 radar-div">
-						<div class="radar-img"><img src="bootstrap/img/radar-thumb.jpg" /></div>
-						<div id="position-tag-chart-<%=position.getId()%>" class="radar"></div>
-					</div>
-				</div>
-				<div class="col-md-12 description">
-					<div class="col-md-12"><%=position.getDescription()%></div>
-				</div>
 				<%
 					} else {
 						Position position = (Position) match.getPosition();
+						pid = position.getId();
 				%>
-				<div class="col-md-12">
-					<h4>
-						<a href="<%=position.getPosUrl()%>" target="_blank"><%=position.getPosTitle()%></a>
-					</h4>
-				</div>
-				<div class="col-md-12">
-					<div class="col-md-8">
+				<div id="position-<%=pid%>" class="row content-list" onmouseenter="changeChart(<%=pid%>)">
+					<div class="col-md-9">
+						<h4>
+							<a href="<%=position.getPosUrl()%>" target="_blank"><%=position.getPosTitle()%></a>
+						</h4>
+						<p>
 							<%=position.getPosPublishDate()%>
 							&nbsp &nbsp &nbsp &nbsp &nbsp
 							<%-- <% if (position.getComName() != null
@@ -104,53 +111,62 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								}
 							%> --%>
 							&nbsp &nbsp &nbsp &nbsp &nbsp
-							<font color="#11cccc">相关度:
-							<%=(double)((int)(match.getRelevance() * 100000)) / 1000.0%>
-							%</font>	
+						</p>
+						<p class="description">
+							<%=position.getDisplayContent()%>
+						</p>
 					</div>
-					<div class="col-md-4">
-						<div class="radar-div">
-							<div class="radar-img"><img src="bootstrap/img/radar-thumb.jpg" /></div>
-							<div id="position-tag-chart-<%=position.getId()%>" class="radar"></div>
+				<%
+					}
+				%>
+					<div class="col-md-3" style="vertical-align:middle;">
+						<div style="height:50px; width:100%"></div>
+						<p style="color:#11cccc;">
+							<font style="font-size:40px;">
+								<%=(double)((int)(match.getRelevance() * 10000)) / 100.0%>
+							</font>
+							<font>%</font>
+						</p>
+					</div>
+					<div class="col-md-3" style="display:none;">
+						<div class="col-md-12 radar" id="position-tag-chart-<%=pid%>"></div>
+					</div>
+				</div>
+				<%
+				}
+				%>
+			</div>
+			
+				<div class="col-md-4 blog-sidebar" style="position:fixed; top:80px; right:20px;">
+					<div class="row sidebar-module">
+						<div style="height:300px; width:300px; float:right;">
+							<div id="employee-tag-chart" style="height:300px; width:300px; float:right;"></div>
+						</div>
+						<div style="height:30px; width:100%; float:right;"></div>
+						<div>
+						<ul class="col-md-offset-4 col-md-8 list-group">
+							<li class="list-group-item list-group-item-danger">
+								<strong>
+									<span class="glyphicon glyphicon-heart"></span>
+									<span>&nbsp;玩转Jobpopo</span>
+								</strong>
+							</li>
+							<li class="list-group-item">
+								<a style="white-space: normal; width:100%;" class="btn btn-primary" href="resume/addResume">创建简历</a>
+							</li>
+							<li class="list-group-item">
+								<a style="white-space: normal; width:100%;" class="btn btn-primary" href="resume/checkResume?employeeId=${employee.id }">查看简历</a>
+							</li>
+							<li class="list-group-item">
+								<a style="white-space: normal; width:100%;" class="btn btn-primary" href="search/updateRelevanceForEmployee">更新推荐职位</a>
+							</li>
+							<li class="list-group-item">
+								<a style="white-space: normal; width:100%;" class="btn btn-primary" href="employee/check?employeeId=${employee.id }">订阅职位推送</a>
+							</li>
+						</ul>
 						</div>
 					</div>
 				</div>
-				<div class="col-md-12 description">
-					<div class="col-md-12"><%=position.getDisplayContent()%></div>
-				</div>
-				<%
-					}
-				}
-				%>	
-			</div>
-			
-			<div class="col-md-4 blog-sidebar">
-				<div class="row sidebar-module">
-					<div>
-						<div id="employee-tag-chart" style="height:300px; width:300px; float:right;"></div>
-					</div>
-					<ul class="col-md-offset-4 col-md-8 list-group">
-						<li class="list-group-item list-group-item-danger">
-							<strong>
-								<span class="glyphicon glyphicon-heart"></span>
-								<span>&nbsp;玩转Jobpopo</span>
-							</strong>
-						</li>
-						<li class="list-group-item">
-							<a style="white-space: normal; width:100%;" class="btn btn-primary" href="resume/addResume">创建我的简历</a>
-						</li>
-						<li class="list-group-item">
-							<a style="white-space: normal; width:100%;" class="btn btn-primary" href="resume/checkResume?employeeId=${employee.id }">查看我的简历</a>
-						</li>
-						<li class="list-group-item">
-							<a style="white-space: normal; width:100%;" class="btn btn-primary" href="search/updateRelevanceForEmployee">更新适合我的职位</a>
-						</li>
-						<li class="list-group-item">
-							<a style="white-space: normal; width:100%;" class="btn btn-primary" href="employee/check?employeeId=${employee.id }">订阅职位推送</a>
-						</li>
-					</ul>
-				</div>
-			</div>
 		</div>
 	
 		<!-- 分页 -->
@@ -191,10 +207,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <script src="bootstrap/js/dist/echarts-all.js"></script>
 <script type="text/javascript">
+<%
+List<EmployeeTag> employeeTagList = (List<EmployeeTag>)
+session.getAttribute("employeeTagList");
+%>
 var myChart = echarts.init(document.getElementById('employee-tag-chart'));
 var option = {
 	    title : {
-	        text: '我的职位雷达图',
+	        text: '我的技术方向',
 	        textStyle: {
 	        	fontSize: 14
 	        }
@@ -204,8 +224,6 @@ var option = {
 	        {
 	            indicator : [
 					<%
-						List<EmployeeTag> employeeTagList = (List<EmployeeTag>)
-						session.getAttribute("employeeTagList");
 						for (int i = 0; i < employeeTagList.size(); i ++) {
 					%>
 					{text : '<%= employeeTagList.get(i).getTagName() %>', max : 32},
@@ -254,10 +272,14 @@ for (MatchPosition match : pager.getDatas()) {
 myChart = echarts.init(document.getElementById('position-tag-chart-<%=position.getId()%>'));
 option = {
 	    title : {
-	        text: '职位雷达图',
+	        text: '',
 	        textStyle: {
 	        	fontSize: 14
 	        }
+	    },
+	    legend: {
+	        x : 'center',
+	        data:['职位', '简历']
 	    },
 	    calculable : true,
 	    polar : [
@@ -277,7 +299,7 @@ option = {
 	    ],
 	    series : [
 	        {
-	            name: '职位雷达图',
+	            name: '技术方向雷达图',
 	            type: 'radar',
 	            itemStyle: {
 	                normal: {
@@ -288,6 +310,7 @@ option = {
 	            },
 	            data : [
 	                {
+	                	name : '职位',
 	                	value : [
 	                	<%
 							for (int i = 0; i < positionTagList.size(); i ++) {
@@ -298,6 +321,19 @@ option = {
 							}
 	                	%>
 	                    ],
+	                },
+	                {
+	                    name : '简历',
+	                    value : [
+	     	            <%
+	     					for (int i = 0; i < employeeTagList.size(); i ++) {
+	     				%>
+	     				<%= Math.sqrt(Math.sqrt(employeeTagList.get(i).getTagValue()) * 10) * 10 %>
+	     				,
+	     				<%
+	     					}
+	     	            %>
+	     	            ],
 	                }
 	            ]
 	        }
@@ -311,10 +347,14 @@ myChart.setOption(option);
 myChart = echarts.init(document.getElementById('position-tag-chart-<%=position.getId()%>'));
 option = {
 	    title : {
-	        text: '职位雷达图',
+	        text: '',
 	        textStyle: {
 	        	fontSize: 14
 	        }
+	    },
+	    legend: {
+	        x : 'center',
+	        data:['职位', '简历']
 	    },
 	    calculable : true,
 	    polar : [
@@ -334,7 +374,7 @@ option = {
 	    ],
 	    series : [
 	        {
-	            name: '职位雷达图',
+	            name: '技术方向雷达图',
 	            type: 'radar',
 	            itemStyle: {
 	                normal: {
@@ -345,6 +385,7 @@ option = {
 	            },
 	            data : [
 	                {
+	                	name : '职位',
 	                	value : [
 	                	<%
 							for (int i = 0; i < positionTagList.size(); i ++) {
@@ -355,6 +396,19 @@ option = {
 							}
 	                	%>
 	                    ],
+	                },
+	                {
+	                    name : '简历',
+	                    value : [
+	     	            <%
+	     					for (int i = 0; i < employeeTagList.size(); i ++) {
+	     				%>
+	     				<%= Math.sqrt(Math.sqrt(employeeTagList.get(i).getTagValue()) * 10) * 10 %>
+	     				,
+	     				<%
+	     					}
+	     	            %>
+	     	            ],
 	                }
 	            ]
 	        }
@@ -365,5 +419,103 @@ myChart.setOption(option);
 	}
 }
 %>
+
+function changeChart(pid) {
+	var myChart = echarts.init(document.getElementById('employee-tag-chart'));
+	var positionValues = [];
+	<%
+	for (MatchPosition match : pager.getDatas()) {
+		if (match.getPosition() instanceof PositionJobpopo) {
+			PositionJobpopo position = (PositionJobpopo) match.getPosition();
+	%>
+			if (pid == <%=position.getId()%>) {
+	<%
+				List<PositionTag> positionTagList = match.getPositionTagList();
+				for (int i = 0; i < positionTagList.size(); i ++) {
+	%>
+					positionValues.push(<%=Math.sqrt(Math.sqrt(positionTagList.get(i).getTagValue()) * 10) * 10%>);
+	<%
+				}
+	%>
+			}
+	<%
+		} else {
+			Position position = (Position) match.getPosition();
+	%>
+			if (pid == <%=position.getId()%>) {
+	<%
+				List<PositionTag> positionTagList = match.getPositionTagList();
+				for (int i = 0; i < positionTagList.size(); i ++) {
+	%>
+					positionValues.push(<%=Math.sqrt(Math.sqrt(positionTagList.get(i).getTagValue()) * 10) * 10%>);
+	<%
+				}
+	%>
+			}
+	<%
+		}
+	}
+	%>
+	var option = {
+		    title : {
+		        text: '简历与职位技术方向比较',
+		        textStyle: {
+		        	fontSize: 14
+		        }
+		    },
+		    legend: {
+		        y : 'bottom',
+		        data:['职位', '简历']
+		    },
+		    calculable : true,
+		    polar : [
+		        {
+		            indicator : [
+						<%
+							for (int i = 0; i < employeeTagList.size(); i ++) {
+						%>
+						{text : '<%= employeeTagList.get(i).getTagName() %>', max : 32},
+						<%
+							}
+						%>
+		            ],
+		            radius : 100
+		        }
+		    ],
+		    series : [
+		        {
+		            name: '技术方向雷达图',
+		            type: 'radar',
+		            itemStyle: {
+		                normal: {
+		                    areaStyle: {
+		                        type: 'default'
+		                    }
+		                }
+		            },
+		            data : [
+		                {
+		                	name : '职位',
+		                	value : positionValues,
+		                },
+		                {
+		                    name : '简历',
+		                    value : [
+		     	            <%
+		     					for (int i = 0; i < employeeTagList.size(); i ++) {
+		     				%>
+		     				<%= Math.sqrt(Math.sqrt(employeeTagList.get(i).getTagValue()) * 10) * 10 %>
+		     				,
+		     				<%
+		     					}
+		     	            %>
+		     	            ],
+		                }
+		            ]
+		        }
+		    ]
+		};
+	myChart.setOption(option);
+}
 </script>
 </html>

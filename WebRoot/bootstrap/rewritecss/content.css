@@ -1,0 +1,7 @@
+.content-list {
+}
+
+.content-list:hover {
+	background-color:#f7f7f7;
+	border-radius:4px;
+}
