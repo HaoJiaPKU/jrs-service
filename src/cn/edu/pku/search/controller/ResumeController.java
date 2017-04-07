@@ -525,8 +525,12 @@ public class ResumeController {
 		String filename = employeeId + "-" + format.format(new Date()) + "."
 				+ file.getContentType().split("/")[1];
 		try {
-			file.transferTo(new File("../webapps/" + FilePath.photoPath,
+			System.out.println(new File("../webapps/" + FilePath.photoPath).getAbsolutePath());
+			
+			file.transferTo(new File("../../../../workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/webapps/" + FilePath.photoPath,
 					filename));
+//			file.transferTo(new File("../webapps/" + FilePath.photoPath,
+//					filename));
 			String filepath = FilePath.photoPath + filename;
 			String modifyTime = sFormat.format(new Date());
 			String modifyIp = req.getRequestURL().substring(7).split(":")[0];

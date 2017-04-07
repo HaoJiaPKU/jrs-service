@@ -64,7 +64,7 @@ public class EmployeeController {
 			session.setMaxInactiveInterval(3600*24);
 			if(employee.getLogins() == 1)
 				return "../guideEmployee.jsp";
-			return "../loginWelcome.jsp";
+			return "redirect:/search/listMatchPosition?offset=0";
 		}
 		session.setAttribute("message", "用户名或密码错误");
 		

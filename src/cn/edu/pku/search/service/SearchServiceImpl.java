@@ -525,7 +525,7 @@ public class SearchServiceImpl implements SearchService {
 				if(resumeList == null || resumeList.size() == 0)
 					break;
 				for (Resume51Job resume : resumeList) {
-					PreProcessor.dealWithText("webapps/"+resume.getPath(),FilePath.nlpPath + "tmp/resume.txt");
+					PreProcessor.dealWithText("../../../../workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/webapps/"+resume.getPath(),FilePath.nlpPath + "tmp/resume.txt");
 
 					logger.info("简历文件分析中间结果*************************");
 					ResumeInfo resumeInfo = new ResumeInfo();

@@ -46,6 +46,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								class="form-control">
 						</div>
 						<button type="submit" class="btn btn-primary">登录</button>
+						<button type="button" class="btn btn-primary" onclick="javascript:window.location.href='/employee/regist'">注册</button>
 					</form>
 				</c:if>
 				<c:if test="${not empty employee }">
@@ -79,10 +80,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div class="container">
 		<div class="row">
 			<div class="jumbotron">
-				<h2>Jobpopo</h2>
-				<p>欢迎注册成为Jobpopo用户</p>
-				<p>上传您的简历，我们帮您找到最适合您的职位</p>
-				<p>您也可以使用“职位搜索”来搜索您需要的职位</p>
+				<p><strong>欢迎注册成为Jobpopo用户</strong></p>
+				<p><strong>上传您的简历，我们帮您找到最适合您的职位</strong></p>
+				<p><strong>您也可以使用“职位搜索”来搜索您需要的职位</strong></p>
 				<div class="row">
 	        		<form class="form" method="POST" action="employee/regist">
 	          			<div class="form-group">
