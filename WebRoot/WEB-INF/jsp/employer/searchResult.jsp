@@ -34,10 +34,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 	<div class="container">
 		<div class="row">
-			<div class="col-md-7">
+			<div class="col-md-8">
 				<!-- 搜索栏 -->
 				<form action="search/searchResume" method="post" class="form-inline">
-					<input style="width:80%" type="text" name="key" value="${key }" class="form-control input-lg" placeholder="简历关键词">
+					<input style="width:85%" type="text" name="key" value="${key }" class="form-control input-lg" placeholder="简历关键词">
 					<input type="hidden" name="offset" value="0">
 					<button type="submit" class="btn btn-lg btn-primary">简历搜索</button>
 				</form>
@@ -49,18 +49,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<!-- 本网站的简历 -->		
 				<%		if (abs instanceof ResumeJobpopo) {  %>
 				<%			ResumeJobpopo resume = (ResumeJobpopo) abs;  %>
-				<h3>
+				<h4>
 					<a href="position/checkResume?employeeId=<%=resume.getEmployeeId()%>" target="_blank"><%=resume.getName()+"-"+resume.getEducationBackground()%></a>
-				</h3>
+				</h4>
 				
 						<!-- 51job上的简历 -->
 				<%		} else { %>
 				<%			Resume51Job resume = (Resume51Job)abs;  %>
 				
-				<h3>
+				<h4>
 					<a href="<%=resume.getPath()%>" target="_blank">查看完整简历</a>
-				</h3>
-				<iframe width="110%" height="30%" border="1" src="<%=resume.getPath()%>" style="zoom:0.5;"></iframe>
+				</h4>
+				<iframe width="100%" height="30%" border="1" src="<%=resume.getPath()%>" style="zoom:0.5;"></iframe>
 				<br>
 
 				<%

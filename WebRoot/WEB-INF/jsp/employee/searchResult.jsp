@@ -35,11 +35,15 @@ body {
 
 	<div class="container">
 		<div class="row">
-			<div class="col-md-7">
+			<div class="col-md-8">
+				<%
+					String key = (String) request.getAttribute("key");
+					System.out.println(key);
+				%>
 				<!-- 搜索栏 -->
 				<form action="search/searchPosition" method="post"
 					class="form-inline">
-					<input style="width:80%" type="text" name="key" value="${key }"
+					<input style="width:85%" type="text" name="key" value="${key}"
 						class="form-control input-lg" placeholder="职位关键词"> 
 					<input type="hidden" name="offset" value="0">
 					<button type="submit" class="btn btn-lg btn-primary">职位搜索</button>
@@ -53,9 +57,9 @@ body {
 						if (abs instanceof PositionJobpopo) {
 							PositionJobpopo position = (PositionJobpopo) abs;
 				%>
-				<h3>
+				<h4>
 					<a href="resume/checkPosition?recruitId=<%=position.getId()%>" target="_blank"><%=position.getTitle()%></a>
-				</h3>
+				</h4>
 				<p>
 					<%=position.getUploadTime().toString().substring(0, 10)%>
 					&nbsp &nbsp &nbsp &nbsp &nbsp
@@ -67,23 +71,23 @@ body {
 					} else {
 							Position position = (Position) abs;
 				%>
-				<h3>
+				<h4>
 					<a href="<%=position.getPosUrl()%>" target="_blank"><%=position.getPosTitle()%></a>
-				</h3>
+				</h4>
 				<p>
 					<%=position.getPosPublishDate()%>
 					&nbsp &nbsp &nbsp &nbsp &nbsp
-					<% if (position.getComName() != null
+					<%-- <% if (position.getComName() != null
 						&& position.getComName().length() > 0) {
 					%>
 					<%= position.getComName()%>
 					<%
 						} else {
-					%>
+					%> --%>
 					<%= position.getSource()%>
-					<%
+					<%-- <%
 						}
-					%>
+					%> --%>
 					&nbsp &nbsp &nbsp &nbsp &nbsp
 				</p>
 				<p><%=position.getDisplayContent()%></p>
@@ -100,13 +104,13 @@ body {
 				<ul class="pagination">
 					<c:if test="${searchResult.offset > 0 }">
 						<li><a
-							href="search/searchPosition?key=${key }&offset=${searchResult.offset-searchResult.size}">&laquo;</a></li>
+							href="search/searchPosition?key=${key}&offset=${searchResult.offset-searchResult.size}">&laquo;</a></li>
 					</c:if>
 					<c:forEach var="id" begin="0" end="9">
 						<c:if test="${id * searchResult.size < searchResult.total }">
 							<c:if test="${id * searchResult.size != searchResult.offset }">
 								<li><a
-									href="search/searchPosition?key=${key }&offset=${id*searchResult.size}">${id+1}</a></li>
+									href="search/searchPosition?key=${key}&offset=${id*searchResult.size}">${id+1}</a></li>
 							</c:if>
 							<c:if test="${id * searchResult.size == searchResult.offset }">
 								<li class="active"><a href="javascript:void(0)">${id+1}<span
