@@ -212,7 +212,14 @@ public class EmployeeServiceImpl implements EmployeeService {
 			
 			Trigger trigger = scheduler.getTrigger(triggerKey);
 			
-			String cronExp = "0 0 " + String.valueOf(recFreqHour);
+			if (recFreqHour == -1) {
+				if (trigger != null) {
+					scheduler.clear();
+				}
+				return;
+			}
+			
+			String cronExp = "10 0 " + String.valueOf(recFreqHour);
 			if (recFreqDay == 0) {
 				cronExp += " * * " + "?";
 			} else if (recFreqDay == 1) {

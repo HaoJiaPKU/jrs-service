@@ -61,12 +61,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				%>
 				<div id="position-<%=pid%>" class="row content-list" onmouseenter="changeChart(<%=pid%>)">
 					<div class="col-md-9">
-						<div class="col-md-12">
-							<h4>
-								<a href="resume/checkPosition?recruitId=<%=position.getId()%>" target="_blank"><%=position.getTitle()%></a>
-							</h4>
-						</div>
-						<div class="col-md-12">
+						<h4>
+							<a href="resume/checkPosition?recruitId=<%=position.getId()%>" target="_blank"><%=position.getTitle()%></a>
+						</h4>
+						<p>
 							<%=position.getUploadTime().toString().substring(0, 10)%>
 							&nbsp &nbsp &nbsp &nbsp &nbsp
 							<%-- <% if (position.getCompany() != null
@@ -81,10 +79,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								}
 							%> --%>
 							&nbsp &nbsp &nbsp &nbsp &nbsp
-						</div>
-						<div class="col-md-12 description">
+						</p>
+						<p class="description">
 							<%=position.getDescription()%>
-						</div>
+						</p>
 					</div>
 				<%
 					} else {
@@ -145,23 +143,29 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<div style="height:30px; width:100%; float:right;"></div>
 						<div>
 						<ul class="col-md-offset-4 col-md-8 list-group">
-							<li class="list-group-item list-group-item-danger">
+							<li class="list-group-item list-group-item-danger" style="display:none;">
 								<strong>
 									<span class="glyphicon glyphicon-heart"></span>
 									<span>&nbsp;玩转Jobpopo</span>
 								</strong>
 							</li>
 							<li class="list-group-item">
-								<a style="white-space: normal; width:100%;" class="btn btn-primary" href="resume/addResume">创建简历</a>
+								<strong>
+									找不到合适的职位？
+								</strong>
 							</li>
 							<li class="list-group-item">
-								<a style="white-space: normal; width:100%;" class="btn btn-primary" href="resume/checkResume?employeeId=${employee.id }">查看简历</a>
+								<a style="white-space: normal; width:100%;" class="" href="resume/checkResume?employeeId=${employee.id }">更新简历</a>
+								&nbsp &nbsp
+								<a style="white-space: normal; width:100%;" class="" href="search/updateRelevanceForEmployee">更新推荐职位</a>
 							</li>
 							<li class="list-group-item">
-								<a style="white-space: normal; width:100%;" class="btn btn-primary" href="search/updateRelevanceForEmployee">更新推荐职位</a>
+								<strong>
+									结果满意，试试定时推送⇩
+								</strong>
 							</li>
 							<li class="list-group-item">
-								<a style="white-space: normal; width:100%;" class="btn btn-primary" href="employee/check?employeeId=${employee.id }">订阅职位推送</a>
+								<a style="white-space: normal; width:100%;" class="" href="employee/check?employeeId=${employee.id }">订阅职位推送</a>
 							</li>
 						</ul>
 						</div>
