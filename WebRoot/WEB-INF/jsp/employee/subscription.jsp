@@ -25,6 +25,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			padding-top: 80px;		
 		}	
 	</style>
+	<%
+		int recFreqDay = (Integer)session.getAttribute("recFreqDay");
+		int recFreqHour = (Integer)session.getAttribute("recFreqHour");
+		int subscriptionNum = (Integer)session.getAttribute("subscriptionNum");
+	%>
+	<script type="text/javascript">
+		console.log(<%=recFreqDay%>);
+	</script>
 	
   </head>
   
@@ -44,23 +52,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<div class="panel-body">
 						<form class="form-horizontal" action="employee/update" method="post" id="subscriptionForm">
 							<input type="hidden" name="employeeId" value="${employee.id }">
-							<%
-								int recFreqDay = (Integer)session.getAttribute("recFreqDay");
-							%>
-							<%
+							
+							<%	
 								if (recFreqDay != -1) {
 							%>
 							
 							<div class="form-group">
 								<label for="subscription-num" class="col-sm-3 control-label">推送数量</label>
-								<div class="col-sm-6"><input name="subscriptionNum" type="text" id="subscriptionNum" value="${subscriptionNum }"
+								<div class="col-sm-6"><input name="subscriptionNum" type="text" id="subscriptionNum" value="<%=subscriptionNum%>"
 											class="form-control" required></div>
 							</div>
 							<div class="form-group">
 								<label for="rec-freq" class="col-sm-3 control-label">推送频率</label>
 								<div class="col-sm-3">
 									<select name="recFreqDay" id="recFreqDay" class="form-control">
-										<option value="${recFreqDay }">
+										<option value="<%=recFreqDay%>">
 										<%
 											if (recFreqDay == 0) {
 										%>每天
@@ -102,7 +108,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								<div class="col-sm-3">
 									<select name="recFreqHour" id="recFreqHour" class="form-control">
 										<%
-										int recFreqHour = (Integer)session.getAttribute("recFreqHour");
+										recFreqHour = (Integer)session.getAttribute("recFreqHour");
 										for (int i = 0; i < 24; i ++) {
 											if (i == recFreqHour) {
 												%>
@@ -156,7 +162,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								%>每周日
 								<%
 									}
-								%>${recFreqHour}点推送${subscriptionNum}个职位
+								%><%=recFreqHour%>点推送<%=subscriptionNum%>个职位
 								</label>
 								</div>
 							</div>
@@ -173,7 +179,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								<label for="rec-freq" class="col-sm-3 control-label">推送频率</label>
 								<div class="col-sm-3">
 									<select name="recFreqDay" id="recFreqDay" class="form-control">
-										<option value="${recFreqDay }"></option>
+										<option value="<%=recFreqDay%>"></option>
 										<option value="0">每天</option>
 										<option value="1">每周一</option>
 										<option value="2">每周二</option>
@@ -186,18 +192,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								</div>
 								<div class="col-sm-3">
 									<select name="recFreqHour" id="recFreqHour" class="form-control">
-										<option value="${recFreqDay }"></option>
+										<option value="<%=recFreqDay%>"></option>
 										<%
-										int recFreqHour = (Integer)session.getAttribute("recFreqHour");
+										recFreqHour = (Integer)session.getAttribute("recFreqHour");
 										for (int i = 0; i < 24; i ++) {
 											if (i == recFreqHour) {
-												%>
+										%>
 													<option value="<%=i%>" selected="selected"><%=i%>点</option>
-												<%
+										<%
 											} else {
-												%>
+										%>
 													<option value="<%=i%>"><%=i%>点</option>
-												<%
+										<%
 											}
 										}
 										%>

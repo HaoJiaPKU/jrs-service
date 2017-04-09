@@ -223,7 +223,13 @@ public class SearchServiceImpl implements SearchService {
 					resume, eduList, workList,
 					FilePath.nlpPath + "tmp/resume.txt", model);
 
-			int updateSize = 500;
+			int zhilianSize = 500;
+			int qianchengSize = 500;
+			int weimingSize = 500;
+			String[] resumeIndustry = resume.getIndustryIntension().trim().split("/");
+			for (int i = 0; i < resumeIndustry.length; i ++) {
+				resumeIndustry[i] = resumeIndustry[i].trim();
+			}
 			HashMap<String, Double> distributionResume, distributionPosition;
 
 			logger.info("简历文件分析中间结果*************************");
@@ -263,19 +269,21 @@ public class SearchServiceImpl implements SearchService {
 				if (i == 1) {
 					break;
 				}
-				List<Position> positionList = positionDAO.listPositionBBS(
-						i * updateSize, updateSize, "comIndustry", resume.getIndustryIntension());
-				System.out.println(String.valueOf(i * updateSize) + " data from zhilian start");
+				List<Position> positionList = positionDAO.listPosition(
+						i * zhilianSize, zhilianSize,
+						"comIndustry", resume.getIndustryIntension(),
+						"source", "智联招聘");
+				System.out.println(String.valueOf(i * zhilianSize) + " data from zhilian start");
 				
 				if(positionList == null || positionList.size() == 0)
 					break;
 				
 				int counter = 0;
 				for (Position position : positionList) {
+					System.out.println("第" + String.valueOf(++ counter) + "条数据处理中");
 					Instance positionIns = tp.makeInstanceForPosition(
 							position.textField(),
 							FilePath.nlpPath + "tmp/position.txt", model);
-					System.out.println("第" + String.valueOf(++ counter) + "条数据处理中");
 					
 					logger.info("职位文件分析中间结果*************************");
 					for (String str : positionIns.numTypeFeature.keySet()) {
@@ -315,7 +323,7 @@ public class SearchServiceImpl implements SearchService {
 					logger.info(rel);
 					
 				}
-				System.out.println(String.valueOf(i * updateSize + counter) + " data from zhilian end");
+				System.out.println(String.valueOf(i * zhilianSize + counter) + " data from zhilian end");
 			}
 			
 			for(int i = 0; ;i ++) {
@@ -323,19 +331,41 @@ public class SearchServiceImpl implements SearchService {
 				if (i == 1) {
 					break;
 				}
-				List<Position> positionList = positionDAO.listPositionBBS(
-						i * updateSize, updateSize, "source", "北大未名");
-				System.out.println(String.valueOf(i * updateSize) + " data from bdwm start");
+				List<Position> positionList = positionDAO.listPosition(
+						i * qianchengSize, qianchengSize,
+						"source", "前程无忧");
+				System.out.println(String.valueOf(i * qianchengSize) + " data from qiancheng start");
 				
 				if(positionList == null || positionList.size() == 0)
 					break;
 				
 				int counter = 0;
 				for (Position position : positionList) {
+					System.out.println("第" + String.valueOf(++ counter) + "条数据处理中");
+					
+//					String[] positionIndustry = position.getComIndustry().trim().split("/");
+//					for (int indj = 0; indj < positionIndustry.length; indj ++) {
+//						positionIndustry[indj] = positionIndustry[indj].trim();
+//					}
+//					boolean industryFlag = false;
+//					for (int indi = 0; indi < resumeIndustry.length; i ++) {
+//						for (int indj = 0; indj < positionIndustry.length; i ++) {
+//							if (resumeIndustry[indi].equals(positionIndustry[indj])) {
+//								industryFlag = true;
+//								break;
+//							}
+//						}
+//						if (industryFlag) {
+//							break;
+//						}
+//					}
+//					if(!industryFlag) {
+//						continue;
+//					}
+					
 					Instance positionIns = tp.makeInstanceForPosition(
 							position.textField(),
 							FilePath.nlpPath + "tmp/position.txt", model);
-					System.out.println("第" + String.valueOf(++ counter) + "条数据处理中");
 					
 					logger.info("职位文件分析中间结果*************************");
 					for (String str : positionIns.numTypeFeature.keySet()) {
@@ -375,7 +405,67 @@ public class SearchServiceImpl implements SearchService {
 					logger.info(rel);
 					
 				}
-				System.out.println(String.valueOf(i * updateSize + counter) + " data from bdwm end");
+				System.out.println(String.valueOf(i * qianchengSize + counter) + " data from qiancheng end");
+			}
+			
+			for(int i = 0; ;i ++) {
+				//只计算一页
+				if (i == 0) {
+					break;
+				}
+				List<Position> positionList = positionDAO.listPosition(
+						i * weimingSize, weimingSize, "source", "北大未名");
+				System.out.println(String.valueOf(i * weimingSize) + " data from bdwm start");
+				
+				if(positionList == null || positionList.size() == 0)
+					break;
+				
+				int counter = 0;
+				for (Position position : positionList) {
+					System.out.println("第" + String.valueOf(++ counter) + "条数据处理中");
+					Instance positionIns = tp.makeInstanceForPosition(
+							position.textField(),
+							FilePath.nlpPath + "tmp/position.txt", model);
+					
+					logger.info("职位文件分析中间结果*************************");
+					for (String str : positionIns.numTypeFeature.keySet()) {
+						logger.info(str + " " + positionIns.numTypeFeature.get(str));
+					}
+					for (String str : positionIns.strTypeFeature.keySet()) {
+						logger.info(str + " " + positionIns.strTypeFeature.get(str));
+					}
+					distributionPosition = model.predict(positionIns);
+					for (String label : distributionPosition.keySet()) {
+						logger.info(label + "	" + distributionPosition.get(label));
+					}
+					
+					// TODO hasTag是否需要
+					// TODO 标签的更新不应该放在这个位置，考虑保存招聘信息时
+					if (position.getHasTag() != -1) {
+						positionTagDAO.deletePositionTag(position.getId());
+						for (String label : distributionPosition.keySet()) {
+							PositionTag positionTag = new PositionTag(
+									position.getId(),
+									2,
+									label,
+									distributionPosition.get(label));
+							positionTagDAO.add(positionTag);
+						}
+						position.setHasTag(1);
+						positionDAO.updateBBS(position);
+					}
+	
+					double rel = comparator.compare(
+							resumeIns,
+							positionIns,
+							distributionResume,
+							distributionPosition);
+					Relevance relevance = new Relevance(employeeId, 0, 2, position.getId(), rel);
+					relevanceDAO.update(relevance);
+					logger.info(rel);
+					
+				}
+				System.out.println(String.valueOf(i * weimingSize + counter) + " data from bdwm end");
 			}
 			
 			for(int i = 0; ;i ++) {
@@ -383,19 +473,19 @@ public class SearchServiceImpl implements SearchService {
 				if (i == 1) {
 					break;
 				}
-				List<PositionJobpopo> positionList = positionDAO.listPosition(
-						i * updateSize, updateSize);
-				System.out.println(String.valueOf(i * updateSize) + " data from jobpopo start");
+				List<PositionJobpopo> positionList = positionDAO.listPositionJobpopo(
+						i * zhilianSize, zhilianSize);
+				System.out.println(String.valueOf(i * zhilianSize) + " data from jobpopo start");
 				
 				if(positionList == null || positionList.size() == 0)
 					break;
 				
 				int counter = 0;
 				for (PositionJobpopo position : positionList) {
+					System.out.println("第" + String.valueOf(++ counter) + "条数据处理中");
 					Instance positionIns = tp.makeInstanceForPosition(
 							position.textField(),
 							FilePath.nlpPath + "tmp/position.txt", model);
-					System.out.println("第" + String.valueOf(++ counter) + "条数据处理中");
 					
 					logger.info("职位文件分析中间结果*************************");
 					for (String str : positionIns.numTypeFeature.keySet()) {
@@ -435,7 +525,7 @@ public class SearchServiceImpl implements SearchService {
 					logger.info(rel);
 	
 				}
-				System.out.println(String.valueOf(i * updateSize + counter) + " data from jobpopo end");
+				System.out.println(String.valueOf(i * zhilianSize + counter) + " data from jobpopo end");
 			}
 			
 			System.out.println("info : update for employee complete");

@@ -32,14 +32,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
   	<div class="container">
 		<div class="row">
-			<div class="col-md-6 col-md-offset-3">
-				<div class="jumbotron">
-					<p>简历填写完毕，请选择发布或取消</p>
-						
+			<div class="col-md-8 col-md-offset-2 jumbotron">
+				<div class="">
+					<div class="" style="font-size:18px; text-align:center;">
+						简历填写完毕，请选择发布或取消
+					</div>
+					<div style="clear: both;"></div>
+					<hr style="height:4px; border-top:2px solid #e4dddd;"/>
+							
 					<form class="form-horizontal" action="resume/publishResume"
 						method="post" id="basicForm">
-						<a class="btn btn-primary" href="resume/cancelPublishResume" role="button">取消</a>
-						<button class="btn btn-primary" type="submit">发布</button>
+						<div class="col-md-1 col-md-offset-5">
+							<button class="btn btn-primary" type="submit">发布</button>
+						</div>
+						<div class="col-md-1">
+							<a class="btn btn-primary" href="resume/cancelPublishResume" role="button">取消</a>
+						</div>
 					</form>
 				</div>
 			</div>

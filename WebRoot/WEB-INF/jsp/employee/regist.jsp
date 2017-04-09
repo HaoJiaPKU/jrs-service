@@ -30,7 +30,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 	
 		<div class="container">
-			<div class="row"><div class="col-md-4 col-md-offset-4">
+			<div class="row">
+			<div class="col-md-8 col-md-offset-2 jumbotron">
 			<form action="employee/regist" method="post">
 				<div class="form-group">
 					<label for="email">邮箱</label>

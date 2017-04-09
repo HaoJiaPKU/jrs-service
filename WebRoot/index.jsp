@@ -102,7 +102,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	              		</div>
 	              	</form>
 	              	<form class="form" method="POST" action="employee/login">
-	              		<input type='hidden' name='username' value='sunxw13@pku.edu.cn' />
+	              		<input type='hidden' name='username' value='test@pku.edu.cn' />
 	              		<input type='hidden' name='password' value='hhlsnyjbz' />
 	              		<div class="form-group">
 	              			<div class="col-md-3 no-left-padding">

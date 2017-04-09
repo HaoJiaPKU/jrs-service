@@ -35,11 +35,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div class="container">
 		<!-- 添加基本信息 -->
 		<div class="row">
-			<div class="col-md-7 col-md-offset-3">
-				<div class="panel panel-primary">
-					<div class="panel-heading">
+			<div class="col-md-8 col-md-offset-2 jumbotron">
+				<div class="">
+					<div class="" style="font-size:18px;">
 						基本信息
 					</div>
+					<div style="clear: both;"></div>
+					<hr style="height:4px; border-top:2px solid #e4dddd;"/>
 					
 					<div class="panel-body">
 						<form class="form-horizontal" action="resume/addResume" method="post" id="basicForm" enctype="multipart/form-data">
@@ -134,7 +136,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<div class="form-group">
 								<label for="photo" class="col-md-3 control-label">上传照片</label>
 								<div class="col-md-6"><input name="photo" type="file" id="photo" class="form-control"></div>
-								<div class="col-md-6 col-md-offset-3"><p class="help-block">建议图片大小：150*150</p></div>
+								<div class="col-md-6 col-md-offset-3"><p><strong style="color:#727272; font-size:16px;">建议图片大小：150*150</strong></p></div>
 							</div>
 							<div class="form-group">
 								<label for="speciality" class="col-md-3 control-label">专长</label>

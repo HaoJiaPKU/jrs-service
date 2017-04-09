@@ -20,4 +20,5 @@ public interface EmployeeService {
 			long id, int subscriptionNum, int recFreqDay, int recFreqHour);
 	public List<EmployeeTag> listEmployeeTag(long employeeId);
 	public HashMap<String, Integer> loadAllIndustry();
+	public Employee loadEmployee(Long id);
 }

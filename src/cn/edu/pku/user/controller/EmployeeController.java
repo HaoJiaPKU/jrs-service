@@ -159,7 +159,8 @@ public class EmployeeController {
 	@RequestMapping("check")
 	public String check(HttpServletRequest req, HttpServletResponse res) {
 		HttpSession session = req.getSession();
-		Employee employee = (Employee) session.getAttribute("employee");
+		long id = Long.parseLong(req.getParameter("employeeId"));
+		Employee employee = employeeService.loadEmployee(id);
 		session.setAttribute("subscriptionNum", employee.getSubscriptionNum());
 		session.setAttribute("recFreqDay", employee.getRecFreqDay());
 		session.setAttribute("recFreqHour", employee.getRecFreqHour());

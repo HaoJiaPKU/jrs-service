@@ -1,6 +1,7 @@
 package cn.edu.pku.search.controller;
 
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +20,8 @@ import cn.edu.pku.search.domain.MatchPosition;
 import cn.edu.pku.search.service.PositionService;
 import cn.edu.pku.search.service.SearchService;
 import cn.edu.pku.user.domain.Employee;
+import cn.edu.pku.user.domain.EmployeeTag;
+import cn.edu.pku.user.service.EmployeeService;
 
 /**
  * 与搜索和匹配相关的控制器
@@ -34,6 +37,17 @@ public class SearchController {
 	private SearchService searchService;
 	private PositionService positionService;
 
+	EmployeeService employeeService;
+
+	public EmployeeService getEmployeeService() {
+		return employeeService;
+	}
+
+	@Resource
+	public void setEmployeeService(EmployeeService employeeService) {
+		this.employeeService = employeeService;
+	}
+	
 	public SearchService getSearchService() {
 		return searchService;
 	}
@@ -144,6 +158,8 @@ public class SearchController {
 		HttpSession session = req.getSession();
 		Employee employee = (Employee) session.getAttribute("employee");
 		long employeeId = employee.getId();
+		List<EmployeeTag> employeeTagList = employeeService.listEmployeeTag(employee.getId());
+		session.setAttribute("employeeTagList", employeeTagList);
 		int offset = Integer.parseInt(req.getParameter("offset"));
 		Pager<MatchPosition> relevancePager = searchService.listMatchPosition(employeeId, offset);
 		session.removeAttribute("relevancePager");

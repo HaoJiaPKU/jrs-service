@@ -33,11 +33,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div class="container">
 		<!-- 添加基本信息 -->
 		<div class="row">
-			<div class="col-md-7 col-md-offset-3">
-				<div class="panel panel-primary">
-					<div class="panel-heading">
-						专长信息
+			<div class="col-md-8 col-md-offset-2 jumbotron">
+				<div class="">
+					<div class="" style="font-size:18px;">
+						<p><strong>专长信息</strong></p>
 					</div>
+					<hr style="height:4px; border-top:2px solid #e4dddd;"/>
 					
 					<div class="panel-body">
 						<form class="form-horizontal" action="resume/updateSpeciality" method="post" id="basicForm">

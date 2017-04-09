@@ -121,7 +121,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<div style="height:50px; width:100%"></div>
 						<p style="color:#11cccc;">
 							<font style="font-size:40px;">
-								<%=(double)((int)(match.getRelevance() * 10000)) / 100.0%>
+								<%=(double)((int)(Math.pow(match.getRelevance(), 0.25) * 10000)) / 100.0%>
 							</font>
 							<font>%</font>
 						</p>

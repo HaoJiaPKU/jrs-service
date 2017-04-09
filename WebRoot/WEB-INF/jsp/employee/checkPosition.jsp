@@ -11,7 +11,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>查看招聘信息</title>
+    <title>查看职位信息</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -33,45 +33,46 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 	<div class="container">
 		<div class="row">
-			<div class="col-md-8 col-md-offset-2">
-				<div class="panel panel-primary">
-					<div class="panel-heading">
-						<h4>${position.title }</h4>
+			<div class="col-md-8 col-md-offset-2 jumbotron">
+				<div class="">
+					<div class="" style="font-size:18px;">
+						<p><strong>${position.title }</strong></p>
 					</div>
+					<hr style="height:4px; border-top:2px solid #e4dddd;"/>
 					<div class="panel-body">
-						<p>来自：${position.company }</p>
+						<p><strong style="color:#727272; font-size:16px;">来自：${position.company }</strong></p>
 						<br>
 						<div class="row">
 							<div class="col-md-4">
-								<p>公司行业：${position.business }</p>
+								<p><strong style="color:#727272; font-size:16px;">公司行业：${position.business }</strong></p>
 							</div>
 							<div class="col-md-4">
-								<p>公司规模：${position.scale }</p>
+								<p><strong style="color:#727272; font-size:16px;">公司规模：${position.scale }</strong></p>
 							</div>
 							<div class="col-md-4">
-								<p>公司类型：${position.type }</p>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-4">
-								<p>薪资：${position.salary }</p>
-							</div>
-							<div class="col-md-4">
-								<p>学历：${position.degree }</p>
-							</div>
-							<div class="col-md-4">
-								<p>工作地点：${position.city }</p>
+								<p><strong style="color:#727272; font-size:16px;">公司类型：${position.type }</strong></p>
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-md-4">
-								<p>职位名称：${position.position }</p>
+								<p><strong style="color:#727272; font-size:16px;">薪资：${position.salary }</strong></p>
 							</div>
 							<div class="col-md-4">
-								<p>招聘人数：${position.recruitNum }</p>
+								<p><strong style="color:#727272; font-size:16px;">学历：${position.degree }</strong></p>
 							</div>
 							<div class="col-md-4">
-								<p>发布时间：${position.uploadTime }</p>
+								<p><strong style="color:#727272; font-size:16px;">工作地点：${position.city }</strong></p>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-4">
+								<p><strong style="color:#727272; font-size:16px;">职位名称：${position.position }</strong></p>
+							</div>
+							<div class="col-md-4">
+								<p><strong style="color:#727272; font-size:16px;">招聘人数：${position.recruitNum }</strong></p>
+							</div>
+							<div class="col-md-4">
+								<p><strong style="color:#727272; font-size:16px;">发布时间：${position.uploadTime }</strong></p>
 							</div>
 						</div>
 						<br>
@@ -80,7 +81,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							职位描述：<br>
 							<c:set value="${ fn:split(position.description, enter) }" var="description" />
 							<c:forEach items="${ description }" var="desc">
-								${ desc } <br />
+								<p><strong style="color:#727272; font-size:16px;">${ desc }</strong></p> <br />
 							</c:forEach>
 						</p>
 					</div>

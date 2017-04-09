@@ -34,13 +34,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div class="container">
 		<!-- 添加基本信息 -->
 		<div class="row">
-			<div class="col-md-7 col-md-offset-3">
-				<div class="panel panel-primary">
-					<div class="panel-heading">
-						基本信息
+			<div class="col-md-8 col-md-offset-2 jumbotron">
+				<div class="">
+					<div class="" style="font-size:18px;">
+						<p><strong>基本信息</strong></p>
 					</div>
-					
-					<div class="panel-body">
+					<hr style="height:4px; border-top:2px solid #e4dddd;"/>
+					<div class="">
 						<form class="form-horizontal" action="resume/updateResume" method="post" id="basicForm">
 							<input type="hidden" name="employeeId" value="${employee.id }">
 							<div class="form-group">
@@ -142,10 +142,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											value="${resume.categoryIntension }" class="form-control"></div>
 							</div>
 							<div class="form-group">
-								<div class="col-md-2 col-md-offset-3">
+								<div class="col-md-3 col-md-offset-3">
 									<button id="save" class="btn btn-primary btn-block" type="submit">保存</button>
 								</div>
-								<div class="col-md-2">
+								<div class="col-md-3">
 									<button id="eduBtn" class="btn btn-block" type="button" onclick="cancel()">取消</button>
 								</div>
 							</div>

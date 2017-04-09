@@ -11,7 +11,7 @@ public class Comparator {
 			Instance positionIns,
 			HashMap<String, Double> distributionResume,
 			HashMap<String, Double> distributionPosition) {
-		double alpha = 0.5;
+		double alpha = 1.0;
 		
 		HashMap<String, Double> resumeWeight = new HashMap<String, Double>();
 		HashMap<String, Double> positionWeight = new HashMap<String, Double>();
@@ -34,7 +34,7 @@ public class Comparator {
 			positionWeight.put(word, t.get(word) / sum);
 		}
 		return Math.pow(vsmMatch(resumeWeight, positionWeight), alpha)
-			;
+			* Math.pow(relativeEntropyForProbability(distributionResume, distributionPosition), (1.0 - alpha));
 	}
 	
 	public double wordMatch(HashMap<String, Double> resumeWeight, HashMap<String, Double> positionWeight) {

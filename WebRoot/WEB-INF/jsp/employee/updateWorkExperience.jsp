@@ -34,38 +34,39 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div class="container">
 		<!-- 工作信息 -->
 		<div class="row">
-			<div class="col-md-7 col-md-offset-3">
-				<div class="panel panel-primary">
-					<div class="panel-heading">
-						工作经历
+			<div class="col-md-8 col-md-offset-2 jumbotron">
+				<div class="">
+					<div class="" style="font-size:18px;">
+						<p><strong>工作经历</strong></p>
 					</div>
+					<hr style="height:4px; border-top:2px solid #e4dddd;"/>
 					
 					<div class="panel-body">
 						<form class="form-horizontal" action="resume/updateWorkExperience" method="post" id="workForm">
 							<input type="hidden" name="employeeId" value="${workExperience.employeeId }">
 							<input type="hidden" name="id" value="${workExperience.id }">
 							<div class="form-group">
-								<label for="company" class="col-sm-3 control-label">公司</label>
-								<div class="col-sm-6"><input name="company" type="text" id="company" value="${workExperience.company }"
+								<label for="company" class="col-sm-2 control-label">公司</label>
+								<div class="col-sm-9"><input name="company" type="text" id="company" value="${workExperience.company }"
 											class="form-control"></div>
 							</div>
 							<div class="form-group">
-								<label for="jobTitle" class="col-sm-3 control-label">职位</label>
-								<div class="col-sm-6"><input name="jobTitle" type="text" id="jobTitle" value="${workExperience.jobTitle }"
+								<label for="jobTitle" class="col-sm-2 control-label">职位</label>
+								<div class="col-sm-9"><input name="jobTitle" type="text" id="jobTitle" value="${workExperience.jobTitle }"
 											class="form-control"></div>
 							</div>
 							<div class="form-group">
-								<label for="city" class="col-sm-3 control-label">所在城市</label>
-								<div class="col-sm-6"><input name="city" type="text" id="city" value="${workExperience.city }"
+								<label for="city" class="col-sm-2 control-label">所在城市</label>
+								<div class="col-sm-9"><input name="city" type="text" id="city" value="${workExperience.city }"
 											class="form-control"></div>
 							</div>
 							<div class="form-group">
-								<label for="salary" class="col-sm-3 control-label">薪资</label>
-								<div class="col-sm-6"><input name="salary" type="text" id="salary" value="${workExperience.salary }"
+								<label for="salary" class="col-sm-2 control-label">薪资</label>
+								<div class="col-sm-9"><input name="salary" type="text" id="salary" value="${workExperience.salary }"
 											class="form-control"></div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label">工作时间</label>
+								<label class="col-sm-2 control-label">工作时间</label>
 								<div class="col-sm-2">
 									<table>
 										<tr>
@@ -111,17 +112,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								</div>
 							</div>
 							<div class="form-group">
-								<label for="description" class="col-sm-3 control-label">经历描述</label>
+								<label for="description" class="col-sm-2 control-label">经历描述</label>
 								<div class="col-sm-9">
 									<textarea name="description" id="description"
 										class="form-control" rows="3">${workExperience.description }</textarea>
 								</div>
 							</div>	
 							<div class="form-group">
-								<div class="col-md-2 col-md-offset-3">
+								<div class="col-md-4 col-md-offset-2">
 									<button id="save" class="btn btn-primary btn-block" type="submit">保存</button>
 								</div>
-								<div class="col-md-2">
+								<div class="col-md-4">
 									<button id="eduBtn" class="btn btn-block" type="button" onclick="cancel()">取消</button>
 								</div>
 							</div>

@@ -84,7 +84,7 @@ public class PositionDAOImpl extends HibernateDaoSupport implements
 	}
 
 	@Override
-	public List<Position> listPositionBBS(int offset, int size) {		
+	public List<Position> listPosition(int offset, int size) {		
 		Query query = this.getSession()
 				.createQuery("from Position order by posPublishDate desc");
 		query.setFirstResult(offset);
@@ -93,29 +93,7 @@ public class PositionDAOImpl extends HibernateDaoSupport implements
 	}
 	
 	@Override
-	public List<Position> listPositionBBS(int offset, int size, String key, String value) {
-//		List list = getHibernateTemplate().executeFind(new HibernateCallback() {
-//            public Object doInHibernate(Session session)
-//            		throws HibernateException, SQLException {
-//            	Query query = session
-//        				.createQuery("from Position order by posPublishDate desc");
-//        		query.setFirstResult(offset);
-//        		query.setMaxResults(size);
-//            	List list = query.list();
-//            	return list;
-//           }
-//		});
-//		return list;
-		
-//		Session session = this.getSession();
-//		Query query = session
-//				.createQuery("from Position order by posPublishDate desc");
-//		query.setFirstResult(offset);
-//		query.setMaxResults(size);
-//		List list = query.list();
-//		session.close();
-//		return list;
-		
+	public List<Position> listPosition(int offset, int size, String key, String value) {	
 		Query query = this.getSession()
 				.createQuery("from Position "
 						+ "where " + key + "=? "
@@ -127,7 +105,21 @@ public class PositionDAOImpl extends HibernateDaoSupport implements
 	}
 
 	@Override
-	public List<PositionJobpopo> listPosition(int offset, int size) {
+	public List<Position> listPosition(int offset, int size, String key1, String value1, String key2,
+			String value2) {
+		Query query = this.getSession()
+				.createQuery("from Position "
+						+ "where " + key1 + "=? and " + key2 + "=? "
+						+ "order by posPublishDate desc");
+		query.setParameter(0, value1);
+		query.setParameter(1, value2);
+		query.setFirstResult(offset);
+		query.setMaxResults(size);
+		return query.list();
+	}
+	
+	@Override
+	public List<PositionJobpopo> listPositionJobpopo(int offset, int size) {
 		Query query = this.getSession().createQuery("from PositionJobpopo");
 		query.setFirstResult(offset);
 		query.setMaxResults(size);
@@ -144,4 +136,5 @@ public class PositionDAOImpl extends HibernateDaoSupport implements
 		this.getHibernateTemplate().update(positionBBS);
 	}
 
+	
 }

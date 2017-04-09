@@ -219,7 +219,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 				return;
 			}
 			
-			String cronExp = "10 0 " + String.valueOf(recFreqHour);
+			String cronExp = "10 3 " + String.valueOf(recFreqHour);
 			if (recFreqDay == 0) {
 				cronExp += " * * " + "?";
 			} else if (recFreqDay == 1) {
@@ -359,6 +359,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 			}
 		}
 		return ret;
+	}
+
+
+	@Override
+	public Employee loadEmployee(Long id) {
+		Employee employee = employeeDAO.load(id);
+		return employee;
 	}
 	
 }
