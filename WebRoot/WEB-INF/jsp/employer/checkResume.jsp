@@ -34,25 +34,29 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div class="container">
 		<!-- 基本信息 -->
 		<div class="row">
-			<div class="col-md-6 col-md-offset-3">
-				<div class="panel panel-primary">
-					<div class="panel-heading">
-						基本资料
+			<div class="col-md-8 col-md-offset-2 jumbotron">
+				<div class="">
+					<div class="" style="font-size:18px;">
+						<div style="float:left;"><p><strong>基本资料</strong></p></div>
+						<div style="clear: both;"></div>
+						<hr style="height:4px; border-top:2px solid #e4dddd;"/>
 					</div>
 					<div class="panel-body">
+						<div class="col-md-8">
+							<p><strong style="color:#727272; font-size:20px;">
+								${resume.name }</strong>&nbsp &nbsp
+							<strong style="color:#727272; font-size:16px;">
+							${resume.educationBackground }&nbsp|&nbsp${resume.gender }&nbsp|&nbsp${resume.age }
+							&nbsp|&nbsp${resume.politics }
+							</strong></p>
+							<p><strong style="color:#727272; font-size:16px;">手机：${resume.phone }</strong></p>
+							<p><strong style="color:#727272; font-size:16px;">邮箱：${resume.email }</strong></p>
+							<p><strong style="color:#727272; font-size:16px;">期望工作地点：${resume.workingPlace }</strong></p>
+							<p><strong style="color:#727272; font-size:16px;">期望行业类别：${resume.industryIntension}</strong></p>
+							<p><strong style="color:#727272; font-size:16px;">期望职位类别：${resume.categoryIntension}</strong></p>
+						</div>
 						<div class="col-md-4">
 							<img src="${resume.photo }" class="img-responsive" alt="未上传头像">
-						</div>
-						<div class="col-md-8">
-							<h2 style="margin-top:10px">
-								${resume.name }
-							</h2>
-							<p>${resume.educationBackground }&nbsp|&nbsp${resume.gender }&nbsp|&nbsp${resume.age }
-							&nbsp|&nbsp${resume.politics }
-							</p>
-							<p>手机：${resume.phone }</p>
-							<p>邮箱：${resume.email }</p>
-							<p>期望工作地点：${resume.workingPlace }</p>
 						</div>
 					</div>
 				</div>
@@ -61,22 +65,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		
 		<!-- 教育信息 -->
 		<div class="row">
-			<div class="col-md-6 col-md-offset-3">
-				<div class="panel panel-primary">
-					<div class="panel-heading">
-						教育经历
+			<div class="col-md-8 col-md-offset-2 jumbotron">
+				<div class="">
+					<div class="" style="font-size:18px;">
+						<div style="float:left;"><p><strong>教育经历</strong></p></div>
+						<div style="clear:both;"></div>
+						<hr style="height:4px; border-top:2px solid #e4dddd;"/>
 					</div>
 					
 					<c:forEach items="${eduList }" var="edu" varStatus="index">
 						<div class="panel-body">
-							<h3>${edu.school }</h3>
+							<p><strong style="color:#727272; font-size:16px;">${edu.school }</strong></p>
 							<div>
-								<div style="float: left;">${edu.degree }&nbsp&nbsp${edu.academy }&nbsp&nbsp${edu.major }</div>
-								<div style="float: right">${edu.dateBegin }至${edu.dateEnd }</div>
+								<div style="float: left;"><p><strong style="color:#727272; font-size:16px;">${edu.degree }&nbsp&nbsp${edu.academy }&nbsp&nbsp${edu.major }</strong></p></div>
+								<div style="float: right"><p><strong style="color:#727272; font-size:16px;">${edu.dateBegin }至${edu.dateEnd }</strong></p></div>
 								<div style="clear: both;"></div>
 							</div>
 							<br>
-							<p>${edu.description }</p>
+							<p><strong style="color:#727272; font-size:16px;">${edu.description }</strong></p>
 						</div>
 					</c:forEach>
 				</div>
@@ -85,22 +91,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		
 		<!-- 工作经历 -->
 		<div class="row">
-			<div class="col-md-6 col-md-offset-3">
-				<div class="panel panel-primary">
-					<div class="panel-heading">
-						工作经历
+			<div class="col-md-8 col-md-offset-2 jumbotron">
+				<div class="">
+					<div class="" style="font-size:18px;">
+						<div style="float:left;"><p><strong>工作经历</strong></p></div>
+						<div style="clear:both;"></div>
+						<hr style="height:4px; border-top:2px solid #e4dddd;"/>
 					</div>
 					
 					<c:forEach items="${workList }" var="work" varStatus="index">
 						<div class="panel-body">
-							<h2>${work.company }</h2>
+							<p><strong style="color:#727272; font-size:20px;">${work.company }</strong></p>
 							<div>
-								<div style="float: left;">${work.jobTitle }</div>
-								<div style="float: right">${work.dateBegin }至${work.dateEnd }</div>
+								<div style="float: left;"><p><strong style="color:#727272; font-size:16px;">${work.jobTitle }</strong></p></div>
+								<div style="float: right"><p><strong style="color:#727272; font-size:16px;">${work.dateBegin }至${work.dateEnd }</strong></p></div>
 								<div style="clear: both;"></div>
 							</div>
 							<br>
-							<p>${work.description }</p>
+							<p><strong style="color:#727272; font-size:16px;">${work.description }</strong></p>
 						</div>
 						
 					</c:forEach>
@@ -108,15 +116,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 		</div>
 		
-		<!-- 专长 -->
+		<!-- 特长信息 -->
 		<div class="row">
-			<div class="col-md-6 col-md-offset-3">
-				<div class="panel panel-primary">
-					<div class="panel-heading">
-						专长
+			<div class="col-md-8 col-md-offset-2 jumbotron">
+				<div class="">
+					<div class="" style="font-size:18px;">
+						<div style="float:left;"><p><strong>特长信息</strong></p></div>
+						<div style="clear:both;"></div>
+						<hr style="height:4px; border-top:2px solid #e4dddd;"/>
 					</div>
 					<div class="panel-body">
-						<p>${resume.speciality }</p>
+						<p><strong style="color:#727272; font-size:16px;">${resume.speciality }</strong></p>
 					</div>
 				</div>
 			</div>
@@ -124,13 +134,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		
 		<!-- 奖惩信息 -->
 		<div class="row">
-			<div class="col-md-6 col-md-offset-3">
-				<div class="panel panel-primary">
-					<div class="panel-heading">
-						奖惩信息
+			<div class="col-md-8 col-md-offset-2 jumbotron">
+				<div class="">
+					<div class="" style="font-size:18px;">
+						<div style="float:left;"><p><strong>奖惩信息</strong></p></div>
+						<div style="clear:both;"></div>
+						<hr style="height:4px; border-top:2px solid #e4dddd;"/>
 					</div>
 					<div class="panel-body">
-						<p>${resume.rewardAndPunishment }</p>
+						<p><strong style="color:#727272; font-size:16px;">${resume.rewardAndPunishment }</strong></p>
 					</div>
 				</div>
 			</div>
@@ -138,13 +150,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		
 		<!-- 其他信息 -->
 		<div class="row">
-			<div class="col-md-6 col-md-offset-3">
-				<div class="panel panel-primary">
-					<div class="panel-heading">
-						其他信息
+			<div class="col-md-8 col-md-offset-2 jumbotron">
+				<div class="">
+					<div class="" style="font-size:18px;">
+						<div style="float:left;"><p><strong>其他信息</strong></p></div>
+						<div style="clear:both;"></div>
+						<hr style="height:4px; border-top:2px solid #e4dddd;"/>
 					</div>
 					<div class="panel-body">
-						<p>${resume.otherInfo }</p>
+						<p><strong style="color:#727272; font-size:16px;">${resume.otherInfo }</strong></p>
 					</div>
 				</div>
 			</div>

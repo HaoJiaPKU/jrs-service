@@ -33,7 +33,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 	<div class="container">
 		<div class="row">
-			<div class="col-md-8 col-md-offset-2 jumbotron">
+			<div class="col-md-10 col-md-offset-1 jumbotron">
 				<div class="">
 					<div class="" style="font-size:18px;">
 						<p><strong>${position.title }</strong></p>
@@ -72,7 +72,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								<p><strong style="color:#727272; font-size:16px;">招聘人数：${position.recruitNum }</strong></p>
 							</div>
 							<div class="col-md-4">
-								<p><strong style="color:#727272; font-size:16px;">发布时间：${position.uploadTime }</strong></p>
+								<p><strong style="color:#727272; font-size:16px;">发布时间：${position.uploadTime.toString().substring(0, 10) }</strong></p>
 							</div>
 						</div>
 						<br>

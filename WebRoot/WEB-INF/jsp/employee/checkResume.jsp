@@ -144,12 +144,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 		</div>
 		
-		<!-- 专长 -->
+		<!-- 特长信息 -->
 		<div class="row">
 			<div class="col-md-8 col-md-offset-2 jumbotron">
 				<div class="">
 					<div class="" style="font-size:18px;">
-						<div style="float:left;"><p><strong>专长</strong></p></div>
+						<div style="float:left;"><p><strong>特长信息</strong></p></div>
 						<div style="float: right">
 							<a class="cursor:pointer;" style="color:#33aeb7;" href="resume/updateSpeciality">编辑</a>
 						</div>

@@ -21,6 +21,8 @@
 <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 <meta http-equiv="description" content="This is my page">
 <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="bootstrap/rewritecss/content.css" rel="stylesheet">
+
 <style>
 body {
 	padding-top: 80px;
@@ -36,11 +38,6 @@ body {
 	<div class="container">
 		<div class="row">
 			<div class="col-md-8">
-				<%
-					String key = (String) request.getAttribute("key");
-					System.out.println(key);
-				%>
-				<!-- 搜索栏 -->
 				<form action="search/searchPosition" method="post"
 					class="form-inline">
 					<input style="width:85%" type="text" name="key" value="${key}"
@@ -48,12 +45,15 @@ body {
 					<input type="hidden" name="offset" value="0">
 					<button type="submit" class="btn btn-lg btn-primary">职位搜索</button>
 				</form>
-				<br>
-
+			</div>
+			
+			<%
+				Pager<AbstractPosition> pager = (Pager<AbstractPosition>) request
+						.getAttribute("searchResult");
+				for (AbstractPosition abs : pager.getDatas()) {
+			%>
+			<div class="col-md-8 content-list">
 				<%
-					Pager<AbstractPosition> pager = (Pager<AbstractPosition>) request
-							.getAttribute("searchResult");
-					for (AbstractPosition abs : pager.getDatas()) {
 						if (abs instanceof PositionJobpopo) {
 							PositionJobpopo position = (PositionJobpopo) abs;
 				%>
@@ -96,10 +96,14 @@ body {
 					}
 				%>
 				<br> 
-				<%
-					}
-				%>
-
+			</div>
+			<%
+				}
+			%>
+		</div>
+		
+		<div class="row">
+			<div class="col-md-8">
 				<!-- 分页 -->
 				<ul class="pagination">
 					<c:if test="${searchResult.offset > 0 }">
@@ -126,8 +130,8 @@ body {
 				</ul>
 				<!-- 分页 -->
 			</div>
-			<!-- /.container -->
 		</div>
+		<!-- /.container -->
 	</div>
 	<!-- js在最后加载 -->
 	<script src="bootstrap/js/jquery-1.11.3.min.js"></script>

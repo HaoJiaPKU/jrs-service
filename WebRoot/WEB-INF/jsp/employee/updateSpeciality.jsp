@@ -10,7 +10,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>更新专长</title>
+    <title>更新特长信息</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -36,7 +36,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<div class="col-md-8 col-md-offset-2 jumbotron">
 				<div class="">
 					<div class="" style="font-size:18px;">
-						<p><strong>专长信息</strong></p>
+						<p><strong>特长信息</strong></p>
 					</div>
 					<hr style="height:4px; border-top:2px solid #e4dddd;"/>
 					

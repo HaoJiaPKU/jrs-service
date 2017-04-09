@@ -33,29 +33,29 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 	<div class="container">
 		<div class="row">
-			<div class="col-md-4 col-md-offset-4">
+			<div class="col-md-8 col-md-offset-2 jumbotron">
 			 	<form class="form-horizontal" action="employer/regist" method="post">
 					<div class="form-group">
-						<label for="companyname" class="col-sm-3 control-label">企业名称</label>
+						<label for="companyname" class="col-sm-2 control-label">企业名称</label>
 						<div class="col-sm-9"><input type="text" name="companyname" id="comoanyname" class="form-control"
 							placeholder="企业名称" required autofocus></div>
 					</div>	
 					<div class="form-group">
-						<label class="col-sm-3 control-label">公司地址</label>
+						<label class="col-sm-2 control-label">公司地址</label>
 							<div class="col-sm-3"><input type="text" name="province" id="province" class="form-control"
 								placeholder="省" required></div>
 							<label for="province" class="col-sm-1 control-label">省</label>
-							<div class="col-sm-3"><input type="text" name="city" id="city" class="form-control"
+							<div class="col-sm-3 col-md-offset-1"><input type="text" name="city" id="city" class="form-control"
 								placeholder="市" required></div>
 							<label for="city" class="col-sm-1 control-label">市</label>
 					</div>	
 					<div class="form-group">
-						<label class="col-sm-3 control-label" for="linkman">联系人</label>
+						<label class="col-sm-2 control-label" for="linkman">联系人</label>
 						<div class="col-sm-9"><input type="text" name="linkman" class="form-control"
 							placeholder="联系人" required></div>
 					</div>	
 					<div class="form-group">
-						<label class="control-label col-sm-3">性别</label>
+						<label class="control-label col-sm-2">性别</label>
 						<div class="col-sm-9">
 							<label class="radio-inline">
 							  <input type="radio" name="gender" value="男"> 男
@@ -66,7 +66,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						</div>
 					</div>	
 					<div class="form-group">
-						<label class="col-sm-3 control-label" for="phone">联系电话</label>
+						<label class="col-sm-2 control-label" for="phone">联系电话</label>
 						<div class="col-sm-9"><input type="text" name="phone" class="form-control"
 							placeholder="联系电话" required></div>
 					</div>
@@ -74,17 +74,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<hr>
 					
 					<div class="form-group">
-						<label class="col-sm-3 control-label" for="email">邮箱</label>
+						<label class="col-sm-2 control-label" for="email">邮箱</label>
 						<div class="col-sm-9"><input type="text" name="email" class="form-control"
 							placeholder="邮箱" required></div>
 					</div>	
 					<div class="form-group">
-						<label class="col-sm-3 control-label" for="password">密码</label>
+						<label class="col-sm-2 control-label" for="password">密码</label>
 						<div class="col-sm-9"><input type="password" name="password" class="form-control"
 							placeholder="密码" required>	</div>
 					</div>	
 					<div class="form-group">
-						<div class="col-md-3 col-md-offset-4"><button class="btn btn-primary btn-block" type="submit">注册</button></div>
+						<div class="col-md-3 col-md-offset-2"><button class="btn btn-primary btn-block" type="submit">注册</button></div>
 					</div>
 				</form>
 			</div>

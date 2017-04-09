@@ -19,6 +19,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
 	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link href="bootstrap/rewritecss/content.css" rel="stylesheet">
+	
 	<style>
 		body {
 			padding-top: 80px;		
@@ -41,36 +43,52 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<input type="hidden" name="offset" value="0">
 					<button type="submit" class="btn btn-lg btn-primary">简历搜索</button>
 				</form>
-				<br>
-			
-				<%	Pager<AbstractResume> pager = (Pager<AbstractResume>) request
-							.getAttribute("searchResult");%>
-				<%	for (AbstractResume abs : pager.getDatas()) { %>
-						<!-- 本网站的简历 -->		
-				<%		if (abs instanceof ResumeJobpopo) {  %>
-				<%			ResumeJobpopo resume = (ResumeJobpopo) abs;  %>
+			</div>
+			<%	Pager<AbstractResume> pager = (Pager<AbstractResume>) request
+						.getAttribute("searchResult");
+				for (AbstractResume abs : pager.getDatas()) { 
+			%>
+		
+			<div class="col-md-8 content-list">
+				<!-- 本网站的简历 -->		
+				<%		if (abs instanceof ResumeJobpopo) {
+							ResumeJobpopo resume = (ResumeJobpopo) abs;
+				%>
 				<h4>
-					<a href="position/checkResume?employeeId=<%=resume.getEmployeeId()%>" target="_blank"><%=resume.getName()+"-"+resume.getEducationBackground()%></a>
+					<a href="position/checkResume?employeeId=<%=resume.getEmployeeId()%>" target="_blank"><%=resume.getName()%> &nbsp &nbsp 简历</a>
 				</h4>
+				<p>
+					<%=resume.getUploadTime().toString().substring(0, 10)%>
+					&nbsp &nbsp &nbsp &nbsp &nbsp
+					<%=resume.getEducationBackground()%>
+					<% if (resume.getIndustryIntension() != null && resume.getIndustryIntension().length() > 0) {%>
+					&nbsp &nbsp &nbsp &nbsp &nbsp
+					期望行业：<%=resume.getIndustryIntension()%>
+					<% }%>
+					<% if (resume.getCategoryIntension() != null && resume.getCategoryIntension().length() > 0) {%>
+					&nbsp &nbsp &nbsp &nbsp &nbsp
+					期望职位：<%=resume.getCategoryIntension()%>
+					<% }%>
+				</p>
 				
-						<!-- 51job上的简历 -->
+				<!-- 51job上的简历 -->
 				<%		} else { %>
 				<%			Resume51Job resume = (Resume51Job)abs;  %>
 				
 				<h4>
-					<a href="<%=resume.getPath()%>" target="_blank">查看完整简历</a>
+					<a href="<%=resume.getPath()%>" target="_blank">简历</a>
 				</h4>
-				<iframe width="100%" height="30%" border="1" src="<%=resume.getPath()%>" style="zoom:0.5;"></iframe>
+				<p><iframe width="100%" height="30%" border="1" src="<%=resume.getPath()%>" style="zoom:0.5;"></iframe></p>
+				<%
+					}
+				%>
 				<br>
-
-				<%
-					}
-				%>
-				<br> 
-				<%
-					}
-				%>
-				  	
+			</div>
+			<%
+				}
+			%>
+			
+			<div class="col-md-8"> 	
 				<!-- 分页 -->
 			  	<ul class="pagination">
 			  		<c:if test="${searchResult.offset > 0 }">

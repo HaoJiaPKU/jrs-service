@@ -34,54 +34,56 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 	<div class="container">
 		<div class="row">
-			<div class="col-md-8 col-md-offset-2">
-				<div class="panel panel-primary">
-					<div class="panel-heading">
-						<h4>${position.title }</h4>
+			<div class="col-md-10 col-md-offset-1 jumbotron">
+				<div class="">
+					<div class="" style="font-size:18px;">
+						<div style="float:left;"><p><strong>${position.title }</strong></p></div>
+						<div style="clear: both;"></div>
+						<hr style="height:4px; border-top:2px solid #e4dddd;"/>
 					</div>
 					<div class="panel-body">
-						<p><font color="#428bca">来自：</font>${position.company }</p>
+						<p><strong style="font-size:16px;">来自：</strong><strong style="color:#727272; font-size:16px;">${position.company }</strong></p>
 						<br>
 						<div class="row">
 							<div class="col-md-4">
-								<p><font color="#428bca">公司行业：</font>${position.business }</p>
+								<p><strong style="font-size:16px;">公司行业：</strong><strong style="color:#727272; font-size:16px;">${position.business }</strong></p>
 							</div>
 							<div class="col-md-4">
-								<p><font color="#428bca">公司规模：</font>${position.scale }</p>
+								<p><strong style="font-size:16px;">公司规模：</strong><strong style="color:#727272; font-size:16px;">${position.scale }</strong></p>
 							</div>
 							<div class="col-md-4">
-								<p><font color="#428bca">公司类型：</font>${position.type }</p>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-4">
-								<p><font color="#428bca">薪资：</font>${position.salary }</p>
-							</div>
-							<div class="col-md-4">
-								<p><font color="#428bca">学历：</font>${position.degree }</p>
-							</div>
-							<div class="col-md-4">
-								<p><font color="#428bca">工作地点：</font>${position.city }</p>
+								<p><strong style="font-size:16px;">公司类型：</strong><strong style="color:#727272; font-size:16px;">${position.type }</strong></p>
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-md-4">
-								<p><font color="#428bca">职位名称：</font>${position.position }</p>
+								<p><strong style="font-size:16px;">薪资：</strong><strong style="color:#727272; font-size:16px;">${position.salary }</strong></p>
 							</div>
 							<div class="col-md-4">
-								<p><font color="#428bca">招聘人数：</font>${position.recruitNum }</p>
+								<p><strong style="font-size:16px;">学历：</strong><strong style="color:#727272; font-size:16px;">${position.degree }</strong></p>
 							</div>
 							<div class="col-md-4">
-								<p><font color="#428bca">发布时间：</font>${position.uploadTime }</p>
+								<p><strong style="font-size:16px;">工作地点：</strong><strong style="color:#727272; font-size:16px;">${position.city }</strong></p>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-4">
+								<p><strong style="font-size:16px;">职位名称：</strong><strong style="color:#727272; font-size:16px;">${position.position }</strong></p>
+							</div>
+							<div class="col-md-4">
+								<p><strong style="font-size:16px;">招聘人数：</strong><strong style="color:#727272; font-size:16px;">${position.recruitNum }</strong></p>
+							</div>
+							<div class="col-md-4">
+								<p><strong style="font-size:16px;">发布时间：</strong><strong style="color:#727272; font-size:16px;">${position.uploadTime.toString().substring(0, 10) }</strong></p>
 							</div>
 						</div>
 						<br>
 						
-						<font color="#428bca">职位描述：</font><br><br>
+						<p><strong style="font-size:16px;">职位描述：</strong></p>
 						<%request.setAttribute("enter", "\n"); %>
 						<c:set value="${ fn:split(position.description, enter) }" var="description" />
 						<c:forEach items="${ description }" var="desc">
-							<p>${ desc } </p>
+							<p><strong style="color:#727272; font-size:16px;">${ desc } </strong></p>
 						</c:forEach>
 						
 					</div>

@@ -33,7 +33,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 	<div class="container">
 		<div class="row">
-			<div class="col-md-8 col-md-offset-2">
+			<div class="col-md-8 col-md-offset-2 jumbotron">
 				<table class="table">
 					<tr>
 						<th>标题</th><th>发布时间</th><th></th><th></th><th></th>

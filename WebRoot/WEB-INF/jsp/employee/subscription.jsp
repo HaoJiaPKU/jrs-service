@@ -43,11 +43,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div class="container">
 		<!-- 基本信息 -->
 		<div class="row">
-			<div class="col-md-6 col-md-offset-3">
-				<div class="panel panel-primary">
-					<div class="panel-heading">
-						订阅推送
+			<div class="col-md-8 col-md-offset-2 jumbotron">
+				<div class="">
+					<div class="" style="font-size:18px;">
+						<p><strong>订阅推送</strong></p>
 					</div>
+					<hr style="height:4px; border-top:2px solid #e4dddd;"/>
 					
 					<div class="panel-body">
 						<form class="form-horizontal" action="employee/update" method="post" id="subscriptionForm">

@@ -139,7 +139,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								<div class="col-md-6 col-md-offset-3"><p><strong style="color:#727272; font-size:16px;">建议图片大小：150*150</strong></p></div>
 							</div>
 							<div class="form-group">
-								<label for="speciality" class="col-md-3 control-label">专长</label>
+								<label for="speciality" class="col-md-3 control-label">特长信息</label>
 								<div class="col-md-9">
 									<textarea name="speciality" id="speciality" class="form-control" rows="3"></textarea>
 								</div>

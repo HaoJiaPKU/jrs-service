@@ -19,6 +19,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
 	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link href="bootstrap/rewritecss/content.css" rel="stylesheet">
+	
 	<style>
 		body {
 			padding-top: 80px;
@@ -34,43 +36,75 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 	<div class="container">
 		<div class="row">
-			<div class="col-md-7">
-				<%	Pager<MatchResume> relevancePager = (Pager<MatchResume>) session.getAttribute("relevancePager");%>
-				<%	for (MatchResume match : relevancePager.getDatas()) { %>
+			<div class="col-md-11">
+			
+				<div class="row content-list">
+					<div class="col-md-9">
+						<h4>简历信息</h4>
+					</div>
+					<div class="col-md-3">
+						<h4>相关度</h4>
+					</div>
+				</div>
+				
+			<%	Pager<MatchResume> relevancePager = (Pager<MatchResume>) session.getAttribute("relevancePager");
+				for (MatchResume match : relevancePager.getDatas()) {
+			%>
+			<div class="row content-list">
+			<div class="col-md-8">
 						<!-- 本网站的简历 -->		
 				<%		if (match.getResume() instanceof ResumeJobpopo) {  %>
 				<%			ResumeJobpopo resume = (ResumeJobpopo) match.getResume();  %>
-				<h3>
-					<a href="position/checkResume?employeeId=<%=resume.getEmployeeId()%>" target="_blank"><%=resume.getName()+"-"+resume.getEducationBackground()%></a>
-				</h3>
-					相关度：<%=match.getRelevance() %>
+				<h4>
+					<a href="position/checkResume?employeeId=<%=resume.getEmployeeId()%>" target="_blank"><%=resume.getName()%> &nbsp &nbsp 简历</a>
+				</h4>
+				<p>
+					<%=resume.getUploadTime().toString().substring(0, 10)%>
+					&nbsp &nbsp &nbsp &nbsp &nbsp
+					<%=resume.getEducationBackground()%>
+					<% if (resume.getIndustryIntension() != null && resume.getIndustryIntension().length() > 0) {%>
+					&nbsp &nbsp &nbsp &nbsp &nbsp
+					期望行业：<%=resume.getIndustryIntension()%>
+					<% }%>
+					<% if (resume.getCategoryIntension() != null && resume.getCategoryIntension().length() > 0) {%>
+					&nbsp &nbsp &nbsp &nbsp &nbsp
+					期望职位：<%=resume.getCategoryIntension()%>
+					<% }%>
+				</p>
 				
 						<!-- 51job上的简历 -->
 				<%		} else { %>
 				<%			Resume51Job resume = (Resume51Job)match.getResume();  %>
 				
-				<h3>
-					<a href="<%=resume.getPath()%>" target="_blank">查看完整简历</a>
-				</h3>
-					相关度：<%=(double)((int)(match.getRelevance() * 100000)) / 1000.0%>
+				<h4>
+					<a href="<%=resume.getPath()%>" target="_blank">简历</a>
+				</h4>
 				
-				<iframe width="110%" height="30%" border="1" src="<%=resume.getPath()%>" style="zoom:0.5;"></iframe>
-				<br>
+				<p><iframe width="100%" height="30%" border="1" src="<%=resume.getPath()%>" style="zoom:0.5;"></iframe></p>
 
 				<%
 					}
 				%>
-				<br> 
-				<%
-					}
-				%>
-				
+				<br>
 			</div>
+			<div class="col-md-3" style="vertical-align:middle; text-align:center;">
+				<div style="height:2px; width:100%"></div>
+				<p style="color:#11cccc;">
+					<font style="font-size:40px;">
+						<%=(double)((int)(Math.pow(match.getRelevance(), 0.25) * 10000)) / 100.0%>
+					</font>
+					<font>%</font>
+				</p>
+			</div>
+			</div>
+			<%
+				}
+			%>
 		</div>
 	
 		<!-- 分页 -->
 		<div class="row">
-			<div class="col-md-8 col-md-offset-2">
+			<div class="col-md-8">
 				<ul class="pagination">
 					<c:if test="${relevancePager.offset > 0 }">
 						<li><a
@@ -95,8 +129,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</ul>
 			</div>
 		</div>
-
-
+		</div>
 	</div>
 	<!-- js在最后加载 -->
 	<script type="text/javascript" src="bootstrap/js/jquery-1.11.3.min.js" charset="UTF-8"></script>
