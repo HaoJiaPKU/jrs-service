@@ -45,7 +45,7 @@ import cn.edu.pku.search.domain.AbstractResume;
 import cn.edu.pku.search.domain.Education;
 import cn.edu.pku.search.domain.MatchPosition;
 import cn.edu.pku.search.domain.MatchResume;
-import cn.edu.pku.search.domain.Pager;
+import cn.edu.pku.search.domain.ResultPage;
 import cn.edu.pku.search.domain.PositionJobpopo;
 import cn.edu.pku.search.domain.Position;
 import cn.edu.pku.search.domain.PositionTag;
@@ -127,7 +127,7 @@ public class SearchServiceImpl implements SearchService {
 		this.positionTagDAO = positionTagDAO;
 	}
 
-	public Pager<AbstractPosition> searchPosition(String field, String queryString,
+	public ResultPage<AbstractPosition> searchPosition(String field, String queryString,
 			int offset) {
 //		KnowledgeBase.setSkillFile(100, FilePath.nlpPath+"skillList top100.txt");
 //		KnowledgeBase.setSimilFile(FilePath.nlpPath+"similarity matrix.txt");
@@ -144,7 +144,7 @@ public class SearchServiceImpl implements SearchService {
 //		}
 		String index = FilePath.positionIndex;
 
-		Pager<AbstractPosition> res = null; 
+		ResultPage<AbstractPosition> res = null; 
 		
 		try (IndexReader reader = DirectoryReader.open(FSDirectory.open(Paths
 				.get(index)))){
@@ -172,11 +172,11 @@ public class SearchServiceImpl implements SearchService {
 	}
 
 	@Override
-	public Pager<AbstractResume> searchResume(String field, String queryString,
+	public ResultPage<AbstractResume> searchResume(String field, String queryString,
 			int offset) {
 		String index = FilePath.resumeIndex;
 
-		Pager<AbstractResume> res = null; 
+		ResultPage<AbstractResume> res = null; 
 		
 		try (IndexReader reader = DirectoryReader.open(FSDirectory.open(Paths
 				.get(index)))){
@@ -651,7 +651,7 @@ public class SearchServiceImpl implements SearchService {
 
 	@Transactional
 	@Override
-	public Pager<MatchPosition> listMatchPosition(long employeeId,
+	public ResultPage<MatchPosition> listMatchPosition(long employeeId,
 			int offset) {
 		List<Relevance> list = relevanceDAO.listRelevanceForEmployee(employeeId, offset);
 		List<MatchPosition> matchList = new ArrayList<>();
@@ -673,7 +673,7 @@ public class SearchServiceImpl implements SearchService {
 				matchList.add(match);
 			}
 		}
-		Pager<MatchPosition> relevancePager = new Pager<>();
+		ResultPage<MatchPosition> relevancePager = new ResultPage<>();
 		relevancePager.setDatas(matchList);
 		relevancePager.setOffset(offset);
 		relevancePager.setSize(SystemContext.getSize());
@@ -683,7 +683,7 @@ public class SearchServiceImpl implements SearchService {
 	
 	@Transactional
 	@Override
-	public Pager<MatchResume> listMatchResume(long positionId, int offset) {
+	public ResultPage<MatchResume> listMatchResume(long positionId, int offset) {
 		List<Relevance> list = relevanceDAO.listRelevanceForEmployer(positionId, offset);
 		List<MatchResume> matchList = new ArrayList<>();
 		for(Relevance rel : list) {
@@ -697,7 +697,7 @@ public class SearchServiceImpl implements SearchService {
 				matchList.add(match);
 			}
 		}
-		Pager<MatchResume> relevancePager = new Pager<>();
+		ResultPage<MatchResume> relevancePager = new ResultPage<>();
 		relevancePager.setDatas(matchList);
 		relevancePager.setOffset(offset);
 		relevancePager.setSize(SystemContext.getSize());
@@ -705,11 +705,11 @@ public class SearchServiceImpl implements SearchService {
 		return relevancePager;
 	}
 	
-	private Pager<AbstractPosition> doPagingSearchPosition(IndexSearcher searcher,
+	private ResultPage<AbstractPosition> doPagingSearchPosition(IndexSearcher searcher,
 			Query query, int offset)
 			throws IOException {
 
-		Pager<AbstractPosition> res = new Pager<>();
+		ResultPage<AbstractPosition> res = new ResultPage<>();
 		List<AbstractPosition> list = new ArrayList<>();
 		int hitsPerPage = SystemContext.getSize();
 
@@ -751,11 +751,11 @@ public class SearchServiceImpl implements SearchService {
 		return res;
 	}
 
-	private Pager<AbstractResume> doPagingSearchResume(IndexSearcher searcher,
+	private ResultPage<AbstractResume> doPagingSearchResume(IndexSearcher searcher,
 			Query query, int offset)
 			throws IOException {
 
-		Pager<AbstractResume> res = new Pager<>();
+		ResultPage<AbstractResume> res = new ResultPage<>();
 		List<AbstractResume> list = new ArrayList<>();
 		int hitsPerPage = SystemContext.getSize();
 

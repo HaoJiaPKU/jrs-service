@@ -51,7 +51,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</div>
 				
 				<%
-				Pager<MatchPosition> pager = (Pager<MatchPosition>) session
+				ResultPage<MatchPosition> pager = (ResultPage<MatchPosition>) session
 						.getAttribute("relevancePager");
 				for (MatchPosition match : pager.getDatas()) {
 					long pid = 0;

@@ -4,7 +4,7 @@ import cn.edu.pku.search.domain.AbstractPosition;
 import cn.edu.pku.search.domain.AbstractResume;
 import cn.edu.pku.search.domain.MatchPosition;
 import cn.edu.pku.search.domain.MatchResume;
-import cn.edu.pku.search.domain.Pager;
+import cn.edu.pku.search.domain.ResultPage;
 
 public interface SearchService {
 
@@ -15,7 +15,7 @@ public interface SearchService {
 	 * @param offset 偏移量
 	 * @return 
 	 */
-	public Pager<AbstractPosition> searchPosition(String field, String queryString,int offset);
+	public ResultPage<AbstractPosition> searchPosition(String field, String queryString,int offset);
 
 	/**
 	 * 搜索简历信息
@@ -24,7 +24,7 @@ public interface SearchService {
 	 * @param offset 偏移量
 	 * @return
 	 */
-	public Pager<AbstractResume> searchResume(String field, String queryString,int offset);
+	public ResultPage<AbstractResume> searchResume(String field, String queryString,int offset);
 	
 	/**
 	 * 为求职者更新简历与招聘信息相关度
@@ -44,7 +44,7 @@ public interface SearchService {
 	 * @param offset 偏移量
 	 * @return
 	 */
-	public Pager<MatchPosition> listMatchPosition(long employeeId, int offset);
+	public ResultPage<MatchPosition> listMatchPosition(long employeeId, int offset);
 	
 	/**
 	 * 为企业列出匹配的简历信息
@@ -52,6 +52,6 @@ public interface SearchService {
 	 * @param offset
 	 * @return
 	 */
-	public Pager<MatchResume> listMatchResume(long positionId, int offset);
+	public ResultPage<MatchResume> listMatchResume(long positionId, int offset);
 	
 }

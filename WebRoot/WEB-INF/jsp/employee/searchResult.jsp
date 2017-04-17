@@ -48,7 +48,7 @@ body {
 			</div>
 			
 			<%
-				Pager<AbstractPosition> pager = (Pager<AbstractPosition>) request
+				ResultPage<AbstractPosition> pager = (ResultPage<AbstractPosition>) request
 						.getAttribute("searchResult");
 				for (AbstractPosition abs : pager.getDatas()) {
 			%>

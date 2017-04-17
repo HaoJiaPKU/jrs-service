@@ -47,7 +47,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</div>
 				</div>
 				
-			<%	Pager<MatchResume> relevancePager = (Pager<MatchResume>) session.getAttribute("relevancePager");
+			<%	ResultPage<MatchResume> relevancePager = (ResultPage<MatchResume>) session.getAttribute("relevancePager");
 				for (MatchResume match : relevancePager.getDatas()) {
 			%>
 			<div class="row content-list">

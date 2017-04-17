@@ -44,7 +44,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<button type="submit" class="btn btn-lg btn-primary">简历搜索</button>
 				</form>
 			</div>
-			<%	Pager<AbstractResume> pager = (Pager<AbstractResume>) request
+			<%	ResultPage<AbstractResume> pager = (ResultPage<AbstractResume>) request
 						.getAttribute("searchResult");
 				for (AbstractResume abs : pager.getDatas()) { 
 			%>

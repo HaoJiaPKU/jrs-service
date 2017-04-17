@@ -8,7 +8,7 @@ import java.util.List;
  *
  * @param <T> 数据类型
  */
-public class Pager<T> {
+public class ResultPage<T> {
 
 	private List<T> datas;
 	private int offset; //偏移量

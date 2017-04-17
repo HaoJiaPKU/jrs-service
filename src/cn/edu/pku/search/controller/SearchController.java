@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import cn.edu.pku.search.domain.AbstractPosition;
 import cn.edu.pku.search.domain.AbstractResume;
 import cn.edu.pku.search.domain.MatchResume;
-import cn.edu.pku.search.domain.Pager;
+import cn.edu.pku.search.domain.ResultPage;
 import cn.edu.pku.search.domain.MatchPosition;
 import cn.edu.pku.search.service.PositionService;
 import cn.edu.pku.search.service.SearchService;
@@ -85,7 +85,7 @@ public class SearchController {
 			return "../employee.jsp";
 		}
 		
-		Pager<AbstractPosition> searchResult
+		ResultPage<AbstractPosition> searchResult
 			= searchService.searchPosition("content", key,offset);
 		
 		req.setAttribute("searchResult", searchResult);
@@ -108,7 +108,7 @@ public class SearchController {
 		}
 		String key = req.getParameter("key");
 		int offset = Integer.parseInt(req.getParameter("offset"));
-		Pager<AbstractResume> searchResult;
+		ResultPage<AbstractResume> searchResult;
 		if(key == null || key.equals("")) {
 			return "../employer.jsp";
 		}
@@ -161,7 +161,7 @@ public class SearchController {
 		List<EmployeeTag> employeeTagList = employeeService.listEmployeeTag(employee.getId());
 		session.setAttribute("employeeTagList", employeeTagList);
 		int offset = Integer.parseInt(req.getParameter("offset"));
-		Pager<MatchPosition> relevancePager = searchService.listMatchPosition(employeeId, offset);
+		ResultPage<MatchPosition> relevancePager = searchService.listMatchPosition(employeeId, offset);
 		session.removeAttribute("relevancePager");
 		session.setAttribute("relevancePager", relevancePager);
 		return "../WEB-INF/jsp/employee/listMatchPosition.jsp";
@@ -171,7 +171,7 @@ public class SearchController {
 	public String listMatchResume(HttpServletRequest req, HttpServletResponse res) {
 		long positionId = Long.parseLong(req.getParameter("positionId"));
 		int offset = Integer.parseInt(req.getParameter("offset"));
-		Pager<MatchResume> relevancePager = searchService.listMatchResume(positionId, offset);
+		ResultPage<MatchResume> relevancePager = searchService.listMatchResume(positionId, offset);
 		HttpSession session = req.getSession();
 		session.removeAttribute("relevancePager");
 		session.setAttribute("relevancePager", relevancePager);
