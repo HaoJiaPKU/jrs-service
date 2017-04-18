@@ -81,8 +81,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div class="row">
 			<div class="jumbotron">
 				<p><strong style="color:#727272;">欢迎注册成为Jobpopo用户</strong></p>
-				<p><strong style="color:#727272;">上传您的简历，我们帮您找到最适合您的职位</strong></p>
-				<p><strong style="color:#727272;">您也可以使用“职位搜索”来搜索您需要的职位</strong></p>
+				<p><strong style="color:#727272;">请上传您的简历，我们将为您推荐适合的职位</strong></p>
+				<p><strong style="color:#727272;">您也可以使用职位搜索功能寻找您需要的职位</strong></p>
 				<div class="row">
 	        		<form class="form" method="POST" action="employee/regist">
 	          			<div class="form-group">

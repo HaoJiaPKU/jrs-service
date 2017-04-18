@@ -218,7 +218,7 @@ session.getAttribute("employeeTagList");
 var myChart = echarts.init(document.getElementById('employee-tag-chart'));
 var option = {
 	    title : {
-	        text: '我的技术方向',
+	        text: '简历的潜在职位类别',
 	        textStyle: {
 	        	fontSize: 14
 	        }
@@ -229,8 +229,18 @@ var option = {
 	            indicator : [
 					<%
 						for (int i = 0; i < employeeTagList.size(); i ++) {
+							String tagName = employeeTagList.get(i).getTagName();
+							if (tagName.equals("软件工程")) {
+								tagName = "架构";
+							}
+							if (tagName.equals("网页")) {
+								tagName = "前端";
+							}
+							if (tagName.equals("数据分析")) {
+								tagName = "硬件";
+							}
 					%>
-					{text : '<%= employeeTagList.get(i).getTagName() %>', max : 32},
+					{text : '<%= tagName %>', max : 32},
 					<%
 						}
 					%>
@@ -240,7 +250,7 @@ var option = {
 	    ],
 	    series : [
 	        {
-	            name: '职位雷达图',
+	            name: '简历的潜在职位类别',
 	            type: 'radar',
 	            itemStyle: {
 	                normal: {
@@ -303,7 +313,7 @@ option = {
 	    ],
 	    series : [
 	        {
-	            name: '技术方向雷达图',
+	            name: '简历的潜在职位类别',
 	            type: 'radar',
 	            itemStyle: {
 	                normal: {
@@ -378,7 +388,7 @@ option = {
 	    ],
 	    series : [
 	        {
-	            name: '技术方向雷达图',
+	            name: '简历的潜在职位类别',
 	            type: 'radar',
 	            itemStyle: {
 	                normal: {
@@ -462,7 +472,7 @@ function changeChart(pid) {
 	%>
 	var option = {
 		    title : {
-		        text: '简历与职位技术方向比较',
+		        text: '简历与职位的类别比较',
 		        textStyle: {
 		        	fontSize: 14
 		        }
@@ -477,8 +487,18 @@ function changeChart(pid) {
 		            indicator : [
 						<%
 							for (int i = 0; i < employeeTagList.size(); i ++) {
+								String tagName = employeeTagList.get(i).getTagName();
+								if (tagName.equals("软件工程")) {
+									tagName = "架构";
+								}
+								if (tagName.equals("网页")) {
+									tagName = "前端";
+								}
+								if (tagName.equals("数据分析")) {
+									tagName = "硬件";
+								}
 						%>
-						{text : '<%= employeeTagList.get(i).getTagName() %>', max : 32},
+						{text : '<%= tagName %>', max : 32},
 						<%
 							}
 						%>
@@ -488,7 +508,7 @@ function changeChart(pid) {
 		    ],
 		    series : [
 		        {
-		            name: '技术方向雷达图',
+		            name: '简历的潜在职位类别',
 		            type: 'radar',
 		            itemStyle: {
 		                normal: {

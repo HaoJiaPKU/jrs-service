@@ -106,7 +106,7 @@ public class PositionController {
 			int recruitNum = Integer.parseInt(req.getParameter("recruitNum"));
 			String description = new String(req.getParameter("description")
 					.getBytes("iso-8859-1"), "utf-8");
-
+System.out.println(description);
 			int attach = Integer.parseInt(req.getParameter("attachNum"));
 			String uploadTime = sFormat.format(new Date());
 			String modifyTime = uploadTime;

@@ -46,7 +46,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<div class="col-md-8 col-md-offset-2 jumbotron">
 				<div class="">
 					<div class="" style="font-size:18px;">
-						<p><strong>订阅推送</strong></p>
+						<p><strong>订阅职位信息推送</strong></p>
 					</div>
 					<hr style="height:4px; border-top:2px solid #e4dddd;"/>
 					
@@ -64,7 +64,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											class="form-control" required></div>
 							</div>
 							<div class="form-group">
-								<label for="rec-freq" class="col-sm-3 control-label">推送频率</label>
+								<label for="rec-freq" class="col-sm-3 control-label">推送时间</label>
 								<div class="col-sm-3">
 									<select name="recFreqDay" id="recFreqDay" class="form-control">
 										<option value="<%=recFreqDay%>">
@@ -177,7 +177,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											class="form-control" required></div>
 							</div>
 							<div class="form-group">
-								<label for="rec-freq" class="col-sm-3 control-label">推送频率</label>
+								<label for="rec-freq" class="col-sm-3 control-label">推送时间</label>
 								<div class="col-sm-3">
 									<select name="recFreqDay" id="recFreqDay" class="form-control">
 										<option value="<%=recFreqDay%>"></option>
