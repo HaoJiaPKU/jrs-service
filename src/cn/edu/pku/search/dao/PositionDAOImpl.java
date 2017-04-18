@@ -45,12 +45,12 @@ public class PositionDAOImpl extends HibernateDaoSupport implements
 	}
 
 	@Override
-	public PositionJobpopo loadPosition(long id) {
+	public PositionJobpopo loadPositionJobpopo(long id) {
 		return this.getHibernateTemplate().load(PositionJobpopo.class, id);
 	}
 	
 	@Override
-	public Position loadPositionBbs(long id) {
+	public Position loadPosition(long id) {
 		return this.getHibernateTemplate().load(Position.class, id);
 	}
 
@@ -64,7 +64,7 @@ public class PositionDAOImpl extends HibernateDaoSupport implements
 
 	@Override
 	public void deletePosition(long id) {
-		PositionJobpopo position = this.loadPosition(id);
+		PositionJobpopo position = this.loadPositionJobpopo(id);
 		List<Attachment> list = this.listAttachment(id);
 		for (Attachment att : list) {
 			this.deleteAttachment(att);

@@ -286,7 +286,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		List<Relevance> list = relevanceDAO.listRelevanceForEmployee(id);
 		for(int i = 0; i < 50 && i < subscriptionNum; i ++) {
 			if(list.get(i).getPositionSource() == 1) {
-				PositionJobpopo rec = positionDAO.loadPosition(list.get(i).getPositionId());
+				PositionJobpopo rec = positionDAO.loadPositionJobpopo(list.get(i).getPositionId());
 				rec.setDescription(rec.getDescription().substring(0, 100)+"...");//为了前台只显示两三行内容
 				content += "\n\n"
 						+ rec.getCompany()
@@ -294,7 +294,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 								(double)((int) (100000 * list.get(i).getRelevance())) / 1000.0) + "%\n"
 						+ "链接：" + rec.getModifyIp();
 			} else if(list.get(i).getPositionSource() == 2) {
-				Position rec = positionDAO.loadPositionBbs(list.get(i).getPositionId());
+				Position rec = positionDAO.loadPosition(list.get(i).getPositionId());
 				content += "\n\n"
 						+ rec.getPosTitle()
 						+ " 相关度：" + String.valueOf(

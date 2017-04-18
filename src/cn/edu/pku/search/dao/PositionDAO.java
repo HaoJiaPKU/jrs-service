@@ -32,14 +32,14 @@ public interface PositionDAO {
 	 * @param id
 	 * @return
 	 */
-	public PositionJobpopo loadPosition(long id);
+	public PositionJobpopo loadPositionJobpopo(long id);
 	
 	/**
 	 * 得到某条从外部爬取的招聘信息
 	 * @param id
 	 * @return
 	 */
-	public Position loadPositionBbs(long id);
+	public Position loadPosition(long id);
 	
 	/**
 	 * 删除招聘信息

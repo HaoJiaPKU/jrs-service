@@ -37,7 +37,7 @@ public class SearchController {
 	private SearchService searchService;
 	private PositionService positionService;
 
-	EmployeeService employeeService;
+	private EmployeeService employeeService;
 
 	public EmployeeService getEmployeeService() {
 		return employeeService;

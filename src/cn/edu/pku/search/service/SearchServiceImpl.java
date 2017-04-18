@@ -538,7 +538,7 @@ public class SearchServiceImpl implements SearchService {
 	@Transactional
 	@Override
 	public void updateRelevanceForEmployer(long positionId) {
-		PositionJobpopo position = positionDAO.loadPosition(positionId);
+		PositionJobpopo position = positionDAO.loadPositionJobpopo(positionId);
 		
 		try {
 
@@ -657,7 +657,7 @@ public class SearchServiceImpl implements SearchService {
 		List<MatchPosition> matchList = new ArrayList<>();
 		for(Relevance rel : list) {
 			if(rel.getPositionSource() == 1) {
-				PositionJobpopo position = positionDAO.loadPosition(rel.getPositionId());
+				PositionJobpopo position = positionDAO.loadPositionJobpopo(rel.getPositionId());
 				List<PositionTag> positionTagList = positionTagDAO.listPositionTag(rel.getPositionId());
 				if (position.getDescription().length() > 100) {
 					position.setDescription(position.getDescription().substring(0, 100) + "...");//为了前台只显示两三行内容
@@ -667,7 +667,7 @@ public class SearchServiceImpl implements SearchService {
 				MatchPosition match = new MatchPosition(employeeId, rel.getRelevance(), position, positionTagList);
 				matchList.add(match);
 			} else if(rel.getPositionSource() == 2) {
-				Position positionBBS = positionDAO.loadPositionBbs(rel.getPositionId());
+				Position positionBBS = positionDAO.loadPosition(rel.getPositionId());
 				List<PositionTag> positionTagList = positionTagDAO.listPositionTag(rel.getPositionId());
 				MatchPosition match = new MatchPosition(employeeId, rel.getRelevance(), positionBBS, positionTagList);
 				matchList.add(match);
@@ -734,13 +734,13 @@ public class SearchServiceImpl implements SearchService {
 			long id = Long.parseLong(doc.get("id"));
 			String source = doc.get("source");
 			if(source.equals("jobpopo")) {
-				PositionJobpopo position = positionDAO.loadPosition(id);
+				PositionJobpopo position = positionDAO.loadPositionJobpopo(id);
 				if(position.getDescription().length()>100) {
 					position.setDescription(position.getDescription().substring(0, 100)+"...");
 				}
 				list.add(position);
 			} else {
-				Position position = positionDAO.loadPositionBbs(id);
+				Position position = positionDAO.loadPosition(id);
 				list.add(position);
 			}
 		}

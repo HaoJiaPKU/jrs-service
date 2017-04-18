@@ -69,7 +69,7 @@ public class PositionServiceImpl implements PositionService {
 
 	@Override
 	public PositionJobpopo getPosition(long id) {
-		return positionDao.loadPosition(id);
+		return positionDao.loadPositionJobpopo(id);
 	}
 
 	@Override
