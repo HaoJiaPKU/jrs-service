@@ -410,7 +410,7 @@ public class SearchServiceImpl implements SearchService {
 			
 			for(int i = 0; ;i ++) {
 				//只计算一页
-				if (i == 0) {
+				if (i == 1) {
 					break;
 				}
 				List<Position> positionList = positionDAO.listPosition(
