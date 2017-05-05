@@ -26,9 +26,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.chenlb.mmseg4j.analysis.SimpleAnalyzer;
 
-import cn.edu.pku.gbdt.Instance;
-import cn.edu.pku.gbdt.Model;
 import cn.edu.pku.rec.gbdt.Comparator;
+import cn.edu.pku.rec.gbdt.Instance;
+import cn.edu.pku.rec.gbdt.Model;
+import cn.edu.pku.rec.gbdt.SimilarityProcessor;
 import cn.edu.pku.rec.gbdt.TextProcessor;
 import cn.edu.pku.rec.logit.Classifier;
 import cn.edu.pku.rec.logit.Comparer;
@@ -216,6 +217,11 @@ public class SearchServiceImpl implements SearchService {
 			model.load(FilePath.modelPath
 					+ resume.getIndustryIntension().trim().replaceAll("/", "or")
 					+ ".gbdt.model.json");
+			SimilarityProcessor sp = new SimilarityProcessor();
+			sp.load(FilePath.simPath
+					+ resume.getIndustryIntension().trim().replaceAll("/", "or")
+					+ ".sim.json");
+			
 			TextProcessor tp = new TextProcessor();
 			Comparator comparator = new Comparator();
 			
@@ -317,7 +323,8 @@ public class SearchServiceImpl implements SearchService {
 							resumeIns,
 							positionIns,
 							distributionResume,
-							distributionPosition);
+							distributionPosition,
+							sp.sim);
 					Relevance relevance = new Relevance(employeeId, 0, 2, position.getId(), rel);
 					relevanceDAO.update(relevance);
 					logger.info(rel);
@@ -399,7 +406,8 @@ public class SearchServiceImpl implements SearchService {
 							resumeIns,
 							positionIns,
 							distributionResume,
-							distributionPosition);
+							distributionPosition,
+							sp.sim);
 					Relevance relevance = new Relevance(employeeId, 0, 2, position.getId(), rel);
 					relevanceDAO.update(relevance);
 					logger.info(rel);
@@ -459,7 +467,8 @@ public class SearchServiceImpl implements SearchService {
 							resumeIns,
 							positionIns,
 							distributionResume,
-							distributionPosition);
+							distributionPosition,
+							sp.sim);
 					Relevance relevance = new Relevance(employeeId, 0, 2, position.getId(), rel);
 					relevanceDAO.update(relevance);
 					logger.info(rel);
@@ -519,7 +528,8 @@ public class SearchServiceImpl implements SearchService {
 							resumeIns,
 							positionIns,
 							distributionResume,
-							distributionPosition);
+							distributionPosition,
+							sp.sim);
 					Relevance relevance = new Relevance(employeeId, 0, 1, position.getId(), rel);
 					relevanceDAO.update(relevance);
 					logger.info(rel);

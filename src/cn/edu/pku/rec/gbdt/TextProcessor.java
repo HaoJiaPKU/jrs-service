@@ -3,8 +3,6 @@ package cn.edu.pku.rec.gbdt;
 import java.io.IOException;
 import java.util.List;
 
-import cn.edu.pku.gbdt.Instance;
-import cn.edu.pku.gbdt.Model;
 import cn.edu.pku.search.domain.Education;
 import cn.edu.pku.search.domain.ResumeJobpopo;
 import cn.edu.pku.search.domain.WorkExperience;

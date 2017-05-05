@@ -1,8 +1,7 @@
 package cn.edu.pku.rec.gbdt;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-
-import cn.edu.pku.gbdt.Instance;
 
 public class Comparator {
 
@@ -10,29 +9,68 @@ public class Comparator {
 			Instance resumeIns,
 			Instance positionIns,
 			HashMap<String, Double> distributionResume,
-			HashMap<String, Double> distributionPosition) {
+			HashMap<String, Double> distributionPosition,
+			HashMap<String, ArrayList<HashMap<String, Double>>> sim) {
 		double alpha = 1.0;
 		
-		HashMap<String, Double> resumeWeight = new HashMap<String, Double>();
-		HashMap<String, Double> positionWeight = new HashMap<String, Double>();
-		double sum = 0.0;
-		HashMap<String, Double> t = resumeIns.numTypeFeature;
-		for (String word : t.keySet()) {
-			sum += t.get(word);
+//		HashMap<String, Double> resumeWeight = new HashMap<String, Double>();
+//		HashMap<String, Double> positionWeight = new HashMap<String, Double>();
+//		double sum = 0.0;
+		HashMap<String, Double> resumeWeight = (HashMap<String, Double>) resumeIns.numTypeFeature.clone();
+		HashMap<String, Double> positionWeight = (HashMap<String, Double>) positionIns.numTypeFeature.clone();
+		HashMap<String, Double> unmatch = new HashMap<String, Double>();
+//		for (String word : resumeWeight.keySet()) {
+//			System.out.print(word + "	" + resumeWeight.get(word) + "	");
+//		}
+//		System.out.println();
+		for (String word : resumeWeight.keySet()) {
+//			sum += resumeWeight.get(word);
+			if (resumeWeight.get(word) > 0 && !positionWeight.containsKey(word)) {
+				double counter = 0;
+				for (int i = 0; i < sim.get(word).size(); i ++) {
+					for (String str : sim.get(word).get(i).keySet()) {
+						if (positionWeight.containsKey(str)) {
+							counter += 1.0;
+						}
+					}
+				}
+				if (counter > 0) {
+					unmatch.put(word, counter);
+				}
+			}
 		}
-		sum += 0.000001;
-		for (String word : t.keySet()) {
-			resumeWeight.put(word, t.get(word) / sum);
+//		for (String word : resumeWeight.keySet()) {
+//			System.out.print(word + "	" + resumeWeight.get(word) + "	");
+//		}
+//		System.out.println();
+		for (String word : unmatch.keySet()) {
+			for (int i = 0; i < sim.get(word).size(); i ++) {
+				for (String str : sim.get(word).get(i).keySet()) {
+					if (positionWeight.containsKey(str)) {
+						double counter = resumeWeight.get(str);
+						resumeWeight.put(str, counter + resumeWeight.get(word) * (1.0 / unmatch.get(word)) * sim.get(word).get(i).get(str));
+					}
+				}
+			}
+			resumeWeight.put(word, 0.0);
 		}
-		sum = 0.0;
-		t = positionIns.numTypeFeature;
-		for (String word : t.keySet()) {
-			sum += t.get(word);
-		}
-		sum += 0.000001;
-		for (String word : t.keySet()) {
-			positionWeight.put(word, t.get(word) / sum);
-		}
+//		for (String word : positionWeight.keySet()) {
+//			System.out.print(word + "	" + positionWeight.get(word) + "	");
+//		}
+//		System.out.println();
+//		sum += 0.000001;
+//		for (String word : resumeWeight.keySet()) {
+//			resumeWeight.put(word, resumeWeight.get(word) / sum);
+//		}
+//		sum = 0.0;
+//		for (String word : positionWeight.keySet()) {
+//			sum += positionWeight.get(word);
+//		}
+//		sum += 0.000001;
+//		for (String word : positionWeight.keySet()) {
+//			positionWeight.put(word, positionWeight.get(word) / sum);
+//		}
+		
 		return Math.pow(vsmMatch(resumeWeight, positionWeight), alpha)
 			* Math.pow(relativeEntropyForProbability(distributionResume, distributionPosition), (1.0 - alpha));
 	}

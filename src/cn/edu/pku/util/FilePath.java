@@ -21,4 +21,6 @@ public class FilePath {
 	public static final String positionIndex = "PositionIndex";
 	
 	public static final String modelPath = "gbdt.model/";
+	
+	public static final String simPath = "sim.model/";
 }

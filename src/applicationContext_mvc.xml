@@ -21,8 +21,13 @@
     <context:annotation-config/>
     <context:component-scan base-package="cn.edu.pku" />
  
-    <!-- Enables the Spring MVC @Controller programming model -->
-    <mvc:annotation-driven />
+	<!-- Enables the Spring MVC @Controller programming model -->
+    <mvc:annotation-driven>
+    	<mvc:message-converters>
+    		<bean class="org.springframework.http.converter.StringHttpMessageConverter"/>
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
+   		</mvc:message-converters>
+	</mvc:annotation-driven>
     
     <!-- aop 配置 -->
     <aop:config>
