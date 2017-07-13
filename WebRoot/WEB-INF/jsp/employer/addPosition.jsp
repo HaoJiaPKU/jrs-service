@@ -43,63 +43,53 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<input type="hidden" name="attachNum" id="attachNum" value="0">
 					<div class="form-group">
 						<label for="title" class="col-sm-2 control-label">标题</label>
-						<div class="col-sm-9"><input name="title" type="text" id="title"
+						<div class="col-sm-4"><input name="title" type="text" id="title"
 									class="form-control"></div>
-					</div>
-					<div class="form-group">
 						<label for="position" class="col-sm-2 control-label">职位名称</label>
-						<div class="col-sm-9"><input name="position" type="text" id="position"
+						<div class="col-sm-4"><input name="position" type="text" id="position"
 									class="form-control"></div>
 					</div>
 					<div class="form-group">
 						<label for="degree" class="col-sm-2 control-label">学历要求</label>
-						<div class="col-sm-9"><input name="degree" type="text" id="degree"
+						<div class="col-sm-4"><input name="degree" type="text" id="degree"
 									class="form-control"></div>
-					</div>
-					<div class="form-group">
 						<label for="city" class="col-sm-2 control-label">工作地点</label>
-						<div class="col-sm-9"><input name="city" type="text" id="city"
+						<div class="col-sm-4"><input name="city" type="text" id="city"
 									class="form-control"></div>
 					</div>
 					<div class="form-group">
 						<label for="company" class="col-sm-2 control-label">公司名称</label>
-						<div class="col-sm-9"><input name="company" type="text" id="company"
+						<div class="col-sm-4"><input name="company" type="text" id="company"
 									class="form-control"></div>
-					</div>
-					<div class="form-group">
 						<label for="business" class="col-sm-2 control-label">公司行业</label>
-						<div class="col-sm-9"><input name="business" type="text" id="business"
+						<div class="col-sm-4"><input name="business" type="text" id="business"
 									class="form-control"></div>
 					</div>
 					<div class="form-group">
 						<label for="scale" class="col-sm-2 control-label">公司规模</label>
-						<div class="col-sm-9"><input name="scale" type="text" id="scale"
+						<div class="col-sm-4"><input name="scale" type="text" id="scale"
 									class="form-control"></div>
-					</div>
-					<div class="form-group">
 						<label for="type" class="col-sm-2 control-label">公司类型</label>
-						<div class="col-sm-9"><input name="type" type="text" id="type"
+						<div class="col-sm-4"><input name="type" type="text" id="type"
 									class="form-control"></div>
 					</div>
 					<div class="form-group">
 						<label for="salary" class="col-sm-2 control-label">月薪</label>
-						<div class="col-sm-9"><input name="salary" type="text" id="salary"
+						<div class="col-sm-4"><input name="salary" type="text" id="salary"
 									class="form-control"></div>
-					</div>
-					<div class="form-group">
 						<label for="recruitNum" class="col-sm-2 control-label">招聘人数</label>
-						<div class="col-sm-9"><input name="recruitNum" type="text" id="recruitNum"
+						<div class="col-sm-4"><input name="recruitNum" type="text" id="recruitNum"
 									class="form-control"></div>
 					</div>
 					<div class="form-group">
 						<label for="description" class="col-sm-2 control-label">职位描述</label>
-						<div class="col-sm-9">
-							<textarea name="description" id="description" class="form-control" rows="20"></textarea>
+						<div class="col-sm-10">
+							<textarea name="description" id="description" class="form-control" rows="5"></textarea>
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="attachment" class="col-sm-2 control-label">添加附件</label>
-						<div class="col-sm-9" id="attachDiv">
+						<div class="col-sm-10" id="attachDiv">
 							<input name="attachment0" type="file" id="attachment0" class="form-control">
 						</div>
 					</div>

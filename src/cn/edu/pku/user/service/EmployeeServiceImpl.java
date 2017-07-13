@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 //import java.util.Iterator;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
@@ -361,11 +362,14 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return ret;
 	}
 
-
 	@Override
 	public Employee loadEmployee(Long id) {
 		Employee employee = employeeDAO.load(id);
 		return employee;
 	}
 	
+	@PostConstruct
+	public void executeOnStart() {
+		System.out.print("load on start");
+	}
 }

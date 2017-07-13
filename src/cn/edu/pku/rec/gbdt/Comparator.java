@@ -13,23 +13,23 @@ public class Comparator {
 			HashMap<String, ArrayList<HashMap<String, Double>>> sim) {
 		double alpha = 1.0;
 		
-//		HashMap<String, Double> resumeWeight = new HashMap<String, Double>();
-//		HashMap<String, Double> positionWeight = new HashMap<String, Double>();
+//		HashMap<String, Double> resumeVector = new HashMap<String, Double>();
+//		HashMap<String, Double> positionVector = new HashMap<String, Double>();
 //		double sum = 0.0;
-		HashMap<String, Double> resumeWeight = (HashMap<String, Double>) resumeIns.numTypeFeature.clone();
-		HashMap<String, Double> positionWeight = (HashMap<String, Double>) positionIns.numTypeFeature.clone();
+		HashMap<String, Double> resumeVector = (HashMap<String, Double>) resumeIns.numTypeFeature.clone();
+		HashMap<String, Double> positionVector = (HashMap<String, Double>) positionIns.numTypeFeature.clone();
 		HashMap<String, Double> unmatch = new HashMap<String, Double>();
-//		for (String word : resumeWeight.keySet()) {
-//			System.out.print(word + "	" + resumeWeight.get(word) + "	");
+//		for (String word : resumeVector.keySet()) {
+//			System.out.print(word + "	" + resumeVector.get(word) + "	");
 //		}
 //		System.out.println();
-		for (String word : resumeWeight.keySet()) {
-//			sum += resumeWeight.get(word);
-			if (resumeWeight.get(word) > 0 && !positionWeight.containsKey(word)) {
+		for (String word : resumeVector.keySet()) {
+//			sum += resumeVector.get(word);
+			if (resumeVector.get(word) > 0 && !positionVector.containsKey(word)) {
 				double counter = 0;
 				for (int i = 0; i < sim.get(word).size(); i ++) {
 					for (String str : sim.get(word).get(i).keySet()) {
-						if (positionWeight.containsKey(str)) {
+						if (positionVector.containsKey(str)) {
 							counter += 1.0;
 						}
 					}
@@ -39,48 +39,48 @@ public class Comparator {
 				}
 			}
 		}
-//		for (String word : resumeWeight.keySet()) {
-//			System.out.print(word + "	" + resumeWeight.get(word) + "	");
+//		for (String word : resumeVector.keySet()) {
+//			System.out.print(word + "	" + resumeVector.get(word) + "	");
 //		}
 //		System.out.println();
 		for (String word : unmatch.keySet()) {
 			for (int i = 0; i < sim.get(word).size(); i ++) {
 				for (String str : sim.get(word).get(i).keySet()) {
-					if (positionWeight.containsKey(str)) {
-						double counter = resumeWeight.get(str);
-						resumeWeight.put(str, counter + resumeWeight.get(word) * (1.0 / unmatch.get(word)) * sim.get(word).get(i).get(str));
+					if (positionVector.containsKey(str)) {
+						double counter = resumeVector.get(str);
+						resumeVector.put(str, counter + resumeVector.get(word) * (1.0 / unmatch.get(word)) * sim.get(word).get(i).get(str));
 					}
 				}
 			}
-			resumeWeight.put(word, 0.0);
+			resumeVector.put(word, 0.0);
 		}
-//		for (String word : positionWeight.keySet()) {
-//			System.out.print(word + "	" + positionWeight.get(word) + "	");
+//		for (String word : positionVector.keySet()) {
+//			System.out.print(word + "	" + positionVector.get(word) + "	");
 //		}
 //		System.out.println();
 //		sum += 0.000001;
-//		for (String word : resumeWeight.keySet()) {
-//			resumeWeight.put(word, resumeWeight.get(word) / sum);
+//		for (String word : resumeVector.keySet()) {
+//			resumeVector.put(word, resumeVector.get(word) / sum);
 //		}
 //		sum = 0.0;
-//		for (String word : positionWeight.keySet()) {
-//			sum += positionWeight.get(word);
+//		for (String word : positionVector.keySet()) {
+//			sum += positionVector.get(word);
 //		}
 //		sum += 0.000001;
-//		for (String word : positionWeight.keySet()) {
-//			positionWeight.put(word, positionWeight.get(word) / sum);
+//		for (String word : positionVector.keySet()) {
+//			positionVector.put(word, positionVector.get(word) / sum);
 //		}
 		
-		return Math.pow(vsmMatch(resumeWeight, positionWeight), alpha)
+		return Math.pow(vsmMatch(resumeVector, positionVector), alpha)
 			* Math.pow(relativeEntropyForProbability(distributionResume, distributionPosition), (1.0 - alpha));
 	}
 	
-	public double wordMatch(HashMap<String, Double> resumeWeight, HashMap<String, Double> positionWeight) {
+	public double wordMatch(HashMap<String, Double> resumeVector, HashMap<String, Double> positionVector) {
 		double score = 0.0, sumOfScore = 0.0;
-		for (String word : positionWeight.keySet()) {
-			if (positionWeight.get(word) != 0) {
-				if (resumeWeight.containsKey(word)) {
-					double ratio = resumeWeight.get(word) / positionWeight.get(word);
+		for (String word : positionVector.keySet()) {
+			if (positionVector.get(word) != 0) {
+				if (resumeVector.containsKey(word)) {
+					double ratio = resumeVector.get(word) / positionVector.get(word);
 					if (ratio > 1.0) {
 						ratio = 1.0;
 					}
@@ -97,21 +97,21 @@ public class Comparator {
 		return score / sumOfScore;
 	}
 	
-	public double vsmMatch(HashMap<String, Double> resumeWeight, HashMap<String, Double> positionWeight) {
+	public double vsmMatch(HashMap<String, Double> resumeVector, HashMap<String, Double> positionVector) {
 		double score = 0.0, sumOfScore = 0.0;
 		double sumsqr = 0.0, sumsqp = 0.0;
-		for (String word : resumeWeight.keySet()) {
-			if (resumeWeight.get(word) != 0
-					&& positionWeight.containsKey(word)
-					&& positionWeight.get(word) != 0) {
-				score += resumeWeight.get(word) * positionWeight.get(word);
+		for (String word : resumeVector.keySet()) {
+			if (resumeVector.get(word) != 0
+					&& positionVector.containsKey(word)
+					&& positionVector.get(word) != 0) {
+				score += resumeVector.get(word) * positionVector.get(word);
 			}
 		}
-		for (String word : resumeWeight.keySet()) {
-			sumsqr += resumeWeight.get(word) * resumeWeight.get(word);
+		for (String word : resumeVector.keySet()) {
+			sumsqr += resumeVector.get(word) * resumeVector.get(word);
 		}
-		for (String word : positionWeight.keySet()) {
-			sumsqp += positionWeight.get(word) * positionWeight.get(word);
+		for (String word : positionVector.keySet()) {
+			sumsqp += positionVector.get(word) * positionVector.get(word);
 		}
 		sumOfScore = Math.pow(sumsqr, 0.5) * Math.pow(sumsqp, 0.5);
 		if (sumOfScore == 0.0) {
